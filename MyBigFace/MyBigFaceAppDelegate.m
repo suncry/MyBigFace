@@ -7,6 +7,10 @@
 //
 
 #import "MyBigFaceAppDelegate.h"
+#import "HomeViewController.h"
+#import "SettingViewController.h"
+#import "NewsViewController.h"
+#import "MMDrawerController.h"
 
 @implementation MyBigFaceAppDelegate
 
@@ -14,6 +18,28 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+
+    
+    
+    SettingViewController * leftDrawer = [[SettingViewController alloc] init];
+    HomeViewController * center = [[HomeViewController alloc] init];
+    NewsViewController * rightDrawer = [[NewsViewController alloc] init];
+    MMDrawerController * drawerController = [[MMDrawerController alloc]
+                                             initWithCenterViewController:center
+                                             leftDrawerViewController:leftDrawer
+                                             rightDrawerViewController:rightDrawer];
+    
+    [drawerController setMaximumRightDrawerWidth:280];
+    [drawerController setMaximumLeftDrawerWidth:280];
+    
+    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
+    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
+    
+    
+    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:drawerController];
+    navigationController.navigationBarHidden = YES;
+
+    self.window.rootViewController = navigationController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E439FDAB5F14393B1AD342D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E6765002EDE45A3ADAE2B34 /* libPods.a */; };
 		CCCF441C180E25060067E4F9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCF441B180E25060067E4F9 /* Foundation.framework */; };
 		CCCF441E180E25060067E4F9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCF441D180E25060067E4F9 /* CoreGraphics.framework */; };
 		CCCF4420180E25060067E4F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCF441F180E25060067E4F9 /* UIKit.framework */; };
@@ -19,6 +20,26 @@
 		CCCF4437180E25060067E4F9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCF441F180E25060067E4F9 /* UIKit.framework */; };
 		CCCF443F180E25060067E4F9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CCCF443D180E25060067E4F9 /* InfoPlist.strings */; };
 		CCCF4441180E25060067E4F9 /* MyBigFaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF4440180E25060067E4F9 /* MyBigFaceTests.m */; };
+		CCCF444D180E25330067E4F9 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF444B180E25330067E4F9 /* HomeViewController.m */; };
+		CCCF444E180E25330067E4F9 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF444C180E25330067E4F9 /* HomeViewController.xib */; };
+		CCCF4455180E258B0067E4F9 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF4453180E258B0067E4F9 /* SettingViewController.m */; };
+		CCCF4456180E258B0067E4F9 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF4454180E258B0067E4F9 /* SettingViewController.xib */; };
+		CCCF445A180E25AF0067E4F9 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF4458180E25AF0067E4F9 /* NewsViewController.m */; };
+		CCCF445B180E25AF0067E4F9 /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF4459180E25AF0067E4F9 /* NewsViewController.xib */; };
+		CCCF445F180E2FA80067E4F9 /* 笑脸.png in Resources */ = {isa = PBXBuildFile; fileRef = CCCF445C180E2FA80067E4F9 /* 笑脸.png */; };
+		CCCF4460180E2FA80067E4F9 /* 添加.png in Resources */ = {isa = PBXBuildFile; fileRef = CCCF445D180E2FA80067E4F9 /* 添加.png */; };
+		CCCF4461180E2FA80067E4F9 /* 对话框.png in Resources */ = {isa = PBXBuildFile; fileRef = CCCF445E180E2FA80067E4F9 /* 对话框.png */; };
+		CCCF4465180E33FA0067E4F9 /* DrawFaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF4463180E33FA0067E4F9 /* DrawFaceViewController.m */; };
+		CCCF4466180E33FA0067E4F9 /* DrawFaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF4464180E33FA0067E4F9 /* DrawFaceViewController.xib */; };
+		CCCF446A180E340D0067E4F9 /* WriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF4468180E340D0067E4F9 /* WriteViewController.m */; };
+		CCCF446B180E340D0067E4F9 /* WriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF4469180E340D0067E4F9 /* WriteViewController.xib */; };
+		CCCF446F180E3C590067E4F9 /* FaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF446D180E3C590067E4F9 /* FaceViewController.m */; };
+		CCCF4470180E3C590067E4F9 /* FaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF446E180E3C590067E4F9 /* FaceViewController.xib */; };
+		CCD9BEEE180E62C9004B8264 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CCD9BEE6180E62C9004B8264 /* MJRefresh.bundle */; };
+		CCD9BEEF180E62C9004B8264 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEE9180E62C9004B8264 /* MJRefreshBaseView.m */; };
+		CCD9BEF0180E62C9004B8264 /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEEB180E62C9004B8264 /* MJRefreshFooterView.m */; };
+		CCD9BEF1180E62C9004B8264 /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEED180E62C9004B8264 /* MJRefreshHeaderView.m */; };
+		CCD9BEF5180E6D7E004B8264 /* item.png in Resources */ = {isa = PBXBuildFile; fileRef = CCD9BEF4180E6D7E004B8264 /* item.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E6765002EDE45A3ADAE2B34 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		73E5B07EDA004A42B60A8F72 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		CCCF4418180E25060067E4F9 /* MyBigFace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyBigFace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCCF441B180E25060067E4F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CCCF441D180E25060067E4F9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,6 +71,36 @@
 		CCCF443C180E25060067E4F9 /* MyBigFaceTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MyBigFaceTests-Info.plist"; sourceTree = "<group>"; };
 		CCCF443E180E25060067E4F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CCCF4440180E25060067E4F9 /* MyBigFaceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBigFaceTests.m; sourceTree = "<group>"; };
+		CCCF444A180E25330067E4F9 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		CCCF444B180E25330067E4F9 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		CCCF444C180E25330067E4F9 /* HomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		CCCF4452180E258B0067E4F9 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		CCCF4453180E258B0067E4F9 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		CCCF4454180E258B0067E4F9 /* SettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
+		CCCF4457180E25AF0067E4F9 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		CCCF4458180E25AF0067E4F9 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		CCCF4459180E25AF0067E4F9 /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
+		CCCF445C180E2FA80067E4F9 /* 笑脸.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "笑脸.png"; path = "../笑脸.png"; sourceTree = "<group>"; };
+		CCCF445D180E2FA80067E4F9 /* 添加.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "添加.png"; path = "../添加.png"; sourceTree = "<group>"; };
+		CCCF445E180E2FA80067E4F9 /* 对话框.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "对话框.png"; path = "../对话框.png"; sourceTree = "<group>"; };
+		CCCF4462180E33FA0067E4F9 /* DrawFaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawFaceViewController.h; sourceTree = "<group>"; };
+		CCCF4463180E33FA0067E4F9 /* DrawFaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawFaceViewController.m; sourceTree = "<group>"; };
+		CCCF4464180E33FA0067E4F9 /* DrawFaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DrawFaceViewController.xib; sourceTree = "<group>"; };
+		CCCF4467180E340D0067E4F9 /* WriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteViewController.h; sourceTree = "<group>"; };
+		CCCF4468180E340D0067E4F9 /* WriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteViewController.m; sourceTree = "<group>"; };
+		CCCF4469180E340D0067E4F9 /* WriteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WriteViewController.xib; sourceTree = "<group>"; };
+		CCCF446C180E3C590067E4F9 /* FaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceViewController.h; sourceTree = "<group>"; };
+		CCCF446D180E3C590067E4F9 /* FaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceViewController.m; sourceTree = "<group>"; };
+		CCCF446E180E3C590067E4F9 /* FaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaceViewController.xib; sourceTree = "<group>"; };
+		CCD9BEE6180E62C9004B8264 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
+		CCD9BEE7180E62C9004B8264 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
+		CCD9BEE8180E62C9004B8264 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
+		CCD9BEE9180E62C9004B8264 /* MJRefreshBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBaseView.m; sourceTree = "<group>"; };
+		CCD9BEEA180E62C9004B8264 /* MJRefreshFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooterView.h; sourceTree = "<group>"; };
+		CCD9BEEB180E62C9004B8264 /* MJRefreshFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooterView.m; sourceTree = "<group>"; };
+		CCD9BEEC180E62C9004B8264 /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
+		CCD9BEED180E62C9004B8264 /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
+		CCD9BEF4180E6D7E004B8264 /* item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = item.png; path = ../item.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +111,7 @@
 				CCCF441E180E25060067E4F9 /* CoreGraphics.framework in Frameworks */,
 				CCCF4420180E25060067E4F9 /* UIKit.framework in Frameworks */,
 				CCCF441C180E25060067E4F9 /* Foundation.framework in Frameworks */,
+				6E439FDAB5F14393B1AD342D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +135,7 @@
 				CCCF443A180E25060067E4F9 /* MyBigFaceTests */,
 				CCCF441A180E25060067E4F9 /* Frameworks */,
 				CCCF4419180E25060067E4F9 /* Products */,
+				73E5B07EDA004A42B60A8F72 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +155,7 @@
 				CCCF441D180E25060067E4F9 /* CoreGraphics.framework */,
 				CCCF441F180E25060067E4F9 /* UIKit.framework */,
 				CCCF4434180E25060067E4F9 /* XCTest.framework */,
+				1E6765002EDE45A3ADAE2B34 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,6 +166,10 @@
 				CCCF442A180E25060067E4F9 /* MyBigFaceAppDelegate.h */,
 				CCCF442B180E25060067E4F9 /* MyBigFaceAppDelegate.m */,
 				CCCF442D180E25060067E4F9 /* Images.xcassets */,
+				CCD9BEF6180E6DA6004B8264 /* Images */,
+				CCCF4451180E256A0067E4F9 /* Model */,
+				CCCF4450180E254C0067E4F9 /* Controller */,
+				CCCF444F180E25420067E4F9 /* View */,
 				CCCF4422180E25060067E4F9 /* Supporting Files */,
 			);
 			path = MyBigFace;
@@ -144,6 +204,72 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CCCF444F180E25420067E4F9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CCCF446E180E3C590067E4F9 /* FaceViewController.xib */,
+				CCCF4469180E340D0067E4F9 /* WriteViewController.xib */,
+				CCCF4464180E33FA0067E4F9 /* DrawFaceViewController.xib */,
+				CCCF4454180E258B0067E4F9 /* SettingViewController.xib */,
+				CCCF444C180E25330067E4F9 /* HomeViewController.xib */,
+				CCCF4459180E25AF0067E4F9 /* NewsViewController.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		CCCF4450180E254C0067E4F9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CCCF444A180E25330067E4F9 /* HomeViewController.h */,
+				CCCF444B180E25330067E4F9 /* HomeViewController.m */,
+				CCCF4452180E258B0067E4F9 /* SettingViewController.h */,
+				CCCF4453180E258B0067E4F9 /* SettingViewController.m */,
+				CCCF4457180E25AF0067E4F9 /* NewsViewController.h */,
+				CCCF4458180E25AF0067E4F9 /* NewsViewController.m */,
+				CCCF4462180E33FA0067E4F9 /* DrawFaceViewController.h */,
+				CCCF4463180E33FA0067E4F9 /* DrawFaceViewController.m */,
+				CCCF4467180E340D0067E4F9 /* WriteViewController.h */,
+				CCCF4468180E340D0067E4F9 /* WriteViewController.m */,
+				CCCF446C180E3C590067E4F9 /* FaceViewController.h */,
+				CCCF446D180E3C590067E4F9 /* FaceViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		CCCF4451180E256A0067E4F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CCD9BEE5180E62AC004B8264 /* MJRefresh */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		CCD9BEE5180E62AC004B8264 /* MJRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				CCD9BEE6180E62C9004B8264 /* MJRefresh.bundle */,
+				CCD9BEE7180E62C9004B8264 /* MJRefresh.h */,
+				CCD9BEE8180E62C9004B8264 /* MJRefreshBaseView.h */,
+				CCD9BEE9180E62C9004B8264 /* MJRefreshBaseView.m */,
+				CCD9BEEA180E62C9004B8264 /* MJRefreshFooterView.h */,
+				CCD9BEEB180E62C9004B8264 /* MJRefreshFooterView.m */,
+				CCD9BEEC180E62C9004B8264 /* MJRefreshHeaderView.h */,
+				CCD9BEED180E62C9004B8264 /* MJRefreshHeaderView.m */,
+			);
+			name = MJRefresh;
+			sourceTree = "<group>";
+		};
+		CCD9BEF6180E6DA6004B8264 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CCD9BEF4180E6D7E004B8264 /* item.png */,
+				CCCF445C180E2FA80067E4F9 /* 笑脸.png */,
+				CCCF445D180E2FA80067E4F9 /* 添加.png */,
+				CCCF445E180E2FA80067E4F9 /* 对话框.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -151,9 +277,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CCCF4444180E25060067E4F9 /* Build configuration list for PBXNativeTarget "MyBigFace" */;
 			buildPhases = (
+				7A722B772D154AA59AB05B08 /* Check Pods Manifest.lock */,
 				CCCF4414180E25060067E4F9 /* Sources */,
 				CCCF4415180E25060067E4F9 /* Frameworks */,
 				CCCF4416180E25060067E4F9 /* Resources */,
+				321E125477B34EAE9DF3E118 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -220,8 +348,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCD9BEF5180E6D7E004B8264 /* item.png in Resources */,
+				CCCF4460180E2FA80067E4F9 /* 添加.png in Resources */,
 				CCCF4426180E25060067E4F9 /* InfoPlist.strings in Resources */,
+				CCD9BEEE180E62C9004B8264 /* MJRefresh.bundle in Resources */,
 				CCCF442E180E25060067E4F9 /* Images.xcassets in Resources */,
+				CCCF445F180E2FA80067E4F9 /* 笑脸.png in Resources */,
+				CCCF446B180E340D0067E4F9 /* WriteViewController.xib in Resources */,
+				CCCF445B180E25AF0067E4F9 /* NewsViewController.xib in Resources */,
+				CCCF4470180E3C590067E4F9 /* FaceViewController.xib in Resources */,
+				CCCF444E180E25330067E4F9 /* HomeViewController.xib in Resources */,
+				CCCF4466180E33FA0067E4F9 /* DrawFaceViewController.xib in Resources */,
+				CCCF4461180E2FA80067E4F9 /* 对话框.png in Resources */,
+				CCCF4456180E258B0067E4F9 /* SettingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +374,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		321E125477B34EAE9DF3E118 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A722B772D154AA59AB05B08 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CCCF4414180E25060067E4F9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -242,6 +414,15 @@
 			files = (
 				CCCF442C180E25060067E4F9 /* MyBigFaceAppDelegate.m in Sources */,
 				CCCF4428180E25060067E4F9 /* main.m in Sources */,
+				CCD9BEF1180E62C9004B8264 /* MJRefreshHeaderView.m in Sources */,
+				CCD9BEF0180E62C9004B8264 /* MJRefreshFooterView.m in Sources */,
+				CCCF445A180E25AF0067E4F9 /* NewsViewController.m in Sources */,
+				CCCF4465180E33FA0067E4F9 /* DrawFaceViewController.m in Sources */,
+				CCCF444D180E25330067E4F9 /* HomeViewController.m in Sources */,
+				CCCF446F180E3C590067E4F9 /* FaceViewController.m in Sources */,
+				CCD9BEEF180E62C9004B8264 /* MJRefreshBaseView.m in Sources */,
+				CCCF446A180E340D0067E4F9 /* WriteViewController.m in Sources */,
+				CCCF4455180E258B0067E4F9 /* SettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,6 +538,7 @@
 		};
 		CCCF4445180E25060067E4F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73E5B07EDA004A42B60A8F72 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -370,6 +552,7 @@
 		};
 		CCCF4446180E25060067E4F9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73E5B07EDA004A42B60A8F72 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -442,6 +625,7 @@
 				CCCF4446180E25060067E4F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CCCF4447180E25060067E4F9 /* Build configuration list for PBXNativeTarget "MyBigFaceTests" */ = {
 			isa = XCConfigurationList;
@@ -450,6 +634,7 @@
 				CCCF4449180E25060067E4F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
