@@ -35,11 +35,14 @@
 		CCCF446B180E340D0067E4F9 /* WriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF4469180E340D0067E4F9 /* WriteViewController.xib */; };
 		CCCF446F180E3C590067E4F9 /* FaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CCCF446D180E3C590067E4F9 /* FaceViewController.m */; };
 		CCCF4470180E3C590067E4F9 /* FaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CCCF446E180E3C590067E4F9 /* FaceViewController.xib */; };
+		CCD38727180FAC4D00D68384 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCD38726180FAC4D00D68384 /* QuartzCore.framework */; };
+		CCD3872D180FC4A300D68384 /* 笑脸背景.png in Resources */ = {isa = PBXBuildFile; fileRef = CCD3872C180FC4A300D68384 /* 笑脸背景.png */; };
 		CCD9BEEE180E62C9004B8264 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CCD9BEE6180E62C9004B8264 /* MJRefresh.bundle */; };
 		CCD9BEEF180E62C9004B8264 /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEE9180E62C9004B8264 /* MJRefreshBaseView.m */; };
 		CCD9BEF0180E62C9004B8264 /* MJRefreshFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEEB180E62C9004B8264 /* MJRefreshFooterView.m */; };
 		CCD9BEF1180E62C9004B8264 /* MJRefreshHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEED180E62C9004B8264 /* MJRefreshHeaderView.m */; };
 		CCD9BEF5180E6D7E004B8264 /* item.png in Resources */ = {isa = PBXBuildFile; fileRef = CCD9BEF4180E6D7E004B8264 /* item.png */; };
+		CCD9BEFA180E740E004B8264 /* Palette.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD9BEF9180E740E004B8264 /* Palette.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +95,8 @@
 		CCCF446C180E3C590067E4F9 /* FaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceViewController.h; sourceTree = "<group>"; };
 		CCCF446D180E3C590067E4F9 /* FaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceViewController.m; sourceTree = "<group>"; };
 		CCCF446E180E3C590067E4F9 /* FaceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FaceViewController.xib; sourceTree = "<group>"; };
+		CCD38726180FAC4D00D68384 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CCD3872C180FC4A300D68384 /* 笑脸背景.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "笑脸背景.png"; sourceTree = "<group>"; };
 		CCD9BEE6180E62C9004B8264 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
 		CCD9BEE7180E62C9004B8264 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefresh.h; sourceTree = "<group>"; };
 		CCD9BEE8180E62C9004B8264 /* MJRefreshBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBaseView.h; sourceTree = "<group>"; };
@@ -101,6 +106,8 @@
 		CCD9BEEC180E62C9004B8264 /* MJRefreshHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeaderView.h; sourceTree = "<group>"; };
 		CCD9BEED180E62C9004B8264 /* MJRefreshHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshHeaderView.m; sourceTree = "<group>"; };
 		CCD9BEF4180E6D7E004B8264 /* item.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = item.png; path = ../item.png; sourceTree = "<group>"; };
+		CCD9BEF8180E740E004B8264 /* Palette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
+		CCD9BEF9180E740E004B8264 /* Palette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Palette.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCD38727180FAC4D00D68384 /* QuartzCore.framework in Frameworks */,
 				CCCF441E180E25060067E4F9 /* CoreGraphics.framework in Frameworks */,
 				CCCF4420180E25060067E4F9 /* UIKit.framework in Frameworks */,
 				CCCF441C180E25060067E4F9 /* Foundation.framework in Frameworks */,
@@ -151,6 +159,7 @@
 		CCCF441A180E25060067E4F9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CCD38726180FAC4D00D68384 /* QuartzCore.framework */,
 				CCCF441B180E25060067E4F9 /* Foundation.framework */,
 				CCCF441D180E25060067E4F9 /* CoreGraphics.framework */,
 				CCCF441F180E25060067E4F9 /* UIKit.framework */,
@@ -239,6 +248,7 @@
 		CCCF4451180E256A0067E4F9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CCD9BEF7180E73F1004B8264 /* MyPalette */,
 				CCD9BEE5180E62AC004B8264 /* MJRefresh */,
 			);
 			name = Model;
@@ -262,12 +272,22 @@
 		CCD9BEF6180E6DA6004B8264 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CCD3872C180FC4A300D68384 /* 笑脸背景.png */,
 				CCD9BEF4180E6D7E004B8264 /* item.png */,
 				CCCF445C180E2FA80067E4F9 /* 笑脸.png */,
 				CCCF445D180E2FA80067E4F9 /* 添加.png */,
 				CCCF445E180E2FA80067E4F9 /* 对话框.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		CCD9BEF7180E73F1004B8264 /* MyPalette */ = {
+			isa = PBXGroup;
+			children = (
+				CCD9BEF8180E740E004B8264 /* Palette.h */,
+				CCD9BEF9180E740E004B8264 /* Palette.m */,
+			);
+			name = MyPalette;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,6 +376,7 @@
 				CCCF445F180E2FA80067E4F9 /* 笑脸.png in Resources */,
 				CCCF446B180E340D0067E4F9 /* WriteViewController.xib in Resources */,
 				CCCF445B180E25AF0067E4F9 /* NewsViewController.xib in Resources */,
+				CCD3872D180FC4A300D68384 /* 笑脸背景.png in Resources */,
 				CCCF4470180E3C590067E4F9 /* FaceViewController.xib in Resources */,
 				CCCF444E180E25330067E4F9 /* HomeViewController.xib in Resources */,
 				CCCF4466180E33FA0067E4F9 /* DrawFaceViewController.xib in Resources */,
@@ -415,6 +436,7 @@
 				CCCF442C180E25060067E4F9 /* MyBigFaceAppDelegate.m in Sources */,
 				CCCF4428180E25060067E4F9 /* main.m in Sources */,
 				CCD9BEF1180E62C9004B8264 /* MJRefreshHeaderView.m in Sources */,
+				CCD9BEFA180E740E004B8264 /* Palette.m in Sources */,
 				CCD9BEF0180E62C9004B8264 /* MJRefreshFooterView.m in Sources */,
 				CCCF445A180E25AF0067E4F9 /* NewsViewController.m in Sources */,
 				CCCF4465180E33FA0067E4F9 /* DrawFaceViewController.m in Sources */,

@@ -27,6 +27,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    //加载脸
+    [self loadFace];
+    //使textView成为焦点
+    [mytextView becomeFirstResponder];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,5 +47,17 @@
 - (IBAction)next
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+//使用前一页面画的笑脸
+- (void)loadFace
+{
+    NSData *imageData;
+    imageData = [[NSUserDefaults standardUserDefaults] objectForKey:@"myFace"];
+    
+    if(imageData != nil)
+    {
+        [myFaceImageView setImage:[NSKeyedUnarchiver unarchiveObjectWithData: imageData]];
+    }
+
 }
 @end

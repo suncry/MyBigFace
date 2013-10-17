@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface WriteViewController : UIViewController
+{
+    IBOutlet UIImageView *myFaceImageView;
+    IBOutlet UITextView *mytextView;
+}
 - (IBAction)back;
 - (IBAction)next;
 @end
