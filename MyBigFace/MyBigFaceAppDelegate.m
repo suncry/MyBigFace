@@ -11,6 +11,7 @@
 #import "SettingViewController.h"
 #import "NewsViewController.h"
 #import "MMDrawerController.h"
+#import "UMSocial.h"
 
 @implementation MyBigFaceAppDelegate
 
@@ -18,14 +19,21 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+//设置分享key
+    [UMSocialData setAppKey:@"528c287f56240be0d93b99ad"];
 
     
     
     SettingViewController * leftDrawer = [[SettingViewController alloc] init];
     HomeViewController * center = [[HomeViewController alloc] init];
+    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:center];
+//    navigationController.navigationBarHidden = YES;
+
+    
+    
     NewsViewController * rightDrawer = [[NewsViewController alloc] init];
     MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                             initWithCenterViewController:center
+                                             initWithCenterViewController:navigationController
                                              leftDrawerViewController:leftDrawer
                                              rightDrawerViewController:rightDrawer];
     
@@ -36,10 +44,10 @@
     [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
     
     
-    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:drawerController];
-    navigationController.navigationBarHidden = YES;
+//    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:drawerController];
+//    navigationController.navigationBarHidden = YES;
 
-    self.window.rootViewController = navigationController;
+    self.window.rootViewController = drawerController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -70,6 +78,15 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
 }
 
 @end

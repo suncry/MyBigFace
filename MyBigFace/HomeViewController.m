@@ -12,18 +12,25 @@
 #import "UIViewController+MMDrawerController.h"
 #import "MMDrawerBarButtonItem.h"
 #import "MJRefresh.h"
+#import "MyBigFaceCell.h"
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "SBJson.h"
+#import "UIButton+WebCache.h"
 
 @interface HomeViewController ()<MJRefreshBaseViewDelegate>
 {
     MJRefreshFooterView *_footer;
     MJRefreshHeaderView *_header;
-    
-    NSMutableArray *_data;
 }
 @end
 
 @implementation HomeViewController
 @synthesize tableView = _tableview;
+@synthesize segmentControl = _segmentControl;
+@synthesize locationManager = _locationManager;
+@synthesize geocoder = _geocoder;
+@synthesize mydb = _mydb;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,16 +39,28 @@
     }
     return self;
 }
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    //初始化 用于储存face信息的数组
+    self.mydb = [[MyDB alloc]init];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //设置 navigation的左右item
-    [self setupLeftMenuButton];
-    [self setupRightMenuButton];
+    [self setupMenuButton];
     //初始化上拉下拉刷新控件
     [self initRefreshBar];
+    //获取地理信息
+    [self findLocation];
+    //获取广告识别符
+    NSLog(@"identifierForVendor.UUIDString == %@",[UIDevice currentDevice].identifierForVendor.UUIDString);
+    //登陆
+    [self login];
+    //进入程序 第一次 刷新数据
+//    [_header beginRefreshing];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
 
 }
 
@@ -55,20 +74,20 @@
     DrawFaceViewController *drawFaceViewController = [[DrawFaceViewController alloc]init];
     [self.navigationController pushViewController:drawFaceViewController animated:YES];
 }
-- (IBAction)toFaceView:(id)sender
-{
-    FaceViewController *faceViewController = [[FaceViewController alloc]init];
-    [self presentViewController:faceViewController animated:YES completion:Nil];
-}
--(void)setupLeftMenuButton{
+-(void)setupMenuButton{
+    //设置标题
+    self.navigationItem.title = @"大饼";
+    //左按钮
     MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-    [myNavigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
-}
--(void)setupRightMenuButton{
-//    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
+    //    [self.navigationController.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+    self.navigationItem.leftBarButtonItem = leftDrawerButton;
+    //右按钮
+    //    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
     //换一个方法 自定义图片
     MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"item"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
-    [myNavigationItem setRightBarButtonItem:rightDrawerButton animated:YES];
+    self.navigationItem.rightBarButtonItem = rightDrawerButton;
+    //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+
 }
 #pragma mark - Button Handlers
 -(void)leftDrawerButtonPress:(id)sender{
@@ -89,9 +108,6 @@
     _footer = [[MJRefreshFooterView alloc] init];
     _footer.delegate = self;
     _footer.scrollView = self.tableView;
-    
-    // 假数据
-    _data = [NSMutableArray array];
 
 }
 #pragma mark 代理方法-进入刷新状态就会调用
@@ -100,16 +116,12 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"HH : mm : ss.SSS";
     if (_header == refreshView) {
-        for (int i = 0; i<5; i++) {
-            [_data insertObject:[formatter stringFromDate:[NSDate date]] atIndex:0];
-        }
-        
+        [self refreshData];
     } else {
-        for (int i = 0; i<5; i++) {
-            [_data addObject:[formatter stringFromDate:[NSDate date]]];
-        }
+        [self loadMoreData];
     }
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:NO];
+//    [NSTimer scheduledTimerWithTimeInterval:1 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:NO];
+//    [self.tableView reloadData];
 }
 
 - (void)dealloc
@@ -125,26 +137,87 @@
     // 让刷新控件恢复默认的状态
     [_header endRefreshing];
     [_footer endRefreshing];
-    
-    return _data.count;
+    int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
+    int numberOfRows = faceCount/3;
+    if (faceCount%3 != 0 )
+    {
+        numberOfRows ++;
+    }
+    return numberOfRows;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"dian ji!");
+//    FaceViewController *faceViewController = [[FaceViewController alloc]init];
+//    [self.navigationController pushViewController:faceViewController animated:YES];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    MyBigFaceCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil)
+    {
+        cell = [[MyBigFaceCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    cell.imageView.image = [UIImage imageNamed:@"笑脸"];
-    cell.textLabel.text = _data[indexPath.row];
-    cell.detailTextLabel.text = @"上面的是刷新时间";
-    
+    int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
+//    NSLog(@"faceCount == %d",faceCount);
+    if ((indexPath.row*3 + 0) < faceCount)
+    {
+        cell.faceBtn_0.enabled = YES;
+
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
+        [cell.faceBtn_0 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"添加"]];
+        [cell.faceBtn_0 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.faceBtn_0 setTag:1000 + indexPath.row*3 + 0];
+
+    }
+    else
+    {
+//        NSLog(@"第1个没有");
+        [cell.faceBtn_0 setImage:[UIImage imageNamed:@"笑脸"] forState:UIControlStateNormal];
+        cell.faceBtn_0.enabled = NO;
+    }
+
+    if ((indexPath.row*3 + 1) < faceCount)
+    {
+        cell.faceBtn_1.enabled = YES;
+
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 1)]]];
+
+        [cell.faceBtn_1 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"添加"]];
+        [cell.faceBtn_1 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+
+        [cell.faceBtn_1 setTag:1000 + indexPath.row*3 + 1];
+    }
+    else
+    {
+//        NSLog(@"第2个没有");
+        [cell.faceBtn_1 setImage:[UIImage imageNamed:@"笑脸"] forState:UIControlStateNormal];
+        cell.faceBtn_1.enabled = NO;
+
+
+    }
+
+    if ((indexPath.row*3 + 2) < faceCount)
+    {
+        cell.faceBtn_2.enabled = YES;
+
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 2)]]];
+
+        [cell.faceBtn_2 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"添加"]];
+        [cell.faceBtn_2 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.faceBtn_2 setTag:1000 + indexPath.row*3 + 2];
+
+    }
+    else
+    {
+//        NSLog(@"第3个没有");
+        [cell.faceBtn_2 setImage:[UIImage imageNamed:@"笑脸"] forState:UIControlStateNormal];
+        cell.faceBtn_2.enabled = NO;
+
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 
 }
@@ -152,4 +225,215 @@
 {
     return 100;
 }
+- (void)faceBtnClick:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+//    NSLog(@"第几个 btn == %d",btn.tag - 1000);
+    [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",btn.tag - 1000] forKey:@"faceClicked"];
+//    int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
+//    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:faceClicked]]];
+//    NSLog(@"url == %@",url);
+//    NSLog(@"home页面 self.mydb date:@\"url\" num:faceClicked url == %@",[self.mydb date:@"url" num:faceClicked]);
+//    NSLog(@"home 页面 的数据条数 == %d",[self.mydb getTableItemCount:@"face"]);
+    FaceViewController *faceViewController = [[FaceViewController alloc]init];
+    [self.navigationController pushViewController:faceViewController animated:YES];
+}
+- (IBAction)valueChanged:(id)sender
+{
+    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+    NSLog(@"sender.value == %d",segmentedControl.selectedSegmentIndex);
+    [_header beginRefreshing];
+}
+//定位
+- (void)findLocation
+{
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = 1000.0f;
+    [self.locationManager startUpdatingLocation];
+}
+//定位的委托方法
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"纬度 == %@",[NSString stringWithFormat:@"%3.5f",newLocation.coordinate.latitude]);
+    [[NSUserDefaults standardUserDefaults]setValue:[NSString stringWithFormat:@"%3.5f",newLocation.coordinate.latitude] forKey:@"lat"];
+    NSLog(@"经度 == %@",[NSString stringWithFormat:@"%3.5f",newLocation.coordinate.longitude]);
+    [[NSUserDefaults standardUserDefaults]setValue:[NSString stringWithFormat:@"%3.5f",newLocation.coordinate.longitude] forKey:@"lng"];
+
+    self.geocoder = [[CLGeocoder alloc]init];
+    [self.geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error)
+    {CLPlacemark *placemark = [placemarks objectAtIndex:0];
+        //isoCountry.text = placemark.ISOcountryCode;
+//        NSLog(@"placemark.ISOcountryCode == %@",placemark.ISOcountryCode);
+        //country.text = plackmark.country;
+//        NSLog(@"plackmark.country == %@",placemark.country);
+        //adminArea.text = placemark.adminstrativeArea;
+        NSLog(@"placemark.adminstrativeArea == %@",placemark.administrativeArea);
+        //locality.text = placemark.subLocality;
+//        NSLog(@"placemark.subLocality == %@",placemark.subLocality);
+    }];
+    [self.locationManager stopUpdatingLocation];
+}
+
+- (void)login
+{
+    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/device?device=%@",[UIDevice currentDevice].identifierForVendor.UUIDString];
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
+    [requestForm setDelegate:self];
+    [requestForm startSynchronous];
+    NSError *error = [requestForm error];
+    //输入返回的信息
+    if (!error) {
+        NSString *response = [requestForm responseString];
+        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+        NSMutableDictionary *dict = [jsonParser objectWithString:response];
+        //获取 返回的 token 识别用户
+        [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"token"] forKey:@"token"];
+        NSLog(@"登陆时 token == %@",[[dict objectForKey:@"data"] valueForKey:@"token"]);
+    }
+}
+
+//刷新table的填充数据
+- (void)refreshData
+{
+//    NSLog(@"refreshData  selectedSegmentIndex == %d",self.segmentControl.selectedSegmentIndex);
+    NSString *str = @"newest";
+    switch (self.segmentControl.selectedSegmentIndex) {
+        case 0:
+            str = @"newest";
+            break;
+        case 1:
+            str = @"hot";
+            break;
+        case 2:
+            str = @"round";
+            break;
+        case 3:
+            str = @"my";
+            break;
+
+        default:
+            break;
+    }
+    [self downloadData:str];
+}
+//加载更多table的填充数据
+- (void)loadMoreData
+{
+//    NSLog(@"loadMoreData  selectedSegmentIndex == %d",self.segmentControl.selectedSegmentIndex);
+    NSString *str = [[NSString alloc]init];
+    switch (self.segmentControl.selectedSegmentIndex) {
+        case 0:
+            str = @"newest";
+            break;
+        case 1:
+            str = @"hot";
+            break;
+        case 2:
+            str = @"round";
+            break;
+        case 3:
+            str = @"my";
+            break;
+            
+        default:
+            break;
+    }
+    [self loadMoreData:str];
+
+}
+- (void)downloadData:(NSString *)info
+{
+    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=0&take=48",info];
+    if ([info isEqualToString:@"round"])
+    {
+        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=0&take=48&lng=%@&lat=%@",info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+    }
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
+//    [request startSynchronous];
+    __block ASIHTTPRequest *requestBlock = request;
+    [request setCompletionBlock :^{
+        NSString *faceString = [requestBlock responseString];
+        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+        NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
+        //清空储存的face信息
+        [self.mydb eraseTable:@"face"];
+        int i = 0;
+        for (NSDictionary *dataDic in [dict objectForKey:@"data"])
+        {
+            [self.mydb insertFace:i
+                          face_id:[[dataDic valueForKey:@"id"]intValue]
+                          content:[dataDic valueForKey:@"content"]
+                       created_at:[dataDic valueForKey:@"created_at"]
+                       updated_at:[dataDic valueForKey:@"updated_at"]
+                              lat:[dataDic valueForKey:@"lat"]
+                              lng:[dataDic valueForKey:@"lng"]
+                             plus:[[dataDic valueForKey:@"plus"]intValue]
+                              url:[dataDic valueForKey:@"url"]
+                          user_id:[dataDic valueForKey:@"user_id"]];
+            //            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
+            i++;
+        }
+        //储存 face 个数
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
+//        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
+        [self.tableView reloadData];
+    }];
+    [request setFailedBlock :^{
+        // 请求响应失败，返回错误信息
+        NSError *error = [requestBlock error ];
+        NSLog ( @"error:%@" ,[error userInfo ]);
+    }];
+    [request startAsynchronous];
+}
+- (void)loadMoreData:(NSString *)info
+{
+    int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
+    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48",info,faceCount];
+    if ([info isEqualToString:@"round"])
+    {
+        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48&lng=%@&lat=%@",info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+    }
+    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
+    __block ASIHTTPRequest *requestBlock = request;
+    [request setCompletionBlock :^{
+        NSString *faceString = [requestBlock responseString];
+        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+        NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
+        //        NSLog(@"dict == %@",dict);
+        int i = faceCount;
+        for (NSDictionary *dataDic in [dict objectForKey:@"data"])
+        {
+            //            [self.face addObject:dataDic];
+            [self.mydb insertFace:i
+                          face_id:[[dataDic valueForKey:@"id"]intValue]
+                          content:[dataDic valueForKey:@"content"]
+                       created_at:[dataDic valueForKey:@"created_at"]
+                       updated_at:[dataDic valueForKey:@"updated_at"]
+                              lat:[dataDic valueForKey:@"lat"]
+                              lng:[dataDic valueForKey:@"lng"]
+                             plus:[[dataDic valueForKey:@"plus"]intValue]
+                              url:[dataDic valueForKey:@"url"]
+                          user_id:[dataDic valueForKey:@"user_id"]];
+            i++;
+        }
+        //储存 face 个数
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
+        NSLog(@"加载更多时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
+        [self.tableView reloadData];
+    }];
+    [request setFailedBlock :^{
+        // 请求响应失败，返回错误信息
+        NSError *error = [requestBlock error ];
+        NSLog ( @"error:%@" ,[error userInfo ]);
+    }];
+    [request startAsynchronous];
+}
+
 @end

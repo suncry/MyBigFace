@@ -12,21 +12,26 @@
 
 @interface DrawFaceViewController : UIViewController
 {
-	CGPoint MyBeganpoint;
-	CGPoint MyMovepoint;
-	int Segment;
-	int SegmentWidth;
-	//----------------
+//	CGPoint MyBeganpoint;
+//	CGPoint MyMovepoint;
 	UIImageView* pickImage;
+    Palette *_drawView;
 }
-@property int Segment;
+@property(nonatomic,retain)Palette *drawView;
 
-- (IBAction)back;
-- (IBAction)next;
+- (void)nextPage;
 - (IBAction)LineFinallyRemove;
 //笑脸背景色的变换
 - (IBAction)happyFace:(id)sender;
 - (IBAction)sadFace:(id)sender;
 - (IBAction)angryFace:(id)sender;
+- (IBAction)color1:(id)sender;
+- (IBAction)color2:(id)sender;
+- (IBAction)color3:(id)sender;
+- (IBAction)width1:(id)sender;
+- (IBAction)width2:(id)sender;
+- (IBAction)width3:(id)sender;
+
+
 
 @end

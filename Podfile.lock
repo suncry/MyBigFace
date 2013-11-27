@@ -1,4 +1,15 @@
 PODS:
+  - ASIHTTPRequest (1.8.1):
+    - ASIHTTPRequest/ASIWebPageRequest
+    - ASIHTTPRequest/CloudFiles
+    - ASIHTTPRequest/S3
+    - Reachability
+  - ASIHTTPRequest/ASIWebPageRequest (1.8.1):
+    - Reachability
+  - ASIHTTPRequest/CloudFiles (1.8.1):
+    - Reachability
+  - ASIHTTPRequest/S3 (1.8.1):
+    - Reachability
   - FMDB (2.1):
     - FMDB/standard
   - FMDB/common (2.1)
@@ -16,18 +27,25 @@ PODS:
     - MMDrawerController/Core
   - MMDrawerController/Subclass (0.5.1):
     - MMDrawerController/Core
+  - Reachability (3.1.1)
+  - SBJson (3.2)
   - SDWebImage (3.5):
     - SDWebImage/Core
   - SDWebImage/Core (3.5)
 
 DEPENDENCIES:
+  - ASIHTTPRequest
   - FMDB
   - MMDrawerController
+  - SBJson
   - SDWebImage
 
 SPEC CHECKSUMS:
-  FMDB: 8e5b7e0c644a13a70be0ec5dbffc6b30e524ab5d
+  ASIHTTPRequest: 162783e0cd71bdd3ff1ceed0cd5fa9505e0116a8
+  FMDB: 3fd5aaf632ca4ed39e3f101e0398504e6d5b0918
   MMDrawerController: 3e22aec684dbee5307ff9d1e76523003a3303a2d
+  Reachability: 2be6bc2fd2bd31d97f5db33e75e4b29c79e95883
+  SBJson: e60b4dc22448c2ae1e754b523a4ab53408e85c8d
   SDWebImage: f1a72472f8a2d54445f1fedafe2090593d9caf7f
 
-COCOAPODS: 0.22.3
+COCOAPODS: 0.27.1

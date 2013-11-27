@@ -13,6 +13,6 @@
     IBOutlet UIImageView *myFaceImageView;
     IBOutlet UITextView *mytextView;
 }
-- (IBAction)back;
-- (IBAction)next;
+//- (IBAction)back;
+- (void)nextPage;
 @end
