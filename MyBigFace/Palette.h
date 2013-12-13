@@ -44,7 +44,7 @@
 -(void)Introductionpoint5:(int)sender;
 
 //=====================================
-//-(void)myalllineclear;
+-(void)myalllineclear;
 -(void)myLineFinallyRemove;
 //-(void)myrubbereraser;
 @end

@@ -181,16 +181,21 @@
 //===========================================================
 //清屏按钮
 //===========================================================
-//-(void)myalllineclear
-//{
-//	if ([myallline count]>0)
-//	{
-//		[myallline removeAllObjects];
-//		[myallpoint removeAllObjects];
-//		myallline=[[NSMutableArray alloc] initWithCapacity:10];
-//		[self setNeedsDisplay];
-//	}
-//}
+-(void)myalllineclear
+{
+	if ([myallline count]>0)
+	{
+		[myallline removeAllObjects];
+        [myallColor removeAllObjects];
+        [myallwidth removeAllObjects];
+		[myallpoint removeAllObjects];
+		myallline=[[NSMutableArray alloc] initWithCapacity:10];
+        myallColor=[[NSMutableArray alloc] initWithCapacity:10];
+        myallwidth=[[NSMutableArray alloc] initWithCapacity:10];
+
+		[self setNeedsDisplay];
+	}
+}
 //===========================================================
 //撤销
 //===========================================================
@@ -203,7 +208,7 @@
         [myallwidth removeLastObject];
 		[myallpoint removeAllObjects];
 	}
-	[self setNeedsDisplay];	
+	[self setNeedsDisplay];
 }
 //===========================================================
 //橡皮擦　segmentColor=[[UIColor whiteColor]CGColor];

@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController">
             <connections>
-                <outlet property="_segmentControl" destination="ghS-UG-cM3" id="qfo-SY-ikw"/>
                 <outlet property="_tableview" destination="F0h-A6-orz" id="Akx-kU-G46"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -17,44 +16,58 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ghS-UG-cM3">
-                    <rect key="frame" x="0.0" y="66" width="320" height="29"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <segments>
-                        <segment title="最新"/>
-                        <segment title="最热"/>
-                        <segment title="附近"/>
-                        <segment title="自己"/>
-                    </segments>
-                    <connections>
-                        <action selector="valueChanged:" destination="-1" eventType="valueChanged" id="l1N-bO-5Q9"/>
-                    </connections>
-                </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="F0h-A6-orz">
-                    <rect key="frame" x="0.0" y="96" width="320" height="472"/>
+                    <rect key="frame" x="0.0" y="109" width="320" height="472"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="8YS-tI-PvF"/>
                         <outlet property="delegate" destination="-1" id="USx-dD-OYZ"/>
                     </connections>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbP-6V-0aX">
-                    <rect key="frame" x="135" y="518" width="50" height="50"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gbP-6V-0aX">
+                    <rect key="frame" x="130" y="502" width="60" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button" image="添加.png">
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="6DE-ZA-0FJ"/>
+                        <constraint firstAttribute="height" constant="60" id="wo9-AY-ZAj"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="MainView_addFace.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="addFace" destination="-1" eventType="touchUpInside" id="cDZ-6r-8zu"/>
                     </connections>
                 </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQ0-Rg-F2B">
+                    <rect key="frame" x="0.0" y="71" width="320" height="2"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.78823529411764703" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W9g-vd-UJj">
+                    <rect key="frame" x="0.0" y="102" width="320" height="2"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.78823529411764703" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="gbP-6V-0aX" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="130" id="9nd-nl-kUy"/>
+                <constraint firstAttribute="bottom" secondItem="gbP-6V-0aX" secondAttribute="bottom" constant="6" id="dEi-3B-yGb"/>
+                <constraint firstAttribute="bottom" secondItem="gbP-6V-0aX" secondAttribute="bottom" constant="6" id="wFq-Vb-7OR"/>
+                <constraint firstAttribute="trailing" secondItem="gbP-6V-0aX" secondAttribute="trailing" constant="130" id="zR3-Sl-MUO"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
     <resources>
-        <image name="添加.png" width="250" height="250"/>
+        <image name="MainView_addFace.png" width="120" height="120"/>
     </resources>
 </document>

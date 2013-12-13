@@ -12,7 +12,7 @@
 @end
 @implementation DrawFaceViewController
 @synthesize drawView = _drawView;
-
+//@synthesize faceBackgroundImageView = _faceBackgroundImageView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,19 +32,20 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    //默认为笑脸 黄色
-    self.view.backgroundColor = [UIColor whiteColor];
     //设置 navigationBar
     [self setupMenuButton];
     
     
-    self.drawView = [[Palette alloc]initWithFrame:CGRectMake(20, 100, 280, 280)];
+    self.drawView = [[Palette alloc]initWithFrame:CGRectMake(30, 100, 260, 260)];
+    //默认是黄色开心的脸
     self.drawView.backgroundColor = [UIColor yellowColor];
+    _happyFaceBtn.selected = YES;
+    
     self.drawView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
-    self.drawView.layer.cornerRadius= 140; //设置它的圆角大小
-    self.drawView.layer.borderWidth=10; //视图的边框宽度
+    self.drawView.layer.cornerRadius= 130; //设置它的圆角大小 半径
+    self.drawView.layer.borderWidth=0; //视图的边框宽度
 //    self.drawView.layer.borderdg= [[UIdggray  dg].CGdg]; //视图的边框颜色
-
+//    [self.faceBackgroundImageView addSubview:self.drawView];
     [self.view addSubview:self.drawView];
 
 }
@@ -53,12 +54,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-//- (IBAction)back
-//{
-////    [(Palette*)self.view myalllineclear];
-//
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
 - (void)nextPage
 {
     //先保存 画的笑脸
@@ -91,55 +86,51 @@
 {
 	[self.drawView myLineFinallyRemove];
 }
-#pragma mark -
-//手指开始触屏开始
-//-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//    UITouch* touch=[touches anyObject];
-//	MyBeganpoint=[touch locationInView:self.view ];
-//    [(Palette*)self.view Introductionpoint4:Segment];
-//	[(Palette*)self.view Introductionpoint5:SegmentWidth];
-//	[(Palette*)self.view Introductionpoint1];
-//	[(Palette*)self.view Introductionpoint3:MyBeganpoint];
-////	NSLog(@"======================================");
-////	NSLog(@"MyPalette Segment=%i",Segment);
-////    NSLog(@"MyPalette SegmentWidth=%i",SegmentWidth);
-//}
-////手指移动时候发出
-//-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	NSArray* MovePointArray=[touches allObjects];
-//	MyMovepoint=[[MovePointArray objectAtIndex:0] locationInView:self.view];
-//	[(Palette*)self.view Introductionpoint3:MyMovepoint];
-//	[self.view setNeedsDisplay];
-//}
-////当手指离开屏幕时候
-//-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	[(Palette*)self.view Introductionpoint2];
-//	[self.view setNeedsDisplay];
-//}
-////电话呼入等事件取消时候发出
-//-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	//NSLog(@"touches Canelled");
-//}
+- (IBAction)allLineClear
+{
+    [self.drawView myalllineclear];
+}
 //笑脸背景色
 - (IBAction)happyFace:(id)sender
 {
+    _happyFaceBtn.selected = YES;
+    _sadFaceBtn.selected = NO;
+    _angryFaceBtn.selected = NO;
+    
     self.drawView.backgroundColor = [UIColor yellowColor];
+    NSLog(@"happyFace");
+
 }
 - (IBAction)sadFace:(id)sender
 {
+    _happyFaceBtn.selected = NO;
+    _sadFaceBtn.selected = YES;
+    _angryFaceBtn.selected = NO;
+
     self.drawView.backgroundColor = [UIColor blueColor];
+    NSLog(@"sadFace");
+
 }
 - (IBAction)angryFace:(id)sender
 {
+    _happyFaceBtn.selected = NO;
+    _sadFaceBtn.selected = NO;
+    _angryFaceBtn.selected = YES;
+
     self.drawView.backgroundColor = [UIColor redColor];
+    NSLog(@"angryFace");
 }
 -(void)setupMenuButton{
     //设置标题
-    self.navigationItem.title = @"画心情";
+    UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    t.font = [UIFont systemFontOfSize:24];
+    t.textColor = [UIColor whiteColor];
+    t.backgroundColor = [UIColor clearColor];
+    t.textAlignment = NSTextAlignmentCenter;
+    t.text = @"画心情";
+    self.navigationItem.titleView = t;
+
+//    self.navigationItem.title = @"画心情";
     //左按钮
     UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
 

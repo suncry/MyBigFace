@@ -16,11 +16,19 @@
 //	CGPoint MyMovepoint;
 	UIImageView* pickImage;
     Palette *_drawView;
+    IBOutlet UIButton *_happyFaceBtn;
+    IBOutlet UIButton *_sadFaceBtn;
+    IBOutlet UIButton *_angryFaceBtn;
+
+
 }
 @property(nonatomic,retain)Palette *drawView;
+//@property(nonatomic,retain)UIImageView *faceBackgroundImageView;
+
 
 - (void)nextPage;
 - (IBAction)LineFinallyRemove;
+- (IBAction)allLineClear;
 //笑脸背景色的变换
 - (IBAction)happyFace:(id)sender;
 - (IBAction)sadFace:(id)sender;

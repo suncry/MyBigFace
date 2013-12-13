@@ -17,6 +17,8 @@
 #import "ASIFormDataRequest.h"
 #import "SBJson.h"
 #import "UIButton+WebCache.h"
+#import "PPiFlatSegmentedControl.h"
+#import "NSString+FontAwesome.h"
 
 @interface HomeViewController ()<MJRefreshBaseViewDelegate>
 {
@@ -27,7 +29,6 @@
 
 @implementation HomeViewController
 @synthesize tableView = _tableview;
-@synthesize segmentControl = _segmentControl;
 @synthesize locationManager = _locationManager;
 @synthesize geocoder = _geocoder;
 @synthesize mydb = _mydb;
@@ -43,6 +44,7 @@
 {
     //初始化 用于储存face信息的数组
     self.mydb = [[MyDB alloc]init];
+    selectedSegmentIndex = 0;
 }
 - (void)viewDidLoad
 {
@@ -61,6 +63,11 @@
     //进入程序 第一次 刷新数据
 //    [_header beginRefreshing];
     [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
+    
+    //构建segmentedControl
+    [self segmentedControlInit];
+    
+    
 
 }
 
@@ -78,16 +85,17 @@
     //设置标题
     self.navigationItem.title = @"大饼";
     //左按钮
-    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftDrawerButtonPress:)];
-    //    [self.navigationController.navigationItem setLeftBarButtonItem:leftDrawerButton animated:YES];
+    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ setting"] style:UIBarButtonItemStylePlain target:self action:@selector(leftDrawerButtonPress:)];
+    [leftDrawerButton setTintColor:[UIColor whiteColor]];
+    leftDrawerButton.imageInsets = UIEdgeInsetsMake(10, 0, 10, 20);
     self.navigationItem.leftBarButtonItem = leftDrawerButton;
     //右按钮
-    //    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightDrawerButtonPress:)];
-    //换一个方法 自定义图片
-    MMDrawerBarButtonItem * rightDrawerButton = [[MMDrawerBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"item"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
-    self.navigationItem.rightBarButtonItem = rightDrawerButton;
-    //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+    MMDrawerBarButtonItem *rightDrawerButton = [[MMDrawerBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
+    [rightDrawerButton setTintColor:[UIColor whiteColor]];
+    rightDrawerButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
 
+    self.navigationItem.rightBarButtonItem = rightDrawerButton;
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
 }
 #pragma mark - Button Handlers
 -(void)leftDrawerButtonPress:(id)sender{
@@ -167,7 +175,7 @@
         cell.faceBtn_0.enabled = YES;
 
         NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
-        [cell.faceBtn_0 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"添加"]];
+        [cell.faceBtn_0 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_0 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.faceBtn_0 setTag:1000 + indexPath.row*3 + 0];
 
@@ -175,7 +183,7 @@
     else
     {
 //        NSLog(@"第1个没有");
-        [cell.faceBtn_0 setImage:[UIImage imageNamed:@"笑脸"] forState:UIControlStateNormal];
+        [cell.faceBtn_0 setImage:nil forState:UIControlStateNormal];
         cell.faceBtn_0.enabled = NO;
     }
 
@@ -185,7 +193,7 @@
 
         NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 1)]]];
 
-        [cell.faceBtn_1 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"添加"]];
+        [cell.faceBtn_1 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_1 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
         [cell.faceBtn_1 setTag:1000 + indexPath.row*3 + 1];
@@ -193,10 +201,8 @@
     else
     {
 //        NSLog(@"第2个没有");
-        [cell.faceBtn_1 setImage:[UIImage imageNamed:@"笑脸"] forState:UIControlStateNormal];
+        [cell.faceBtn_1 setImage:nil forState:UIControlStateNormal];
         cell.faceBtn_1.enabled = NO;
-
-
     }
 
     if ((indexPath.row*3 + 2) < faceCount)
@@ -205,7 +211,7 @@
 
         NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 2)]]];
 
-        [cell.faceBtn_2 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"添加"]];
+        [cell.faceBtn_2 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_2 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.faceBtn_2 setTag:1000 + indexPath.row*3 + 2];
 
@@ -213,7 +219,8 @@
     else
     {
 //        NSLog(@"第3个没有");
-        [cell.faceBtn_2 setImage:[UIImage imageNamed:@"笑脸"] forState:UIControlStateNormal];
+        [cell.faceBtn_2 setImage:nil forState:UIControlStateNormal];
+
         cell.faceBtn_2.enabled = NO;
 
     }
@@ -238,12 +245,12 @@
     FaceViewController *faceViewController = [[FaceViewController alloc]init];
     [self.navigationController pushViewController:faceViewController animated:YES];
 }
-- (IBAction)valueChanged:(id)sender
-{
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    NSLog(@"sender.value == %d",segmentedControl.selectedSegmentIndex);
-    [_header beginRefreshing];
-}
+//- (IBAction)valueChanged:(id)sender
+//{
+//    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+//    NSLog(@"sender.value == %d",segmentedControl.selectedSegmentIndex);
+//    [_header beginRefreshing];
+//}
 //定位
 - (void)findLocation
 {
@@ -300,7 +307,7 @@
 {
 //    NSLog(@"refreshData  selectedSegmentIndex == %d",self.segmentControl.selectedSegmentIndex);
     NSString *str = @"newest";
-    switch (self.segmentControl.selectedSegmentIndex) {
+    switch (selectedSegmentIndex) {
         case 0:
             str = @"newest";
             break;
@@ -313,7 +320,6 @@
         case 3:
             str = @"my";
             break;
-
         default:
             break;
     }
@@ -324,7 +330,7 @@
 {
 //    NSLog(@"loadMoreData  selectedSegmentIndex == %d",self.segmentControl.selectedSegmentIndex);
     NSString *str = [[NSString alloc]init];
-    switch (self.segmentControl.selectedSegmentIndex) {
+    switch (selectedSegmentIndex) {
         case 0:
             str = @"newest";
             break;
@@ -436,4 +442,26 @@
     [request startAsynchronous];
 }
 
+- (void)segmentedControlInit
+{
+    PPiFlatSegmentedControl *segmented=[[PPiFlatSegmentedControl alloc] initWithFrame:CGRectMake(40, 73, 246, 29) items:@[               @{@"text":@"最新"},@{@"text":@"最热"},@{@"text":@"附近"}]
+                                                                         iconPosition:IconPositionRight andSelectionBlock:^(NSUInteger segmentIndex) {
+                                                                             NSLog(@"segmentIndex  == %d",segmentIndex);
+                                                                             selectedSegmentIndex = segmentIndex;
+                                                                             [_header beginRefreshing];
+                                                                         }];
+    //    segmented.color=[UIColor colorWithRed:88.0f/255.0 green:88.0f/255.0 blue:88.0f/255.0 alpha:1];
+    segmented.color=[UIColor whiteColor];
+    segmented.borderWidth=0;
+    segmented.borderColor=[UIColor whiteColor];
+    //    segmented.selectedColor=[UIColor colorWithRed:0.0f/255.0 green:141.0f/255.0 blue:147.0f/255.0 alpha:1];
+    segmented.selectedColor=[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f];
+    
+    segmented.textAttributes=@{NSFontAttributeName:[UIFont systemFontOfSize:13],
+                               NSForegroundColorAttributeName:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]};
+    segmented.selectedTextAttributes=@{NSFontAttributeName:[UIFont systemFontOfSize:13],
+                                       NSForegroundColorAttributeName:[UIColor whiteColor]};
+    [self.view addSubview:segmented];
+
+}
 @end

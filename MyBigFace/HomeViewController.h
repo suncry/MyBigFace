@@ -13,14 +13,12 @@
 @interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,CLLocationManagerDelegate>
 {
     IBOutlet UITableView *_tableview;
-    IBOutlet UISegmentedControl *_segmentControl;
     CLLocationManager *_locationManager;
     CLGeocoder *_geocoder;
     MyDB *_mydb;
+    int selectedSegmentIndex;
 }
 @property(nonatomic,retain)UITableView *tableView;
-@property(nonatomic,retain)UISegmentedControl *segmentControl;
-
 @property (strong, nonatomic)CLLocationManager *locationManager;
 @property (strong, nonatomic)CLGeocoder *geocoder;
 @property(nonatomic,retain)MyDB *mydb;
@@ -28,5 +26,4 @@
 
 
 - (IBAction)addFace;
-- (IBAction)valueChanged:(id)sender;
 @end

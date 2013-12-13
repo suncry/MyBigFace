@@ -13,13 +13,8 @@
     UIButton *_faceBtn_0;
     UIButton *_faceBtn_1;
     UIButton *_faceBtn_2;
-//    UIButton *_faceBtn_3;
-//    UIButton *_faceBtn_4;
 }
 @property(nonatomic,retain)UIButton *faceBtn_0;
 @property(nonatomic,retain)UIButton *faceBtn_1;
 @property(nonatomic,retain)UIButton *faceBtn_2;
-//@property(nonatomic,retain)UIButton *faceBtn_3;
-//@property(nonatomic,retain)UIButton *faceBtn_4;
-
 @end
