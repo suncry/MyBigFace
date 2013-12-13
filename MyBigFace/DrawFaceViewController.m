@@ -24,7 +24,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     //初始化画笔  颜色默认为黑色   粗细为中
-    self.drawView.Segment = 0;
+    self.drawView.Segment = 1;
     self.drawView.SegmentWidth = 6;
 }
 
@@ -40,7 +40,10 @@
     //默认是黄色开心的脸
     self.drawView.backgroundColor = [UIColor yellowColor];
     _happyFaceBtn.selected = YES;
-    
+    //默认画笔为中
+    _penLine_mid.selected = YES;
+    //默认画笔颜色为黑色
+    _pencolor_black.selected = YES;
     self.drawView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
     self.drawView.layer.cornerRadius= 130; //设置它的圆角大小 半径
     self.drawView.layer.borderWidth=0; //视图的边框宽度
@@ -98,7 +101,6 @@
     _angryFaceBtn.selected = NO;
     
     self.drawView.backgroundColor = [UIColor yellowColor];
-    NSLog(@"happyFace");
 
 }
 - (IBAction)sadFace:(id)sender
@@ -108,7 +110,6 @@
     _angryFaceBtn.selected = NO;
 
     self.drawView.backgroundColor = [UIColor blueColor];
-    NSLog(@"sadFace");
 
 }
 - (IBAction)angryFace:(id)sender
@@ -118,7 +119,6 @@
     _angryFaceBtn.selected = YES;
 
     self.drawView.backgroundColor = [UIColor redColor];
-    NSLog(@"angryFace");
 }
 -(void)setupMenuButton{
     //设置标题
@@ -140,26 +140,114 @@
 }
 - (IBAction)color1:(id)sender
 {
+    _pencolor_white.selected  = YES;
+    _pencolor_black.selected  = NO;
+    _pencolor_red.selected    = NO;
+    _pencolor_orange.selected = NO;
+    _pencolor_yellow.selected = NO;
+    _pencolor_grenn.selected  = NO;
+    _pencolor_blue.selected   = NO;
+
     self.drawView.Segment = 0;
 }
 - (IBAction)color2:(id)sender
 {
+    _pencolor_white.selected  = NO;
+    _pencolor_black.selected  = YES;
+    _pencolor_red.selected    = NO;
+    _pencolor_orange.selected = NO;
+    _pencolor_yellow.selected = NO;
+    _pencolor_grenn.selected  = NO;
+    _pencolor_blue.selected   = NO;
+
     self.drawView.Segment = 1;
 }
 - (IBAction)color3:(id)sender
 {
+    _pencolor_white.selected  = NO;
+    _pencolor_black.selected  = NO;
+    _pencolor_red.selected    = YES;
+    _pencolor_orange.selected = NO;
+    _pencolor_yellow.selected = NO;
+    _pencolor_grenn.selected  = NO;
+    _pencolor_blue.selected   = NO;
+
     self.drawView.Segment = 2;
 }
+- (IBAction)color4:(id)sender
+{
+    _pencolor_white.selected  = NO;
+    _pencolor_black.selected  = NO;
+    _pencolor_red.selected    = NO;
+    _pencolor_orange.selected = YES;
+    _pencolor_yellow.selected = NO;
+    _pencolor_grenn.selected  = NO;
+    _pencolor_blue.selected   = NO;
+
+    self.drawView.Segment = 3;
+
+}
+- (IBAction)color5:(id)sender
+{
+    _pencolor_white.selected  = NO;
+    _pencolor_black.selected  = NO;
+    _pencolor_red.selected    = NO;
+    _pencolor_orange.selected = NO;
+    _pencolor_yellow.selected = YES;
+    _pencolor_grenn.selected  = NO;
+    _pencolor_blue.selected   = NO;
+
+    self.drawView.Segment = 4;
+
+}
+- (IBAction)color6:(id)sender
+{
+    _pencolor_white.selected  = NO;
+    _pencolor_black.selected  = NO;
+    _pencolor_red.selected    = NO;
+    _pencolor_orange.selected = NO;
+    _pencolor_yellow.selected = NO;
+    _pencolor_grenn.selected  = YES;
+    _pencolor_blue.selected   = NO;
+
+    self.drawView.Segment = 5;
+
+}
+- (IBAction)color7:(id)sender
+{
+    _pencolor_white.selected  = NO;
+    _pencolor_black.selected  = NO;
+    _pencolor_red.selected    = NO;
+    _pencolor_orange.selected = NO;
+    _pencolor_yellow.selected = NO;
+    _pencolor_grenn.selected  = NO;
+    _pencolor_blue.selected   = YES;
+
+    self.drawView.Segment = 6;
+
+}
+
 - (IBAction)width1:(id)sender
 {
+    _penLine_max.selected = NO;
+    _penLine_mid.selected = NO;
+    _penLine_min.selected = YES;
+
     self.drawView.SegmentWidth = 2;
 }
 - (IBAction)width2:(id)sender
 {
+    _penLine_max.selected = NO;
+    _penLine_mid.selected = YES;
+    _penLine_min.selected = NO;
+
     self.drawView.SegmentWidth = 6;
 }
 - (IBAction)width3:(id)sender
 {
+    _penLine_max.selected = YES;
+    _penLine_mid.selected = NO;
+    _penLine_min.selected = NO;
     self.drawView.SegmentWidth = 12;
 }
 

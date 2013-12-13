@@ -16,9 +16,22 @@
 //	CGPoint MyMovepoint;
 	UIImageView* pickImage;
     Palette *_drawView;
+    //心情底色
     IBOutlet UIButton *_happyFaceBtn;
     IBOutlet UIButton *_sadFaceBtn;
     IBOutlet UIButton *_angryFaceBtn;
+    //画笔粗细
+    IBOutlet UIButton *_penLine_max;
+    IBOutlet UIButton *_penLine_mid;
+    IBOutlet UIButton *_penLine_min;
+    //画笔颜色
+    IBOutlet UIButton *_pencolor_white;
+    IBOutlet UIButton *_pencolor_black;
+    IBOutlet UIButton *_pencolor_red;
+    IBOutlet UIButton *_pencolor_orange;
+    IBOutlet UIButton *_pencolor_yellow;
+    IBOutlet UIButton *_pencolor_grenn;
+    IBOutlet UIButton *_pencolor_blue;
 
 
 }
@@ -36,6 +49,11 @@
 - (IBAction)color1:(id)sender;
 - (IBAction)color2:(id)sender;
 - (IBAction)color3:(id)sender;
+- (IBAction)color4:(id)sender;
+- (IBAction)color5:(id)sender;
+- (IBAction)color6:(id)sender;
+- (IBAction)color7:(id)sender;
+
 - (IBAction)width1:(id)sender;
 - (IBAction)width2:(id)sender;
 - (IBAction)width3:(id)sender;
