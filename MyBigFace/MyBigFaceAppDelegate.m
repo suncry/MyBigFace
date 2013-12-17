@@ -8,9 +8,6 @@
 
 #import "MyBigFaceAppDelegate.h"
 #import "HomeViewController.h"
-#import "SettingViewController.h"
-#import "NewsViewController.h"
-#import "MMDrawerController.h"
 #import "UMSocial.h"
 
 @implementation MyBigFaceAppDelegate
@@ -30,33 +27,11 @@
 
     //分享图文样式到微信朋友圈显示字数比较少，只显示分享标题
     [UMSocialData defaultData].extConfig.title = @"朋友圈分享内容测试标题";
-
     
-    
-    SettingViewController * leftDrawer = [[SettingViewController alloc] init];
-    HomeViewController * center = [[HomeViewController alloc] init];
-    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:center];
+    HomeViewController * homeViewController = [[HomeViewController alloc] init];
+    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:homeViewController];
 //    navigationController.navigationBarHidden = YES;
-
-    
-    
-    NewsViewController * rightDrawer = [[NewsViewController alloc] init];
-    MMDrawerController * drawerController = [[MMDrawerController alloc]
-                                             initWithCenterViewController:navigationController
-                                             leftDrawerViewController:leftDrawer
-                                             rightDrawerViewController:rightDrawer];
-    
-    [drawerController setMaximumRightDrawerWidth:280];
-    [drawerController setMaximumLeftDrawerWidth:280];
-    
-    [drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeNone];
-    [drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
-    
-    
-//    UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:drawerController];
-//    navigationController.navigationBarHidden = YES;
-
-    self.window.rootViewController = drawerController;
+    self.window.rootViewController = navigationController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

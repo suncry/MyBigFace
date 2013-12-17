@@ -70,9 +70,9 @@
 	
 	UIGraphicsEndImageContext();
     
-    CGRect rect = CGRectMake(20, 100, 280, 280);//创建要剪切的矩形框 这里你可以自己修改
+    CGRect rect = CGRectMake(30, 100, 260, 260);//创建要剪切的矩形框 这里你可以自己修改
     UIImage *res = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
-    NSData *imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([self circleImage:res withParam:0], 0.1)];
+    NSData *imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation([self circleImage:res withParam:0], 0.5)];
     [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:@"myFace"];
     //将图片存入相册
 //	UIImageWriteToSavedPhotosAlbum(res, self, nil, nil);

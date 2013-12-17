@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface WriteViewController : UIViewController
+@interface WriteViewController : UIViewController<UITextViewDelegate>
 {
-    IBOutlet UIImageView *myFaceImageView;
     IBOutlet UITextView *mytextView;
 }
 //- (IBAction)back;

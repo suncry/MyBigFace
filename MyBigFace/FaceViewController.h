@@ -16,6 +16,8 @@
     IBOutlet UIImageView *_faceImageView;
     IBOutlet UILabel *_contentLable;
     IBOutlet UILabel *_plusLable;
+    IBOutlet UILabel *_distanceLable;
+
     IBOutlet UIView *_commentView;
     IBOutlet UIView *_faceView;
     IBOutlet UITextView *_commentTextView;
@@ -26,16 +28,18 @@
 
 
 }
-@property(nonatomic,retain)UIImageView *faceImageView;
-@property(nonatomic,retain)UILabel *contentLable;
-@property(nonatomic,retain)UILabel *plusLable;
-@property(nonatomic,retain)UIView *commentView;
-@property(nonatomic,retain)UIView *faceView;
-@property(nonatomic,retain)UITextView *commentTextView;
-@property(nonatomic,retain)UITableView *tableView;
-@property(nonatomic,retain)NSMutableArray *commentArray;
+@property (nonatomic,retain)  UIImageView       *faceImageView;
+@property (nonatomic,retain)  UILabel           *contentLable;
+@property (nonatomic,retain)  UILabel           *plusLable;
+@property (nonatomic,retain)  UILabel           *distanceLable;
+@property (nonatomic,retain)  UIView            *commentView;
+@property (nonatomic,retain)  UIView            *faceView;
+@property (nonatomic,retain)  UITextView        *commentTextView;
+@property (nonatomic,retain)  UITableView       *tableView;
+@property (nonatomic,retain)  NSMutableArray    *commentArray;
 //@property (strong, nonatomic)CLLocationManager *locationManager;
-@property (strong, nonatomic)CLGeocoder *geocoder;
+@property (strong, nonatomic) CLGeocoder        *geocoder;
+@property (nonatomic,retain)  UIImageView       *blackBackground;
 
 
 
@@ -43,7 +47,6 @@
 - (IBAction)commentBtnClick:(id)sender;
 - (IBAction)commentCancelBtnClick:(id)sender;
 - (IBAction)commentSendBtnClick:(id)sender;
-- (IBAction)shareBtnClick:(id)sender;
 
 
 @end

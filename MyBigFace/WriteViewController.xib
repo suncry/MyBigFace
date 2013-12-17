@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WriteViewController">
             <connections>
-                <outlet property="myFaceImageView" destination="T46-B2-B4H" id="Xqf-g4-mYQ"/>
                 <outlet property="mytextView" destination="ObU-2S-f7b" id="pmB-CY-ipB"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -17,28 +16,50 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T46-B2-B4H">
-                    <rect key="frame" x="35" y="203" width="111" height="111"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WriteFace_botton.png" translatesAutoresizingMaskIntoConstraints="NO" id="xfe-mi-Bfp">
+                    <rect key="frame" x="0.0" y="255" width="320" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="320" id="Cxw-tZ-EIf"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="JYt-yR-Iq4"/>
+                        <constraint firstAttribute="height" constant="20" id="iZh-Xi-zd2"/>
+                    </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="对话框.png" translatesAutoresizingMaskIntoConstraints="NO" id="xfe-mi-Bfp">
-                    <rect key="frame" x="86" y="46" width="240" height="240"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObU-2S-f7b">
+                    <rect key="frame" x="0.0" y="65" width="320" height="190"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ObU-2S-f7b">
-                    <rect key="frame" x="120" y="98" width="189" height="97"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="190" id="Fgf-Sc-Auh"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="aou-xp-LlO"/>
+                    </connections>
                 </textView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.84376992979999998" green="0.84376992979999998" blue="0.84376992979999998" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="ObU-2S-f7b" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1" secondAttribute="top" constant="65" id="89V-z1-Et1"/>
+                <constraint firstItem="ObU-2S-f7b" firstAttribute="top" secondItem="1" secondAttribute="top" constant="65" id="Btv-nD-ZDm"/>
+                <constraint firstItem="xfe-mi-Bfp" firstAttribute="top" secondItem="ObU-2S-f7b" secondAttribute="bottom" id="Hb4-Sr-hAp"/>
+                <constraint firstItem="xfe-mi-Bfp" firstAttribute="top" secondItem="ObU-2S-f7b" secondAttribute="bottom" id="Jbb-aS-9BK"/>
+                <constraint firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="MDn-a5-Lfu"/>
+                <constraint firstAttribute="trailing" secondItem="xfe-mi-Bfp" secondAttribute="trailing" id="U9E-r7-Se5"/>
+                <constraint firstItem="ObU-2S-f7b" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="UKJ-Rn-tRE"/>
+                <constraint firstItem="xfe-mi-Bfp" firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="bgc-zL-Ody"/>
+                <constraint firstItem="xfe-mi-Bfp" firstAttribute="leading" secondItem="ObU-2S-f7b" secondAttribute="leading" id="rSt-TN-Bey"/>
+                <constraint firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="s4W-of-Q0m"/>
+                <constraint firstItem="xfe-mi-Bfp" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="vCZ-TM-Uum"/>
+                <constraint firstAttribute="bottom" secondItem="ObU-2S-f7b" secondAttribute="bottom" constant="313" id="y2x-6J-1nD"/>
+                <constraint firstItem="ObU-2S-f7b" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="zog-fL-jeZ"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
     <resources>
-        <image name="对话框.png" width="128" height="128"/>
+        <image name="WriteFace_botton.png" width="640" height="40"/>
     </resources>
 </document>

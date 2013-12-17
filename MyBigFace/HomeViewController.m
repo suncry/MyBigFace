@@ -19,7 +19,7 @@
 #import "UIButton+WebCache.h"
 #import "PPiFlatSegmentedControl.h"
 #import "NSString+FontAwesome.h"
-
+#import "NewsViewController.h"
 @interface HomeViewController ()<MJRefreshBaseViewDelegate>
 {
     MJRefreshFooterView *_footer;
@@ -32,6 +32,12 @@
 @synthesize locationManager = _locationManager;
 @synthesize geocoder = _geocoder;
 @synthesize mydb = _mydb;
+@synthesize settingView = _settingView;
+@synthesize feedBackView = _feedBackView;
+@synthesize feedBackCommentLable = _feedBackCommentLable;
+@synthesize feedBackEmailLable = _feedBackEmailLable;
+@synthesize feedBackCommentTextView = _feedBackCommentTextView;
+@synthesize feedBackEmailTextView = _feedBackEmailTextView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -45,6 +51,12 @@
     //初始化 用于储存face信息的数组
     self.mydb = [[MyDB alloc]init];
     selectedSegmentIndex = 0;
+    
+    self.blackBackground = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SettingView_blackBackground.png"]];
+    self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
+    self.blackBackground.alpha = 0;
+    [self.view addSubview:self.blackBackground];
+
 }
 - (void)viewDidLoad
 {
@@ -66,11 +78,7 @@
     
     //构建segmentedControl
     [self segmentedControlInit];
-    
-    
-
 }
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -83,26 +91,51 @@
 }
 -(void)setupMenuButton{
     //设置标题
-    self.navigationItem.title = @"大饼";
+    UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    t.font = [UIFont systemFontOfSize:24];
+    t.textColor = [UIColor whiteColor];
+    t.backgroundColor = [UIColor clearColor];
+    t.textAlignment = NSTextAlignmentCenter;
+    t.text = @"悄悄话";
+    self.navigationItem.titleView = t;
     //左按钮
-    MMDrawerBarButtonItem * leftDrawerButton = [[MMDrawerBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ setting"] style:UIBarButtonItemStylePlain target:self action:@selector(leftDrawerButtonPress:)];
+    UIBarButtonItem *leftDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ setting"] style:UIBarButtonItemStylePlain target:self action:@selector(leftDrawerButtonPress:)];
     [leftDrawerButton setTintColor:[UIColor whiteColor]];
     leftDrawerButton.imageInsets = UIEdgeInsetsMake(10, 0, 10, 20);
     self.navigationItem.leftBarButtonItem = leftDrawerButton;
     //右按钮
-    MMDrawerBarButtonItem *rightDrawerButton = [[MMDrawerBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
+    UIBarButtonItem *rightDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
     [rightDrawerButton setTintColor:[UIColor whiteColor]];
     rightDrawerButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
-
     self.navigationItem.rightBarButtonItem = rightDrawerButton;
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
+
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 }
 #pragma mark - Button Handlers
--(void)leftDrawerButtonPress:(id)sender{
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+-(void)leftDrawerButtonPress:(id)sender
+{
+    //弹出settingView
+    self.settingView.frame = CGRectMake(-320, 0, 320, 568);
+    [self.view addSubview:self.settingView];
+    
+    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
+        self.navigationController.navigationBar.alpha = 0;
+        self.blackBackground.alpha = 1;
+
+    } completion:^(BOOL finished)
+     {
+         self.navigationController.navigationBar.hidden = YES;
+
+     }];
+
+        //commentView左滑
+    [Animations moveRight:self.settingView andAnimationDuration:0.5 andWait:YES andLength:320.0];
 }
--(void)rightDrawerButtonPress:(id)sender{
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+-(void)rightDrawerButtonPress:(id)sender
+{
+    NewsViewController *newsViewController = [[NewsViewController alloc]init];
+    [self.navigationController pushViewController:newsViewController animated:YES];
 }
 //初始化 下拉和上拉刷新控件
 - (void)initRefreshBar
@@ -131,14 +164,12 @@
 //    [NSTimer scheduledTimerWithTimeInterval:1 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:NO];
 //    [self.tableView reloadData];
 }
-
 - (void)dealloc
 {
     // 释放资源
     [_footer free];
     [_header free];
 }
-
 #pragma mark tableView-代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -153,7 +184,6 @@
     }
     return numberOfRows;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //    FaceViewController *faceViewController = [[FaceViewController alloc]init];
@@ -174,7 +204,7 @@
     {
         cell.faceBtn_0.enabled = YES;
 
-        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
         [cell.faceBtn_0 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_0 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.faceBtn_0 setTag:1000 + indexPath.row*3 + 0];
@@ -191,7 +221,7 @@
     {
         cell.faceBtn_1.enabled = YES;
 
-        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 1)]]];
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[self.mydb date:@"url" num:(indexPath.row*3 + 1)]]];
 
         [cell.faceBtn_1 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_1 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -209,7 +239,7 @@
     {
         cell.faceBtn_2.enabled = YES;
 
-        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:(indexPath.row*3 + 2)]]];
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[self.mydb date:@"url" num:(indexPath.row*3 + 2)]]];
 
         [cell.faceBtn_2 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_2 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -245,12 +275,6 @@
     FaceViewController *faceViewController = [[FaceViewController alloc]init];
     [self.navigationController pushViewController:faceViewController animated:YES];
 }
-//- (IBAction)valueChanged:(id)sender
-//{
-//    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-//    NSLog(@"sender.value == %d",segmentedControl.selectedSegmentIndex);
-//    [_header beginRefreshing];
-//}
 //定位
 - (void)findLocation
 {
@@ -282,7 +306,6 @@
     }];
     [self.locationManager stopUpdatingLocation];
 }
-
 - (void)login
 {
     NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/device?device=%@",[UIDevice currentDevice].identifierForVendor.UUIDString];
@@ -298,10 +321,12 @@
         NSMutableDictionary *dict = [jsonParser objectWithString:response];
         //获取 返回的 token 识别用户
         [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"token"] forKey:@"token"];
+//        NSLog(@"dict == %@",dict);
+//
+//        NSLog(@"data == %@",[dict objectForKey:@"data"]);
         NSLog(@"登陆时 token == %@",[[dict objectForKey:@"data"] valueForKey:@"token"]);
     }
 }
-
 //刷新table的填充数据
 - (void)refreshData
 {
@@ -352,15 +377,14 @@
 }
 - (void)downloadData:(NSString *)info
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=0&take=48",info];
+    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/%@?skip=0&take=48",info];
     if ([info isEqualToString:@"round"])
     {
-        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=0&take=48&lng=%@&lat=%@",info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/%@?skip=0&take=48&lng=%@&lat=%@",info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
     }
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
-//    [request startSynchronous];
     __block ASIHTTPRequest *requestBlock = request;
     [request setCompletionBlock :^{
         NSString *faceString = [requestBlock responseString];
@@ -384,6 +408,7 @@
             //            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
             i++;
         }
+//        NSLog(@"home page dict == %@",dict);
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
 //        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
@@ -402,7 +427,7 @@
     NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48",info,faceCount];
     if ([info isEqualToString:@"round"])
     {
-        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48&lng=%@&lat=%@",info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/%@?skip=%d&take=48&lng=%@&lat=%@",info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
     }
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -441,7 +466,6 @@
     }];
     [request startAsynchronous];
 }
-
 - (void)segmentedControlInit
 {
     PPiFlatSegmentedControl *segmented=[[PPiFlatSegmentedControl alloc] initWithFrame:CGRectMake(40, 73, 246, 29) items:@[               @{@"text":@"最新"},@{@"text":@"最热"},@{@"text":@"附近"}]
@@ -464,4 +488,114 @@
     [self.view addSubview:segmented];
 
 }
+- (IBAction)settingBtnClick:(id)sender;
+{
+    //收起settingView
+    self.settingView.frame = CGRectMake(0, 0, 320, 568);
+    [self.view addSubview:self.settingView];
+    
+    //commentView左滑
+    [Animations moveLeft:self.settingView andAnimationDuration:0.5 andWait:YES andLength:320.0];
+    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
+        self.navigationController.navigationBar.hidden = NO;
+        self.navigationController.navigationBar.alpha = 1;
+        self.blackBackground.alpha = 0;
+    } completion:^(BOOL finished)
+     {
+     }];
+}
+//给我评分
+- (IBAction)rateMe:(id)sender
+{
+    NSString *str = [NSString stringWithFormat: @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", @"346703830"];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+}
+//意见反馈
+- (IBAction)feedBack:(id)sender
+{
+    //弹出意见反馈
+    self.feedBackView.frame = CGRectMake(0, 568, 320, 568);
+    [self.view addSubview:self.feedBackView];
+    //feedBackView上滑
+    [Animations moveUp:self.feedBackView andAnimationDuration:0.5 andWait:YES andLength:568];
+    
+    [self.feedBackCommentTextView becomeFirstResponder];
+
+}
+- (IBAction)feedBackCancle:(id)sender
+{
+    //收起意见反馈
+    self.feedBackView.frame = CGRectMake(0, 0, 320, 568);
+    [self.view addSubview:self.feedBackView];
+    //feedBackView上滑
+    [Animations moveDown:self.feedBackView andAnimationDuration:0.5 andWait:YES andLength:568];
+    [self.feedBackCommentTextView resignFirstResponder];
+    [self.feedBackEmailTextView resignFirstResponder];
+
+}
+- (IBAction)feedBackSend:(id)sender
+{
+    //发送 反馈信息
+    
+    
+    
+    
+    
+    //收起意见反馈
+    self.feedBackView.frame = CGRectMake(0, 0, 320, 568);
+    [self.view addSubview:self.feedBackView];
+    //feedBackView上滑
+    [Animations moveDown:self.feedBackView andAnimationDuration:0.5 andWait:YES andLength:568];
+    [self.feedBackCommentTextView resignFirstResponder];
+    [self.feedBackEmailTextView resignFirstResponder];
+
+}
+
+- (IBAction)speechSwitch:(id)sender
+{
+    if ([sender isOn])
+    {
+        [[NSUserDefaults standardUserDefaults]setObject:@"yes" forKey:@"speech"];
+//        NSLog(@"语音 开!");
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults]setObject:@"no" forKey:@"speech"];
+//        NSLog(@"语音 关!");
+
+    }
+    
+}
+/**
+ *  uitextView的代理方法 实现palceholder
+ *
+ *  @param textView
+ */
+
+-(void)textViewDidChange:(UITextView *)textView
+{
+    if (textView.text.length == 0)
+    {
+        if (textView.tag == 1001)
+        {
+            self.feedBackCommentLable.text = @"请填写你的意见,我们将因您而不断改进.";
+        }
+        if (textView.tag == 1002)
+        {
+            self.feedBackEmailLable.text = @"请填写你的邮箱,以便我们给您回复.";
+        }
+    }
+    else
+    {
+        if (textView.tag == 1001)
+        {
+            self.feedBackCommentLable.text = @"";
+        }
+        if (textView.tag == 1002)
+        {
+            self.feedBackEmailLable.text = @"";
+        }
+    }
+}
+
 @end

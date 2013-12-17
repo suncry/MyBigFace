@@ -19,14 +19,14 @@
 #import "FaceViewCell.h"
 #import <AVFoundation/AVFoundation.h>
 #import "UMSocial.h"
-
+#import "CommentCell.h"
 
 @interface FaceViewController ()<MJRefreshBaseViewDelegate>
 {
     MJRefreshFooterView *_footer;
 //    MJRefreshHeaderView *_header;
 }
-@property (nonatomic, weak) IBOutlet UITextField *textField;
+//@property (nonatomic, weak) IBOutlet UITextField *textField;
 @property (nonatomic, strong) AVSpeechSynthesizer *synthesizer;
 
 @end
@@ -35,6 +35,7 @@
 @synthesize faceImageView = _faceImageView;
 @synthesize contentLable = _contentLable;
 @synthesize plusLable = _plusLable;
+@synthesize distanceLable = _distanceLable;
 @synthesize commentView = _commentView;
 @synthesize commentTextView = _commentTextView;
 @synthesize faceView = _faceView;
@@ -56,6 +57,16 @@
 {
     //初始化 评论信息数组
     self.commentArray = [[NSMutableArray alloc]initWithCapacity:50];
+    
+    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
+    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
+    
+    self.blackBackground = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SettingView_blackBackground.png"]];
+    self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
+    self.blackBackground.alpha = 0;
+    [self.view addSubview:self.blackBackground];
+
+
 }
 - (void)viewDidLoad
 {
@@ -70,7 +81,7 @@
     [self loadPlus];
     [self loadMoreComment];
     [self loadLocationInfo];
-//    [self speechComment];
+    [self setupMenuButton];
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(speechComment) userInfo:Nil repeats:NO];
 }
 
@@ -84,7 +95,7 @@
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[mydb date:@"url" num:faceClicked]]];
+    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[mydb date:@"url" num:faceClicked]]];
 //    NSLog(@"url == %@",url);
 //    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
     [self.faceImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"添加"]];
@@ -93,8 +104,7 @@
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    //    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
-    
+//    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
 //    NSLog(@"content == %@",[mydb date:@"content" num:faceClicked]);
     
     [self.contentLable setText:[mydb date:@"content" num:faceClicked]];
@@ -141,6 +151,9 @@
     //动画测试
     //往上弹跳动画
     [Animations shadowOnView:self.faceImageView andShadowType:@"NoShadow"];
+    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
+    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
+
     [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
     [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:10.0];
     [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:5.0];
@@ -149,6 +162,9 @@
     
     //向下弹跳
     [Animations shadowOnView:self.faceImageView andShadowType:@"NoShadow"];
+    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
+    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
+
     [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
     [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:20.0];
     [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:20.0];
@@ -163,19 +179,33 @@
 }
 - (IBAction)commentBtnClick:(id)sender
 {
-    self.commentView.frame = CGRectMake(320, 80, 320, 560);
+    self.commentView.frame = CGRectMake(0, 500, 320, 560);
     [self.view addSubview:_commentView];
     [self.commentTextView becomeFirstResponder];
+    
+    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
+        self.blackBackground.alpha = 1;
+        
+    } completion:^(BOOL finished)
+     {
+     }];
 
     //commentView左滑
-    [Animations moveLeft:self.commentView andAnimationDuration:1.0 andWait:YES andLength:320.0];
+    [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:320.0];
 }
 - (IBAction)commentCancelBtnClick:(id)sender
 {
     [self.commentTextView resignFirstResponder];
 
     //commentView右滑
-    [Animations moveRight:self.commentView andAnimationDuration:1.0 andWait:YES andLength:320.0];
+    [Animations moveDown:self.commentView andAnimationDuration:0.3 andWait:YES andLength:500];
+    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
+        self.blackBackground.alpha = 0;
+        
+    } completion:^(BOOL finished)
+     {
+     }];
+
 }
 - (IBAction)commentSendBtnClick:(id)sender
 {
@@ -268,21 +298,30 @@
         {
             cell = [[FaceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        self.faceView.frame = CGRectMake(0, 0, 320, 568);
+        self.faceView.frame = CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 65);
         [cell.faceInfoView addSubview:self.faceView];
         cell.faceInfoView.backgroundColor = [UIColor redColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     //显示评论内容时
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//    if (cell == nil)
+//    {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+//    }
+//    cell.textLabel.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
+//    cell.detailTextLabel.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
+//    return cell;
+    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    cell.textLabel.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
-    cell.detailTextLabel.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
+    cell.commentLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
+    cell.timeLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
     return cell;
+
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -290,12 +329,12 @@
     if (indexPath.row == 0)
     {
         //第一排 显示face信息时
-        return 400;
+        return [[UIScreen mainScreen] bounds].size.height - 65;
     }
     else
     {
         //显示评论内容时
-        return 44;
+        return 55;
     }
     //错误时
     return 10;
@@ -333,8 +372,8 @@
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     CLLocationDegrees lat = [[mydb date:@"lat" num:faceClicked]doubleValue];
     CLLocationDegrees lng = [[mydb date:@"lng" num:faceClicked]doubleValue];
-//    NSLog(@"lng == %f",lng);
-//    NSLog(@"lat == %f",lat);
+//    NSLog(@"faceLocation lng == %f",lng);
+//    NSLog(@"faceLocation lat == %f",lat);
     CLLocation *faceLocation = [[CLLocation alloc]initWithLatitude:lat longitude:lng];
     self.geocoder = [[CLGeocoder alloc]init];
     [self.geocoder reverseGeocodeLocation:faceLocation completionHandler:^(NSArray *placemarks, NSError *error)
@@ -350,18 +389,34 @@
          //设置标题
 //         self.navigationItem.title = placemark.subLocality;
          self.navigationItem.title = [NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality];
-
-
      }];
+    //计算距离
+    CLLocation *userLocation=[[CLLocation alloc] initWithLatitude:[[NSUserDefaults standardUserDefaults]doubleForKey:@"lat"] longitude:[[NSUserDefaults standardUserDefaults]doubleForKey:@"lng"]];
+    CLLocationDistance locationDistance=[faceLocation distanceFromLocation:userLocation];
+    //loadDistance
+    if (locationDistance > 10000)
+    {
+        [self.distanceLable setText:[NSString stringWithFormat:@"%.0fKM",locationDistance/1000]];
+
+    }
+    else
+    {
+        [self.distanceLable setText:[NSString stringWithFormat:@"%.0fM",locationDistance]];
+
+    }
+//    NSLog(@"locationDistance == %f m",locationDistance);
 }
 - (void)speechComment
 {
-    //语音
-    self.synthesizer = [[AVSpeechSynthesizer alloc] init];
-    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:self.contentLable.text];
-    [self.synthesizer speakUtterance:utterance];
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"speech"]isEqualToString:@"yes"])
+    {
+        //语音
+        self.synthesizer = [[AVSpeechSynthesizer alloc] init];
+        AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:self.contentLable.text];
+        [self.synthesizer speakUtterance:utterance];
+    }
 }
-- (IBAction)shareBtnClick:(id)sender
+- (void)shareBtnClick
 {
     //截图用来分享
     UIGraphicsBeginImageContext(self.view.bounds.size);
@@ -386,6 +441,13 @@
                                        delegate:nil];
 
     
+}
+-(void)setupMenuButton{
+    //右按钮
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"]style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClick)];
+    rightButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
+    self.navigationItem.rightBarButtonItem = rightButton;
+
 }
 
 @end

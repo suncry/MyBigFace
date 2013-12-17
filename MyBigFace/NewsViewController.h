@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyDB.h"
 
-@interface NewsViewController : UIViewController
-- (IBAction)newsBtnClick:(id)sender;
+@interface NewsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+{
+    IBOutlet UITableView *_tableview;
+
+}
+@property(nonatomic,retain)UITableView *tableView;
+@property(nonatomic,retain)MyDB *mydb;
+
 @end
