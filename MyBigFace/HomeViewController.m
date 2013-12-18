@@ -38,6 +38,8 @@
 @synthesize feedBackEmailLable = _feedBackEmailLable;
 @synthesize feedBackCommentTextView = _feedBackCommentTextView;
 @synthesize feedBackEmailTextView = _feedBackEmailTextView;
+@synthesize speechSwitch = _speechSwitch;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,9 +59,22 @@
     self.blackBackground.alpha = 0;
     [self.view addSubview:self.blackBackground];
 
+    //控制 switch 的开关
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"speech"]isEqualToString:@"yes"])
+    {
+        self.speechSwitch.on = YES;
+        //        NSLog(@"语音 开!");
+    }
+    else
+    {
+        self.speechSwitch.on = NO;
+        //        NSLog(@"语音 关!");
+        
+    }
 }
 - (void)viewDidLoad
 {
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //设置 navigation的左右item
@@ -204,7 +219,9 @@
     {
         cell.faceBtn_0.enabled = YES;
 
-        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
+        NSLog(@"加载face 时的 url == %@",url);
+        
         [cell.faceBtn_0 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_0 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.faceBtn_0 setTag:1000 + indexPath.row*3 + 0];
@@ -221,7 +238,7 @@
     {
         cell.faceBtn_1.enabled = YES;
 
-        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[self.mydb date:@"url" num:(indexPath.row*3 + 1)]]];
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[self.mydb date:@"url" num:(indexPath.row*3 + 1)]]];
 
         [cell.faceBtn_1 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_1 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -239,7 +256,7 @@
     {
         cell.faceBtn_2.enabled = YES;
 
-        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[self.mydb date:@"url" num:(indexPath.row*3 + 2)]]];
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[self.mydb date:@"url" num:(indexPath.row*3 + 2)]]];
 
         [cell.faceBtn_2 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_2 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -308,7 +325,7 @@
 }
 - (void)login
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/device?device=%@",[UIDevice currentDevice].identifierForVendor.UUIDString];
+    NSString *urlString = [NSString stringWithFormat:@"%@/device?device=%@",MY_URL,[UIDevice currentDevice].identifierForVendor.UUIDString];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
     [requestForm setDelegate:self];
@@ -321,9 +338,8 @@
         NSMutableDictionary *dict = [jsonParser objectWithString:response];
         //获取 返回的 token 识别用户
         [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"token"] forKey:@"token"];
-//        NSLog(@"dict == %@",dict);
+        NSLog(@"dict == %@",dict);
 //
-//        NSLog(@"data == %@",[dict objectForKey:@"data"]);
         NSLog(@"登陆时 token == %@",[[dict objectForKey:@"data"] valueForKey:@"token"]);
     }
 }
@@ -377,10 +393,10 @@
 }
 - (void)downloadData:(NSString *)info
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/%@?skip=0&take=48",info];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/%@?skip=0&take=48",MY_URL,info];
     if ([info isEqualToString:@"round"])
     {
-        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/%@?skip=0&take=48&lng=%@&lat=%@",info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+        urlString = [NSString stringWithFormat:@"%@/face/%@?skip=0&take=48&lng=%@&lat=%@",MY_URL,info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
     }
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -408,7 +424,7 @@
             //            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
             i++;
         }
-//        NSLog(@"home page dict == %@",dict);
+        NSLog(@"home page dict == %@",dict);
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
 //        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
@@ -424,10 +440,10 @@
 - (void)loadMoreData:(NSString *)info
 {
     int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48",info,faceCount];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/%@?skip=%d&take=48",MY_URL,info,faceCount];
     if ([info isEqualToString:@"round"])
     {
-        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/%@?skip=%d&take=48&lng=%@&lat=%@",info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+        urlString = [NSString stringWithFormat:@"%@/face/%@?skip=%d&take=48&lng=%@&lat=%@",MY_URL,info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
     }
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -536,7 +552,32 @@
 - (IBAction)feedBackSend:(id)sender
 {
     //发送 反馈信息
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.ipointek.com/feedback/api/feedback?appid=1012&content=%@&os_version=1&client_version=ios&email=%@",self.feedBackCommentTextView.text,self.feedBackEmailTextView.text]];
     
+    //@"http://www.ipointek.com/feedback/api/feedback
+    //    appid = 1007
+    //    content = 内容
+    //    os_version = 系统版本
+    //    client_version = 客户端版本
+    //    email = 邮箱
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    
+    [request setDelegate:self];
+    __block ASIHTTPRequest *requestBlock = request;
+    [request setCompletionBlock :^{
+        NSString *faceString = [requestBlock responseString];
+        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+        NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
+        NSLog(@"意见反馈  dict == %@",dict);
+    }];
+    [request setFailedBlock :^{
+        // 请求响应失败，返回错误信息
+        NSError *error = [requestBlock error ];
+        NSLog ( @"意见反馈   error:%@" ,[error userInfo ]);
+    }];
+
+    [request startAsynchronous];
+
     
     
     

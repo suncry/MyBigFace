@@ -13,6 +13,7 @@
                 <outlet property="_feedBackEmailTextView" destination="Yzp-yk-VGe" id="zDC-zI-BI8"/>
                 <outlet property="_feedBackView" destination="JKb-0G-F8x" id="UiH-uC-J3I"/>
                 <outlet property="_settingView" destination="v95-rf-ZkI" id="2J6-af-xAh"/>
+                <outlet property="_speechSwitch" destination="ZH5-IP-DrD" id="mew-nM-C63"/>
                 <outlet property="_tableview" destination="F0h-A6-orz" id="Akx-kU-G46"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>

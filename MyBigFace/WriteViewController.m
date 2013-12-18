@@ -64,7 +64,7 @@
 }
 - (void)upLoadFace
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8003/face/upload"];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/upload",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
     [requestForm setRequestMethod:@"POST"];

@@ -21,6 +21,7 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate>
     IBOutlet UILabel *_feedBackEmailLable;
     IBOutlet UITextView *_feedBackCommentTextView;
     IBOutlet UITextView *_feedBackEmailTextView;
+    IBOutlet UISwitch *_speechSwitch;
 
     CLLocationManager *_locationManager;
     CLGeocoder *_geocoder;
@@ -38,6 +39,7 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate>
 @property (strong, nonatomic) UILabel            *feedBackEmailLable;
 @property (strong, nonatomic) UITextView            *feedBackCommentTextView;
 @property (strong, nonatomic) UITextView            *feedBackEmailTextView;
+@property (strong, nonatomic) UISwitch            *speechSwitch;
 
 
 

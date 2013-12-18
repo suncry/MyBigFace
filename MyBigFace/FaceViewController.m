@@ -95,10 +95,10 @@
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8003%@",[mydb date:@"url" num:faceClicked]]];
+    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[mydb date:@"url" num:faceClicked]]];
 //    NSLog(@"url == %@",url);
 //    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
-    [self.faceImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"添加"]];
+    [self.faceImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"DrawFaceView_logo.png"]];
 }
 - (void)loadText
 {
@@ -120,7 +120,7 @@
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
     NSString *face_id = [mydb date:@"id" num:faceClicked];
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/plus"];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/plus",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
     [requestForm addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
@@ -212,7 +212,7 @@
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
     NSString *face_id = [mydb date:@"id" num:faceClicked];
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/comment"];
+    NSString *urlString = [NSString stringWithFormat:@"%@/comment",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
     [requestForm addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
@@ -235,7 +235,13 @@
     [self.commentTextView resignFirstResponder];
     
     //commentView右滑
-    [Animations moveRight:self.commentView andAnimationDuration:1.0 andWait:YES andLength:320.0];
+    [Animations moveDown:self.commentView andAnimationDuration:0.3 andWait:YES andLength:500];
+    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
+        self.blackBackground.alpha = 0;
+        
+    } completion:^(BOOL finished)
+     {
+     }];
 
     self.commentTextView.text = @"";
 }
@@ -344,7 +350,7 @@
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
     NSString *face_id = [mydb date:@"id" num:faceClicked];
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/comment?id=%@skip=0&take=%d",face_id,self.commentArray.count+48];
+    NSString *urlString = [NSString stringWithFormat:@"%@/comment?id=%@skip=0&take=%d",MY_URL,face_id,self.commentArray.count+48];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
@@ -356,7 +362,8 @@
         NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
 //        NSLog(@"commentString dict == %@",dict);
         self.commentArray = [dict valueForKey:@"data"];
-//        NSLog(@"self.commentArray == %@",self.commentArray);
+        NSLog(@"self.commentArray  dict == %@ ",dict);
+        NSLog(@"self.commentArray == %@",self.commentArray);
         [self.tableView reloadData];
     }];
     [request setFailedBlock :^{

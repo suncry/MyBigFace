@@ -12,7 +12,7 @@
 #import "SBJson.h"
 #import "MJRefresh.h"
 #import "UIButton+WebCache.h"
-
+#import "MyFaceCell.h"
 @interface NewsViewController ()<MJRefreshBaseViewDelegate>
 {
     MJRefreshFooterView *_footer;
@@ -75,7 +75,7 @@
 //}
 - (void)loadNews
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/comment/my?skip=0&take=48"];
+    NSString *urlString = [NSString stringWithFormat:@"%@/comment/my?skip=0&take=48",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
@@ -149,14 +149,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    MyFaceCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell = [[MyFaceCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     return cell;
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 182;
 }
 //刷新table的填充数据
 - (void)refreshData
@@ -175,10 +175,10 @@
 }
 - (void)downloadData:(NSString *)info
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=0&take=48",info];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/%@?skip=0&take=48",MY_URL,info];
     if ([info isEqualToString:@"round"])
     {
-        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=0&take=48&lng=%@&lat=%@",info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+        urlString = [NSString stringWithFormat:@"%@/face/%@?skip=0&take=48&lng=%@&lat=%@",MY_URL,info,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
     }
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
@@ -222,10 +222,10 @@
 - (void)loadMoreData:(NSString *)info
 {
     int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
-    NSString *urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48",info,faceCount];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/%@?skip=%d&take=48",MY_URL,info,faceCount];
     if ([info isEqualToString:@"round"])
     {
-        urlString = [NSString stringWithFormat:@"http://112.124.15.6:8001/face/%@?skip=%d&take=48&lng=%@&lat=%@",info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
+        urlString = [NSString stringWithFormat:@"%@/face/%@?skip=%d&take=48&lng=%@&lat=%@",MY_URL,info,faceCount,[[NSUserDefaults standardUserDefaults]valueForKey:@"lng"],[[NSUserDefaults standardUserDefaults]valueForKey:@"lat"]];
     }
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];

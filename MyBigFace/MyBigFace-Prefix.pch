@@ -14,3 +14,6 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+
+#define MY_URL @"http://112.124.15.6:8001/v1.0"
