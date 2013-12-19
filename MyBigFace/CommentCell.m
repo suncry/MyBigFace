@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor grayColor];
+        self.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
         UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 300, 55)];
         backgroundView.backgroundColor = [UIColor whiteColor];
         [self addSubview:backgroundView];

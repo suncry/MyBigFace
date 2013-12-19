@@ -15,9 +15,10 @@
 {
     IBOutlet UIImageView *_faceImageView;
     IBOutlet UILabel *_contentLable;
+//    IBOutlet UIButton *_plusBtn;
     IBOutlet UILabel *_plusLable;
+    IBOutlet UILabel *_commentNumLable;
     IBOutlet UILabel *_distanceLable;
-
     IBOutlet UIView *_commentView;
     IBOutlet UIView *_faceView;
     IBOutlet UITextView *_commentTextView;
@@ -30,7 +31,9 @@
 }
 @property (nonatomic,retain)  UIImageView       *faceImageView;
 @property (nonatomic,retain)  UILabel           *contentLable;
+//@property (nonatomic,retain)  UIButton           *plusBtn;
 @property (nonatomic,retain)  UILabel           *plusLable;
+@property (nonatomic,retain)  UILabel           *commentNumLable;
 @property (nonatomic,retain)  UILabel           *distanceLable;
 @property (nonatomic,retain)  UIView            *commentView;
 @property (nonatomic,retain)  UIView            *faceView;

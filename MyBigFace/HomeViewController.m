@@ -60,15 +60,15 @@
     [self.view addSubview:self.blackBackground];
 
     //控制 switch 的开关
-    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"speech"]isEqualToString:@"yes"])
-    {
-        self.speechSwitch.on = YES;
-        //        NSLog(@"语音 开!");
-    }
-    else
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"speech"]isEqualToString:@"no"])
     {
         self.speechSwitch.on = NO;
         //        NSLog(@"语音 关!");
+    }
+    else
+    {
+        self.speechSwitch.on = YES;
+        //        NSLog(@"语音 开!");
         
     }
 }
@@ -218,10 +218,8 @@
     if ((indexPath.row*3 + 0) < faceCount)
     {
         cell.faceBtn_0.enabled = YES;
-
         NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[self.mydb date:@"url" num:(indexPath.row*3 + 0)]]];
-        NSLog(@"加载face 时的 url == %@",url);
-        
+//        NSLog(@"加载face 时的 url == %@",url);
         [cell.faceBtn_0 setImageWithURL:url forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"MainView_ defaultFace"]];
         [cell.faceBtn_0 addTarget:self action:@selector(faceBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.faceBtn_0 setTag:1000 + indexPath.row*3 + 0];
@@ -338,7 +336,7 @@
         NSMutableDictionary *dict = [jsonParser objectWithString:response];
         //获取 返回的 token 识别用户
         [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"token"] forKey:@"token"];
-        NSLog(@"dict == %@",dict);
+//        NSLog(@"dict == %@",dict);
 //
         NSLog(@"登陆时 token == %@",[[dict objectForKey:@"data"] valueForKey:@"token"]);
     }
@@ -424,7 +422,7 @@
             //            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
             i++;
         }
-        NSLog(@"home page dict == %@",dict);
+//        NSLog(@"home page dict == %@",dict);
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
 //        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
@@ -433,7 +431,7 @@
     [request setFailedBlock :^{
         // 请求响应失败，返回错误信息
         NSError *error = [requestBlock error ];
-        NSLog ( @"error:%@" ,[error userInfo ]);
+        NSLog ( @"home page error:%@" ,[error userInfo ]);
     }];
     [request startAsynchronous];
 }
@@ -472,13 +470,13 @@
         }
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
-        NSLog(@"加载更多时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
+//        NSLog(@"加载更多时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
         [self.tableView reloadData];
     }];
     [request setFailedBlock :^{
         // 请求响应失败，返回错误信息
         NSError *error = [requestBlock error ];
-        NSLog ( @"error:%@" ,[error userInfo ]);
+        NSLog ( @"加载更多时 error:%@" ,[error userInfo ]);
     }];
     [request startAsynchronous];
 }
@@ -486,7 +484,6 @@
 {
     PPiFlatSegmentedControl *segmented=[[PPiFlatSegmentedControl alloc] initWithFrame:CGRectMake(40, 73, 246, 29) items:@[               @{@"text":@"最新"},@{@"text":@"最热"},@{@"text":@"附近"}]
                                                                          iconPosition:IconPositionRight andSelectionBlock:^(NSUInteger segmentIndex) {
-                                                                             NSLog(@"segmentIndex  == %d",segmentIndex);
                                                                              selectedSegmentIndex = segmentIndex;
                                                                              [_header beginRefreshing];
                                                                          }];
@@ -552,41 +549,49 @@
 - (IBAction)feedBackSend:(id)sender
 {
     //发送 反馈信息
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.ipointek.com/feedback/api/feedback?appid=1012&content=%@&os_version=1&client_version=ios&email=%@",self.feedBackCommentTextView.text,self.feedBackEmailTextView.text]];
-    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.ipointek.com/feedback/api/feedback"]];
     //@"http://www.ipointek.com/feedback/api/feedback
-    //    appid = 1007
+    //    post 方式
+    //    appid = 1012
     //    content = 内容
     //    os_version = 系统版本
     //    client_version = 客户端版本
     //    email = 邮箱
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    NSString *osVersion =[[ UIDevice currentDevice]systemVersion];
+    NSString *osModel = [[ UIDevice currentDevice]model];
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *clientVersion =  [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString *bundleNum = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
     
-    [request setDelegate:self];
-    __block ASIHTTPRequest *requestBlock = request;
-    [request setCompletionBlock :^{
-        NSString *faceString = [requestBlock responseString];
+    ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
+    [requestForm setPostValue:@"1012" forKey:@"appid"];
+    [requestForm setPostValue:self.feedBackEmailTextView.text forKey:@"email"];
+    [requestForm setPostValue:self.feedBackCommentTextView.text forKey:@"content"];
+    [requestForm setPostValue:[NSString stringWithFormat:@"iOS %@ Model:%@",osVersion,osModel] forKey:@"os_version"];
+    [requestForm setPostValue:[NSString stringWithFormat:@"Client v%@ Build:%@",clientVersion,bundleNum] forKey:@"client_version"];
+    __block ASIFormDataRequest *requestFormBlock = requestForm;
+    [requestForm setCompletionBlock :^{
+        NSString *commentString = [requestFormBlock responseString];
         SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-        NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
-        NSLog(@"意见反馈  dict == %@",dict);
+        NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
+        NSLog(@"commentSend dict == %@",dict);
     }];
-    [request setFailedBlock :^{
+    [requestForm setFailedBlock :^{
         // 请求响应失败，返回错误信息
-        NSError *error = [requestBlock error ];
-        NSLog ( @"意见反馈   error:%@" ,[error userInfo ]);
+        NSError *error = [requestFormBlock error ];
+        NSLog ( @"error:%@" ,[error userInfo ]);
     }];
+    [requestForm startAsynchronous];
 
-    [request startAsynchronous];
-
-    
-    
-    
-    
     //收起意见反馈
     self.feedBackView.frame = CGRectMake(0, 0, 320, 568);
     [self.view addSubview:self.feedBackView];
     //feedBackView上滑
     [Animations moveDown:self.feedBackView andAnimationDuration:0.5 andWait:YES andLength:568];
+    self.feedBackCommentTextView.text = @"";
+    self.feedBackEmailTextView.text = @"";
+    self.feedBackCommentLable.text = @"请填写你的意见,我们将因您而不断改进.";
+    self.feedBackEmailLable.text = @"请填写你的邮箱,以便我们给您回复.";
     [self.feedBackCommentTextView resignFirstResponder];
     [self.feedBackEmailTextView resignFirstResponder];
 

@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "MyDB.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface NewsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
     IBOutlet UITableView *_tableview;
 
 }
-@property(nonatomic,retain)UITableView *tableView;
-@property(nonatomic,retain)MyDB *mydb;
+@property (nonatomic,retain)  UITableView *tableView;
+@property (nonatomic,retain)  MyDB        *mydb;
+@property (strong, nonatomic) CLGeocoder  *geocoder;
 
 @end

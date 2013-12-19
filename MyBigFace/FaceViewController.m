@@ -43,8 +43,8 @@
 @synthesize commentArray = _commentArray;
 //@synthesize locationManager = _locationManager;
 @synthesize geocoder = _geocoder;
-
-
+@synthesize commentNumLable = _commentNumLable;
+//@synthesize plusBtn = _plusBtn;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -95,31 +95,90 @@
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[mydb date:@"url" num:faceClicked]]];
-//    NSLog(@"url == %@",url);
-//    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
-    [self.faceImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"DrawFaceView_logo.png"]];
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    if (faceClicked >= 100000)
+    {
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[mydb myDate:@"url" num:faceClicked - 100000]]];
+        NSLog(@"url == %@",url);
+        //    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
+        [self.faceImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"DrawFaceView_logo.png"]];
+    }
+    else
+    {
+        NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"%@%@",MY_URL,[mydb date:@"url" num:faceClicked]]];
+        NSLog(@"url == %@",url);
+        //    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
+        [self.faceImageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"DrawFaceView_logo.png"]];
+    }
 }
 - (void)loadText
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-//    NSLog(@"home 页面 的数据条数 == %d",[mydb getTableItemCount:@"face"]);
-//    NSLog(@"content == %@",[mydb date:@"content" num:faceClicked]);
-    
-    [self.contentLable setText:[mydb date:@"content" num:faceClicked]];
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    if (faceClicked >= 100000)
+    {
+        [self.contentLable setText:[mydb myDate:@"content" num:faceClicked - 100000]];
+
+    }
+    else
+    {
+        [self.contentLable setText:[mydb date:@"content" num:faceClicked]];
+
+    }
 }
 - (void)loadPlus
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    [self.plusLable setText:[mydb date:@"plus" num:faceClicked]];
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    if (faceClicked >= 100000)
+    {
+        [self.plusLable setText:[mydb myDate:@"plus" num:faceClicked - 100000]];
+//        NSLog(@"plus num == %@",[mydb myDate:@"plus" num:faceClicked - 100000]);
+    }
+    else
+    {
+        [self.plusLable setText:[mydb date:@"plus" num:faceClicked]];
+//        NSLog(@"plus num == %@",[mydb myDate:@"plus" num:faceClicked - 100000]);
+    }
 }
+- (void)loadCommentNum
+{
+    int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
+    MyDB *mydb = [[MyDB alloc]init];
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    if (faceClicked >= 100000)
+    {
+        [self.commentNumLable setText:[mydb myDate:@"all_comment" num:faceClicked - 100000]];
+//        NSLog(@"all_comment num == %@",[mydb myDate:@"all_comment" num:faceClicked - 100000]);
+    }
+    else
+    {
+        [self.commentNumLable setText:[mydb date:@"all_comment" num:faceClicked]];
+//        NSLog(@"all_comment num == %@",[mydb myDate:@"all_comment" num:faceClicked - 100000]);
+    }
+}
+
 - (IBAction)plus:(id)sender
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    NSString *face_id = [mydb date:@"id" num:faceClicked];
+    NSString *face_id = [[NSString alloc]init];
+    if (faceClicked >= 100000)
+    {
+        face_id = [mydb myDate:@"id" num:faceClicked - 100000];
+//        NSLog(@"plus face_id in myDate == %@",face_id);
+    }
+    else
+    {
+        face_id = [mydb date:@"id" num:faceClicked];
+//        NSLog(@"plus face_id in date == %@",face_id);
+    }
     NSString *urlString = [NSString stringWithFormat:@"%@/face/plus",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
@@ -141,41 +200,16 @@
     }];
     [requestForm startAsynchronous];
     
-    [self.plusLable setText:[NSString stringWithFormat:@"%d",[[mydb date:@"plus" num:faceClicked]intValue]+1]];
+    [self.plusLable setText:[NSString stringWithFormat:@"%d",[self.plusLable.text intValue]+1]];
     UIButton *plusBtn = (UIButton *)sender;
     plusBtn.enabled = NO;
+    [plusBtn setTitle:@"已赞" forState:UIControlStateNormal];
     //把赞的数目在本地db中同步
-    [mydb setPlus:[face_id intValue] plus:[[NSString stringWithFormat:@"%d",[[mydb date:@"plus" num:faceClicked]intValue]+1]intValue]];
-    
+    //主页面 和 我的表情页面的db都要同步
+    [mydb setPlus:[face_id intValue] plus:[[NSString stringWithFormat:@"%d",[self.plusLable.text intValue]]intValue]];
+    [mydb setMyPlus:[face_id intValue] plus:[[NSString stringWithFormat:@"%d",[self.plusLable.text intValue]]intValue]];
     ///////////////////////////
-    //动画测试
-    //往上弹跳动画
-    [Animations shadowOnView:self.faceImageView andShadowType:@"NoShadow"];
-    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
-    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
-
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
-    [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:10.0];
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:5.0];
-    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:10.0];
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
-    
-    //向下弹跳
-    [Animations shadowOnView:self.faceImageView andShadowType:@"NoShadow"];
-    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
-    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
-
-    [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:20.0];
-    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:20.0];
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
-    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
-    
-    
-    
-    
-
- 
+    [self moveUpAndDown];
 }
 - (IBAction)commentBtnClick:(id)sender
 {
@@ -196,22 +230,32 @@
 - (IBAction)commentCancelBtnClick:(id)sender
 {
     [self.commentTextView resignFirstResponder];
-
     //commentView右滑
     [Animations moveDown:self.commentView andAnimationDuration:0.3 andWait:YES andLength:500];
     [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
         self.blackBackground.alpha = 0;
-        
     } completion:^(BOOL finished)
      {
      }];
-
 }
 - (IBAction)commentSendBtnClick:(id)sender
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    NSString *face_id = [mydb date:@"id" num:faceClicked];
+    NSLog(@"faceView  faceClicked == %d",faceClicked);
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    NSString *face_id = [[NSString alloc]init];
+    if (faceClicked >= 100000)
+    {
+        face_id = [mydb myDate:@"id" num:faceClicked - 100000];
+//        NSLog(@"comment face_id in myDate == %@",face_id);
+    }
+    else
+    {
+        face_id = [mydb date:@"id" num:faceClicked];
+//        NSLog(@"comment face_id in date == %@",face_id);
+    }
     NSString *urlString = [NSString stringWithFormat:@"%@/comment",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
@@ -231,18 +275,14 @@
         NSLog ( @"error:%@" ,[error userInfo ]);
     }];
     [requestForm startAsynchronous];
-    
     [self.commentTextView resignFirstResponder];
-    
     //commentView右滑
     [Animations moveDown:self.commentView andAnimationDuration:0.3 andWait:YES andLength:500];
     [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
         self.blackBackground.alpha = 0;
-        
     } completion:^(BOOL finished)
      {
      }];
-
     self.commentTextView.text = @"";
 }
 //初始化 下拉和上拉刷新控件
@@ -349,12 +389,23 @@
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
-    NSString *face_id = [mydb date:@"id" num:faceClicked];
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    NSString *face_id = [[NSString alloc]init];
+    if (faceClicked >= 100000)
+    {
+        face_id = [mydb myDate:@"id" num:faceClicked - 100000];
+        
+    }
+    else
+    {
+        face_id = [mydb date:@"id" num:faceClicked];
+        
+    }
     NSString *urlString = [NSString stringWithFormat:@"%@/comment?id=%@skip=0&take=%d",MY_URL,face_id,self.commentArray.count+48];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
-    
     __block ASIHTTPRequest *requestBlock = request;
     [request setCompletionBlock :^{
         NSString *commentString = [requestBlock responseString];
@@ -362,9 +413,16 @@
         NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
 //        NSLog(@"commentString dict == %@",dict);
         self.commentArray = [dict valueForKey:@"data"];
-        NSLog(@"self.commentArray  dict == %@ ",dict);
-        NSLog(@"self.commentArray == %@",self.commentArray);
+//        NSLog(@"self.commentArray  dict == %@ ",dict);
         [self.tableView reloadData];
+//        NSLog(@"self.commentArray == %@",self.commentArray);
+//        NSLog(@"self.commentArray.count == %d",self.commentArray.count);
+        /**
+         *  设置评论的数量显示
+         */
+        [self.commentNumLable setText:[NSString stringWithFormat:@"%d",self.commentArray.count]];
+
+
     }];
     [request setFailedBlock :^{
         // 请求响应失败，返回错误信息
@@ -372,13 +430,27 @@
         NSLog ( @"error:%@" ,[error userInfo ]);
     }];
     [request startAsynchronous];
+    
 }
 - (void)loadLocationInfo
 {
     MyDB *mydb = [[MyDB alloc]init];
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
-    CLLocationDegrees lat = [[mydb date:@"lat" num:faceClicked]doubleValue];
-    CLLocationDegrees lng = [[mydb date:@"lng" num:faceClicked]doubleValue];
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    CLLocationDegrees lat;
+    CLLocationDegrees lng;
+
+    if (faceClicked >= 100000)
+    {
+        lat = [[mydb myDate:@"lat" num:faceClicked - 100000]floatValue];
+        lng = [[mydb myDate:@"lng" num:faceClicked - 100000]floatValue];
+    }
+    else
+    {
+        lat = [[mydb date:@"lat" num:faceClicked]floatValue];
+        lng = [[mydb date:@"lng" num:faceClicked]floatValue];
+    }
 //    NSLog(@"faceLocation lng == %f",lng);
 //    NSLog(@"faceLocation lat == %f",lat);
     CLLocation *faceLocation = [[CLLocation alloc]initWithLatitude:lat longitude:lng];
@@ -451,10 +523,34 @@
 }
 -(void)setupMenuButton{
     //右按钮
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"]style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClick)];
-    rightButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClick)];
+//    rightButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
     self.navigationItem.rightBarButtonItem = rightButton;
 
 }
+- (void)moveUpAndDown
+{
+    //往上弹跳动画
+    [Animations shadowOnView:self.faceImageView andShadowType:@"NoShadow"];
+    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
+    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
+    
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
+    [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:10.0];
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:50.0];
+    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:10.0];
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
+    
+    //向下弹跳
+    [Animations shadowOnView:self.faceImageView andShadowType:@"NoShadow"];
+    self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
+    self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
+    
+    [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:20.0];
+    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:20.0];
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
+    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
 
+}
 @end
