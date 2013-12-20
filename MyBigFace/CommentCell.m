@@ -15,25 +15,13 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
-        UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(10, 0, 300, 55)];
-        backgroundView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:backgroundView];
-        self.logoView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 0, 44, 44)];
+        self.backgroundColor = [UIColor whiteColor];
+        self.logoView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 44, 44)];
         [self.logoView setImage:[UIImage imageNamed:@"FaceView_comment.png"]];
         [self addSubview:self.logoView];
         
-        self.commentLable = [[UILabel alloc] initWithFrame:CGRectMake(70, 5, 250, 30)];
-        [self addSubview:self.commentLable];
-        self.timeLable = [[UILabel alloc] initWithFrame:CGRectMake(190, 35, 120, 15)];
-        self.timeLable.textColor = [UIColor lightGrayColor];
-        self.timeLable.font = [UIFont systemFontOfSize:12.0f];;
-;
-        [self addSubview:self.timeLable];
-
-        UILabel *bottonLable = [[UILabel alloc]initWithFrame:CGRectMake(20, 54, 280, 1)];
-        bottonLable.backgroundColor = [UIColor lightGrayColor];
-        [self addSubview:bottonLable];
+//        self.commentLable = [[UILabel alloc] initWithFrame:CGRectMake(70, 5, 250, 30)];
+//        [self addSubview:self.commentLable];
     }
     return self;
 }

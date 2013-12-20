@@ -71,7 +71,9 @@
         NSString *faceString = [requestBlock responseString];
         SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
         NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
-        NSLog(@"face/my dict == %@",dict);
+//        NSLog(@"face/my dict == %@",dict);
+//        NSLog(@"face/my dataArray == %@",[dict objectForKey:@"data"]);
+
         //清空储存的face信息
         [self.mydb eraseTable:@"myFace"];
         int i = 0;
@@ -107,9 +109,10 @@
                               url:[dataDic valueForKey:@"url"]
                           user_id:[dataDic valueForKey:@"user_id"]
                       all_comment:[[dataDic valueForKey:@"all_comment"]intValue]
-                       latest_num:[[dataDic valueForKey:@"latest_num"]intValue]];
+                       latest_num:[[dataDic valueForKey:@"latest_num"]intValue]
+                            address:[dataDic valueForKey:@"address"]];
             i++;
-//            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
+//            NSLog(@"dataDic address == %@",[dataDic valueForKey:@"address"]);
 
         }
 
@@ -234,18 +237,8 @@
      *  face地理位置
      *
      */
-    CLLocationDegrees lat;
-    CLLocationDegrees lng;
-    lat = [[self.mydb myDate:@"lat" num:indexPath.row]floatValue];
-    lng = [[self.mydb myDate:@"lng" num:indexPath.row]floatValue];
-    //    NSLog(@"faceLocation lng == %f",lng);
-    //    NSLog(@"faceLocation lat == %f",lat);
-    CLLocation *faceLocation = [[CLLocation alloc]initWithLatitude:lat longitude:lng];
-    self.geocoder = [[CLGeocoder alloc]init];
-    [self.geocoder reverseGeocodeLocation:faceLocation completionHandler:^(NSArray *placemarks, NSError *error)
-     {CLPlacemark *placemark = [placemarks objectAtIndex:0];
-         [cell.locationLabel setText:[NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality]];
-     }];
+    [cell.locationLabel setText:[self.mydb myDate:@"address" num:(indexPath.row)]];
+//        NSLog(@"加载face 时的 address == %@",[self.mydb myDate:@"address" num:(indexPath.row)]);
     /**
      *
      *  face时间
@@ -346,7 +339,9 @@
                                 url:[dataDic valueForKey:@"url"]
                             user_id:[dataDic valueForKey:@"user_id"]
                         all_comment:[[dataDic valueForKey:@"all_comment"]intValue]
-                         latest_num:[[dataDic valueForKey:@"latest_num"]intValue]];
+                         latest_num:[[dataDic valueForKey:@"latest_num"]intValue]
+                            address:[dataDic valueForKey:@"address"]];
+
             i++;
             //            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
             

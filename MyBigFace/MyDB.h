@@ -43,7 +43,9 @@
                  url:(NSString *)url
              user_id:(NSString *)user_id
          all_comment:(int)all_comment_num
-          latest_num:(int)latest_comment_num;
+          latest_num:(int)latest_comment_num
+             address:(NSString *)address;
+
 - (void)insertFace:(int)num
            face_id:(int)face_id
            content:(NSString *)content
@@ -56,7 +58,9 @@
                url:(NSString *)url
            user_id:(NSString *)user_id
        all_comment:(int)all_comment_num
-        latest_num:(int)latest_comment_num;
+        latest_num:(int)latest_comment_num
+           address:(NSString *)address;
+
 
 - (void)insertFace:(int)num
            face_id:(int)face_id
@@ -67,7 +71,9 @@
                lng:(NSString *)lng
               plus:(int)plus
                url:(NSString *)url
-           user_id:(NSString *)user_id;
+           user_id:(NSString *)user_id
+           address:(NSString *)address;
+
 
 
 // 获得表的数据条数

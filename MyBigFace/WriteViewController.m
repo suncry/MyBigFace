@@ -72,7 +72,10 @@
     [requestForm addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
     NSData *imageData = [[NSUserDefaults standardUserDefaults] objectForKey:@"myFace"];
     [requestForm setData:imageData forKey:@"image"];
+    [requestForm setPostValue:[[NSUserDefaults standardUserDefaults]stringForKey:@"address"] forKey:@"address"];
+    NSLog(@"上传face时 地址为  %@",[[NSUserDefaults standardUserDefaults]stringForKey:@"address"]);
     [requestForm setPostValue:mytextView.text forKey:@"content"];
+
     [requestForm setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"lng"] forKey:@"lng"];
     [requestForm setPostValue:[[NSUserDefaults standardUserDefaults] objectForKey:@"lat"] forKey:@"lat"];
 //    NSLog(@"上传时的lng == %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"lng"]);
@@ -94,18 +97,28 @@
     }];
     [requestForm startAsynchronous];
 }
-//如果输入超过规定的字数100，就不再让输入
+//如果输入超过规定的字数140，就不再让输入
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if (range.location>=140)
+    //判断加上输入的字符，是否超过界限
+    NSString *str = [NSString stringWithFormat:@"%@%@", textView.text, text];
+    if (str.length > 110)
     {
-        NSLog(@"输入超过了140个字的限制!");
-
-        return  NO;
+        textView.text = [str substringToIndex:110];
+        return NO;
     }
-    else
+    return YES;
+}
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    NSLog(@"textView.text.length == %d",textView.text.length);
+    
+    //该判断用于联想输入
+    if (textView.text.length > 110)
     {
-        return YES;
+        NSLog(@"超出了 140 字符的限制");
+        textView.text = [textView.text substringToIndex:14];
     }
+    
 }
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010C1D91186411DA00CFC62D /* FaceView_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 010C1D90186411D900CFC62D /* FaceView_comment.png */; };
 		013A90C4185067F100D89831 /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 013A90B2185067F100D89831 /* fontawesome-webfont.ttf */; };
 		013A90C5185067F100D89831 /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 013A90B6185067F100D89831 /* FAImageView.m */; };
 		013A90C6185067F100D89831 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 013A90B8185067F100D89831 /* NSString+FontAwesome.m */; };
@@ -53,7 +54,6 @@
 		01B7A40318601444005AB2BA /* SettingView_blackBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 01B7A40018601444005AB2BA /* SettingView_blackBackground.png */; };
 		01C36C16186185BB00C4424F /* MyFaceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C36C15186185BB00C4424F /* MyFaceCell.m */; };
 		01C4290F185ECC2D00BC1CB3 /* WriteFace_botton.png in Resources */ = {isa = PBXBuildFile; fileRef = 01C4290B185ECC2D00BC1CB3 /* WriteFace_botton.png */; };
-		01D7235F185EE8F9001D53BE /* FaceView_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 01D7235E185EE8F9001D53BE /* FaceView_comment.png */; };
 		01D72363185EE9F7001D53BE /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D72362185EE9F7001D53BE /* CommentCell.m */; };
 		01DA4E9F1856DCDC007F2819 /* DrawFaceView_LineWide_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 01DA4E9B1856DCDC007F2819 /* DrawFaceView_LineWide_background.png */; };
 		01DA4EA01856DCDC007F2819 /* DrawFaceView_LineWide_mid.png in Resources */ = {isa = PBXBuildFile; fileRef = 01DA4E9C1856DCDC007F2819 /* DrawFaceView_LineWide_mid.png */; };
@@ -128,6 +128,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010C1D90186411D900CFC62D /* FaceView_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FaceView_comment.png; sourceTree = "<group>"; };
 		013A90B2185067F100D89831 /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		013A90B5185067F100D89831 /* FAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImageView.h; sourceTree = "<group>"; };
 		013A90B6185067F100D89831 /* FAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageView.m; sourceTree = "<group>"; };
@@ -197,7 +198,6 @@
 		01C36C14186185BB00C4424F /* MyFaceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFaceCell.h; sourceTree = "<group>"; };
 		01C36C15186185BB00C4424F /* MyFaceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFaceCell.m; sourceTree = "<group>"; };
 		01C4290B185ECC2D00BC1CB3 /* WriteFace_botton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WriteFace_botton.png; sourceTree = "<group>"; };
-		01D7235E185EE8F9001D53BE /* FaceView_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FaceView_comment.png; sourceTree = "<group>"; };
 		01D72361185EE9F7001D53BE /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		01D72362185EE9F7001D53BE /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		01DA4E9B1856DCDC007F2819 /* DrawFaceView_LineWide_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrawFaceView_LineWide_background.png; sourceTree = "<group>"; };
@@ -541,7 +541,7 @@
 		01D7235D185EE8EB001D53BE /* FaceView */ = {
 			isa = PBXGroup;
 			children = (
-				01D7235E185EE8F9001D53BE /* FaceView_comment.png */,
+				010C1D90186411D900CFC62D /* FaceView_comment.png */,
 				01B7A3EB18601172005AB2BA /* FaceView_textBackground.png */,
 			);
 			name = FaceView;
@@ -860,6 +860,7 @@
 				01DA4EC91856DD53007F2819 /* DrawFaceView_removeAllLine.png in Resources */,
 				019770E3184D7A01002A3C41 /* MainView_ self.png in Resources */,
 				01DA4EA01856DCDC007F2819 /* DrawFaceView_LineWide_mid.png in Resources */,
+				010C1D91186411DA00CFC62D /* FaceView_comment.png in Resources */,
 				01DA4EBF1856DD13007F2819 /* DrawFaceView_FaceColor_red_selected.png in Resources */,
 				01B7A3FD18601378005AB2BA /* 我的动态01（效果图）.jpg in Resources */,
 				01DA4EC01856DD13007F2819 /* DrawFaceView_FaceColor_blue_selected.png in Resources */,
@@ -895,7 +896,6 @@
 				01E2FB021860374A00F47C8B /* SettingView_arrow.png in Resources */,
 				013A90CA185067F100D89831 /* FontAwesome+iOS.podspec in Resources */,
 				013A90C8185067F100D89831 /* FontAwesome.ttf in Resources */,
-				01D7235F185EE8F9001D53BE /* FaceView_comment.png in Resources */,
 				01DA4EB11856DCF7007F2819 /* DrawFaceView_yellow.png in Resources */,
 				01C4290F185ECC2D00BC1CB3 /* WriteFace_botton.png in Resources */,
 				019770E2184D7A01002A3C41 /* MainView_ setting.png in Resources */,

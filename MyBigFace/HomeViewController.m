@@ -111,7 +111,7 @@
     t.textColor = [UIColor whiteColor];
     t.backgroundColor = [UIColor clearColor];
     t.textAlignment = NSTextAlignmentCenter;
-    t.text = @"悄悄话";
+    t.text = @"微喷";
     self.navigationItem.titleView = t;
     //左按钮
     UIBarButtonItem *leftDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ setting"] style:UIBarButtonItemStylePlain target:self action:@selector(leftDrawerButtonPress:)];
@@ -315,7 +315,12 @@
         //country.text = plackmark.country;
 //        NSLog(@"plackmark.country == %@",placemark.country);
         //adminArea.text = placemark.adminstrativeArea;
-        NSLog(@"placemark.adminstrativeArea == %@",placemark.administrativeArea);
+//        NSLog(@"placemark.adminstrativeArea == %@",placemark.administrativeArea);
+        /**
+         *  存储用户位置
+         */
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality] forKey:@"address"];
+        NSLog(@"用户的位置 address ==  %@ ",[[NSUserDefaults standardUserDefaults]stringForKey:@"address"]);
         //locality.text = placemark.subLocality;
 //        NSLog(@"placemark.subLocality == %@",placemark.subLocality);
     }];
@@ -418,8 +423,9 @@
                               lng:[dataDic valueForKey:@"lng"]
                              plus:[[dataDic valueForKey:@"plus"]intValue]
                               url:[dataDic valueForKey:@"url"]
-                          user_id:[dataDic valueForKey:@"user_id"]];
-            //            NSLog(@"url == %@",[_mydb date:@"url" num:i]);
+                          user_id:[dataDic valueForKey:@"user_id"]
+                          address:[dataDic valueForKey:@"address"]];
+//            NSLog(@"downloadData address == %@",[self.mydb date:@"address" num:i]);
             i++;
         }
 //        NSLog(@"home page dict == %@",dict);
@@ -465,7 +471,8 @@
                               lng:[dataDic valueForKey:@"lng"]
                              plus:[[dataDic valueForKey:@"plus"]intValue]
                               url:[dataDic valueForKey:@"url"]
-                          user_id:[dataDic valueForKey:@"user_id"]];
+                          user_id:[dataDic valueForKey:@"user_id"]
+                          address:[dataDic valueForKey:@"address"]];
             i++;
         }
         //储存 face 个数

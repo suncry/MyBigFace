@@ -21,6 +21,11 @@
 #import "UMSocial.h"
 #import "CommentCell.h"
 
+#define FONT_SIZE 16.0f
+#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_MARGIN 20.0f
+
+
 @interface FaceViewController ()<MJRefreshBaseViewDelegate>
 {
     MJRefreshFooterView *_footer;
@@ -224,8 +229,17 @@
      {
      }];
 
-    //commentView左滑
-    [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:320.0];
+    //commentView上滑
+    if ([[UIScreen mainScreen] bounds].size.height < 568)
+    {
+        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:420.0];
+
+    }
+    else
+    {
+        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:320.0];
+
+    }
 }
 - (IBAction)commentCancelBtnClick:(id)sender
 {
@@ -336,6 +350,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"cell";
+    static NSString *CommentCellIdentifier = @"CommentCell";
     if (indexPath.row == 0)
     {
         //第一排显示face信息时
@@ -350,25 +365,103 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
-    //显示评论内容时
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (cell == nil)
-//    {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-//    }
-//    cell.textLabel.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
-//    cell.detailTextLabel.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
-//    return cell;
-    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil)
+    else
     {
-        cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    cell.commentLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
-    cell.timeLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
-    return cell;
+        CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentCellIdentifier];
+        UILabel *label = nil;
+        UILabel *timeLabel = nil;
 
-    
+        UIView *backgroundViewLeft = nil;
+        UIView *backgroundViewRight = nil;
+        UILabel *bottonLable = nil;
+        if (cell == nil)
+        {
+            cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentCellIdentifier];
+            cell.frame = CGRectZero;
+            
+            label = [[UILabel alloc] initWithFrame:CGRectZero];
+            [label setLineBreakMode:NSLineBreakByWordWrapping];
+            //        [label setMinimumFontSize:FONT_SIZE]; 已废除
+            //取代 setMinimumFontSize:FONT_SIZE
+            [label setMinimumScaleFactor:FONT_SIZE];
+            [label setNumberOfLines:0];
+            [label setFont:[UIFont systemFontOfSize:FONT_SIZE]];
+            [label setTag:1];
+            
+//            [[label layer] setBorderWidth:2.0f];
+            
+            [[cell contentView] addSubview:label];
+            
+            
+            timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            [timeLabel setLineBreakMode:NSLineBreakByWordWrapping];
+            //        [label setMinimumFontSize:FONT_SIZE]; 已废除
+            //取代 setMinimumFontSize:FONT_SIZE
+            [timeLabel setMinimumScaleFactor:12.0f];
+            [timeLabel setNumberOfLines:0];
+            [timeLabel setTag:5];
+            timeLabel.textColor = [UIColor lightGrayColor];
+            timeLabel.font = [UIFont systemFontOfSize:12.0f];
+
+//            [[timeLabel layer] setBorderWidth:2.0f];
+            
+            [[cell contentView] addSubview:timeLabel];
+
+            
+            
+            backgroundViewLeft = [[UIView alloc] initWithFrame:CGRectZero];
+            backgroundViewLeft.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
+            [backgroundViewLeft setTag:2];
+
+            backgroundViewRight = [[UIView alloc] initWithFrame:CGRectZero];
+            backgroundViewRight.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
+            [backgroundViewRight setTag:3];
+
+            [[cell contentView] addSubview:backgroundViewLeft];
+            [[cell contentView] addSubview:backgroundViewRight];
+
+            bottonLable = [[UILabel alloc] initWithFrame:CGRectZero];
+            bottonLable.backgroundColor = [UIColor lightGrayColor];
+            [backgroundViewRight setTag:4];
+            [[cell contentView] addSubview:bottonLable];
+
+
+        }
+        NSString *text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
+        NSString *timeText = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
+
+        CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+        
+        CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+        CGFloat height = MAX(size.height, 35.0f);
+
+        if (!label)
+            label = (UILabel*)[cell viewWithTag:1];
+        
+        [label setText:text];
+        [label setFrame:CGRectMake(CELL_CONTENT_MARGIN+60, CELL_CONTENT_MARGIN, CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2) - 60, MAX(size.height, 15.0f))];
+        if (!timeLabel)
+            timeLabel = (UILabel*)[cell viewWithTag:5];
+        
+        [timeLabel setText:timeText];
+        [timeLabel setFrame:CGRectMake(190, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 16, 120.0f, 15.0f)];
+
+        if (!backgroundViewLeft)
+            backgroundViewLeft = (UIView*)[cell viewWithTag:2];
+        [backgroundViewLeft setFrame:CGRectMake(0, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f))];
+        if (!backgroundViewRight)
+            backgroundViewRight = (UIView*)[cell viewWithTag:3];
+        [backgroundViewRight setFrame:CGRectMake(310, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f))];
+        if (!bottonLable)
+            bottonLable = (UILabel*)[cell viewWithTag:4];
+        [bottonLable setFrame:CGRectMake(20, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 1, 280, 1)];
+
+        
+        //    cell.commentLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
+//        cell.timeLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
+        return cell;
+
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -380,10 +473,22 @@
     else
     {
         //显示评论内容时
-        return 55;
+//        return 55;
+        NSString *text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
+        
+        CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+        
+        CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+        
+        CGFloat height = MAX(size.height, 35.0f);
+        NSLog(@"height == %f",height);
+        return height + (CELL_CONTENT_MARGIN + 15);
+
     }
     //错误时
     return 10;
+    
+
 }
 - (void)loadMoreComment
 {
@@ -440,47 +545,53 @@
     //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
     CLLocationDegrees lat;
     CLLocationDegrees lng;
-
     if (faceClicked >= 100000)
     {
         lat = [[mydb myDate:@"lat" num:faceClicked - 100000]floatValue];
         lng = [[mydb myDate:@"lng" num:faceClicked - 100000]floatValue];
+        NSString *address =[mydb myDate:@"address" num:faceClicked - 100000];
+        //设置标题
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        t.font = [UIFont systemFontOfSize:24];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        //         t.text = [NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality];
+        t.text = address;
+        NSLog(@"myDate  faceView address == %@",address);
+        self.navigationItem.titleView = t;
     }
     else
     {
         lat = [[mydb date:@"lat" num:faceClicked]floatValue];
         lng = [[mydb date:@"lng" num:faceClicked]floatValue];
+        NSString *address =[mydb date:@"address" num:faceClicked];
+        //设置标题
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        t.font = [UIFont systemFontOfSize:24];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        //         t.text = [NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality];
+        t.text = address;
+        NSLog(@"date  faceView address == %@",address);
+        self.navigationItem.titleView = t;
     }
 //    NSLog(@"faceLocation lng == %f",lng);
 //    NSLog(@"faceLocation lat == %f",lat);
     CLLocation *faceLocation = [[CLLocation alloc]initWithLatitude:lat longitude:lng];
-    self.geocoder = [[CLGeocoder alloc]init];
-    [self.geocoder reverseGeocodeLocation:faceLocation completionHandler:^(NSArray *placemarks, NSError *error)
-     {CLPlacemark *placemark = [placemarks objectAtIndex:0];
-         //isoCountry.text = placemark.ISOcountryCode;
-//        NSLog(@"placemark.ISOcountryCode == %@",placemark.ISOcountryCode);
-         //country.text = plackmark.country;
-//        NSLog(@"plackmark.country == %@",placemark.country);
-         //adminArea.text = placemark.adminstrativeArea;
-//         NSLog(@"placemark.adminstrativeArea == %@",placemark.administrativeArea);
-         //locality.text = placemark.subLocality;
-//        NSLog(@"placemark.subLocality == %@",placemark.subLocality);
-         //设置标题
-//         self.navigationItem.title = placemark.subLocality;
-         self.navigationItem.title = [NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality];
-     }];
     //计算距离
     CLLocation *userLocation=[[CLLocation alloc] initWithLatitude:[[NSUserDefaults standardUserDefaults]doubleForKey:@"lat"] longitude:[[NSUserDefaults standardUserDefaults]doubleForKey:@"lng"]];
     CLLocationDistance locationDistance=[faceLocation distanceFromLocation:userLocation];
     //loadDistance
     if (locationDistance > 10000)
     {
-        [self.distanceLable setText:[NSString stringWithFormat:@"%.0fKM",locationDistance/1000]];
+        [self.distanceLable setText:[NSString stringWithFormat:@"%.0fkm",locationDistance/1000]];
 
     }
     else
     {
-        [self.distanceLable setText:[NSString stringWithFormat:@"%.0fM",locationDistance]];
+        [self.distanceLable setText:[NSString stringWithFormat:@"%.0fm",locationDistance]];
 
     }
 //    NSLog(@"locationDistance == %f m",locationDistance);
@@ -553,4 +664,48 @@
     [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
 
 }
+//如果输入超过规定的字数14，就不再让输入
+//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+//{
+//    NSString *new = [textView.text stringByReplacingCharactersInRange:range withString:text];
+//    NSInteger res = 14 - [new length];
+//    if(res >= 0){
+//        return YES;
+//    }
+//    else{
+//        NSLog(@"[text length] == %d",[text length]);
+//        NSRange rg = {0,[text length]+res};
+//        if (rg.length>0) {
+//            NSString *s = [text substringWithRange:rg];
+//            [textView setText:[textView.text stringByReplacingCharactersInRange:range withString:s]];
+//        }
+//        return NO;
+//    }
+//}
+- (BOOL)textView:(UITextView *)textView
+shouldChangeTextInRange:(NSRange)range
+ replacementText:(NSString *)text
+{
+    //判断加上输入的字符，是否超过界限
+    NSString *str = [NSString stringWithFormat:@"%@%@", textView.text, text];
+    if (str.length > 110)
+    {
+        textView.text = [str substringToIndex:110];
+        return NO;
+    }
+    return YES;
+}
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    NSLog(@"textView.text.length == %d",textView.text.length);
+    
+    //该判断用于联想输入
+    if (textView.text.length > 110)
+    {
+        NSLog(@"超出了 110 字符的限制");
+        textView.text = [textView.text substringToIndex:110];
+    }
+
+}
+
 @end

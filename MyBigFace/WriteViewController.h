@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface WriteViewController : UIViewController<UITextViewDelegate>
 {
     IBOutlet UITextView *mytextView;

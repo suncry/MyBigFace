@@ -11,7 +11,7 @@
 #import "Animations.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
 {
     IBOutlet UIImageView *_faceImageView;
     IBOutlet UILabel *_contentLable;
