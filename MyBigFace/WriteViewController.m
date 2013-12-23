@@ -53,7 +53,7 @@
     t.textColor = [UIColor whiteColor];
     t.backgroundColor = [UIColor clearColor];
     t.textAlignment = NSTextAlignmentCenter;
-    t.text = @"画心情";
+    t.text = @"写心情";
     self.navigationItem.titleView = t;
     //左按钮
     UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];

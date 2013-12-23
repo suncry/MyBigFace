@@ -38,7 +38,7 @@
     
     self.drawView = [[Palette alloc]initWithFrame:CGRectMake(30, 100, 260, 260)];
     //默认是黄色开心的脸
-    self.drawView.backgroundColor = [UIColor yellowColor];
+    self.drawView.backgroundColor = [UIColor colorWithRed:254/255.0f green:214/255.0f blue:10/255.0f alpha:1.0f];
     _happyFaceBtn.selected = YES;
     //默认画笔为中
     _penLine_mid.selected = YES;
@@ -100,7 +100,7 @@
     _sadFaceBtn.selected = NO;
     _angryFaceBtn.selected = NO;
     
-    self.drawView.backgroundColor = [UIColor yellowColor];
+    self.drawView.backgroundColor = [UIColor colorWithRed:254/255.0f green:214/255.0f blue:10/255.0f alpha:1.0f];
 
 }
 - (IBAction)sadFace:(id)sender
@@ -109,7 +109,7 @@
     _sadFaceBtn.selected = YES;
     _angryFaceBtn.selected = NO;
 
-    self.drawView.backgroundColor = [UIColor blueColor];
+    self.drawView.backgroundColor = [UIColor colorWithRed:17/255.0f green:136/255.0f blue:254/255.0f alpha:1.0f];
 
 }
 - (IBAction)angryFace:(id)sender
@@ -118,7 +118,7 @@
     _sadFaceBtn.selected = NO;
     _angryFaceBtn.selected = YES;
 
-    self.drawView.backgroundColor = [UIColor redColor];
+    self.drawView.backgroundColor = [UIColor colorWithRed:207/255.0f green:0/255.0f blue:5/255.0f alpha:1.0f];
 }
 -(void)setupMenuButton{
     //设置标题

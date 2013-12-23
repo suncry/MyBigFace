@@ -70,8 +70,6 @@
     self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
     self.blackBackground.alpha = 0;
     [self.view addSubview:self.blackBackground];
-
-
 }
 - (void)viewDidLoad
 {
@@ -350,7 +348,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"cell";
-    static NSString *CommentCellIdentifier = @"CommentCell";
+//    static NSString *CommentCellIdentifier = @"CommentCell";
     if (indexPath.row == 0)
     {
         //第一排显示face信息时
@@ -367,16 +365,18 @@
     }
     else
     {
-        CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentCellIdentifier];
+//        CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentCellIdentifier];
+        CommentCell *cell = [[CommentCell alloc]init];
+
         UILabel *label = nil;
         UILabel *timeLabel = nil;
 
         UIView *backgroundViewLeft = nil;
         UIView *backgroundViewRight = nil;
         UILabel *bottonLable = nil;
-        if (cell == nil)
-        {
-            cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentCellIdentifier];
+//        if (cell == nil)
+//        {
+//            cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentCellIdentifier];
             cell.frame = CGRectZero;
             
             label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -407,7 +407,11 @@
             
             [[cell contentView] addSubview:timeLabel];
 
-            
+            bottonLable = [[UILabel alloc] initWithFrame:CGRectZero];
+            bottonLable.backgroundColor = [UIColor lightGrayColor];
+            [backgroundViewRight setTag:4];
+            [[cell contentView] addSubview:bottonLable];
+
             
             backgroundViewLeft = [[UIView alloc] initWithFrame:CGRectZero];
             backgroundViewLeft.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
@@ -420,13 +424,7 @@
             [[cell contentView] addSubview:backgroundViewLeft];
             [[cell contentView] addSubview:backgroundViewRight];
 
-            bottonLable = [[UILabel alloc] initWithFrame:CGRectZero];
-            bottonLable.backgroundColor = [UIColor lightGrayColor];
-            [backgroundViewRight setTag:4];
-            [[cell contentView] addSubview:bottonLable];
-
-
-        }
+//        }
         NSString *text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
         NSString *timeText = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
 
@@ -454,11 +452,12 @@
         [backgroundViewRight setFrame:CGRectMake(310, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f))];
         if (!bottonLable)
             bottonLable = (UILabel*)[cell viewWithTag:4];
-        [bottonLable setFrame:CGRectMake(20, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 1, 280, 1)];
-
+        [bottonLable setFrame:CGRectMake(20, (MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 1), 280, 1)];
+//        NSLog(@"%d bottonLable height ==  %f",indexPath.row,MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f));
         
-        //    cell.commentLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
-//        cell.timeLable.text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
+//        UILabel *redLine = [[UILabel alloc] initWithFrame:CGRectMake(0, [cell bounds].size.height - 5, 320, 5)];
+//        redLine.backgroundColor = [UIColor redColor];
+//        [[cell contentView] addSubview:redLine];
         return cell;
 
     }
@@ -481,7 +480,7 @@
         CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
         
         CGFloat height = MAX(size.height, 35.0f);
-        NSLog(@"height == %f",height);
+//        NSLog(@"height == %f",height);
         return height + (CELL_CONTENT_MARGIN + 15);
 
     }
@@ -622,11 +621,18 @@
 //    [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:@"myFace"];
 
     
+    /**
+     *  测试一下 分享图片
+     */
+    UIImage  *myImage = [UIImage imageNamed:@"ShareImg.png"];
+    UIImage *shareImg = [self addImage:myImage rect1:CGRectMake(0, 0, 320, 568)];
+
+    
     
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"528c287f56240be0d93b99ad"
                                       shareText:@"这是来自大饼的分享"
-                                     shareImage:res
+                                     shareImage:shareImg
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:nil];
 
@@ -698,7 +704,6 @@ shouldChangeTextInRange:(NSRange)range
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     NSLog(@"textView.text.length == %d",textView.text.length);
-    
     //该判断用于联想输入
     if (textView.text.length > 110)
     {
@@ -707,5 +712,109 @@ shouldChangeTextInRange:(NSRange)range
     }
 
 }
+/**
+ *  合成图片
+ *
+ *  @param image1 <#image1 description#>
+ *  @param image2 <#image2 description#>
+ *  @param rect1  <#rect1 description#>
+ *  @param rect2  <#rect2 description#>
+ *
+ *  @return <#return value description#>
+ */
+- (UIImage *)addImage:(UIImage *)image1 withImage:(UIImage *)image2 rect1:(CGRect)rect1 rect2:(CGRect)rect2 {
+    CGSize size = CGSizeMake(rect1.size.width+rect2.size.width, rect1.size.height);
+    
+    UIGraphicsBeginImageContext(size);
+    
+    [image1 drawInRect:rect1];
+    [image2 drawInRect:rect2];
+    NSString *qwe = @"123123123123123123123123123123123123123123123123123123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试";
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:22], NSStrokeColorAttributeName:[UIColor redColor]};
+    [qwe drawInRect:CGRectMake(50, 50, 220, 210) withAttributes:attributes];
+    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return resultingImage;
+}
+- (UIImage *)addImage:(UIImage *)image1 rect1:(CGRect)rect1
+{
+    CGSize size = CGSizeMake(rect1.size.width, rect1.size.height);
+    
+    UIGraphicsBeginImageContext(size);
+    
+    int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
+    MyDB *mydb = [[MyDB alloc]init];
+    
+    NSString *qwe = @"123123123123123123123123123123123123123123123123123123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试!!!爹要成功了!";
 
+    //myFace 设置的faceClicked 应该大于100000
+    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+    if (faceClicked >= 100000)
+    {
+        qwe = [mydb myDate:@"content" num:faceClicked - 100000];
+    }
+    else
+    {
+        qwe = [mydb date:@"content" num:faceClicked];
+        
+    }
+
+    
+    [image1 drawInRect:rect1];
+    [self.faceImageView.image drawInRect:CGRectMake(110, 250, 100, 100)];
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:22], NSStrokeColorAttributeName:[UIColor redColor]};
+    [qwe drawInRect:CGRectMake(50, 30, 220, 160) withAttributes:attributes];
+    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return resultingImage;
+}
+
+/**
+ *  在图片上写字
+ *
+ *  @param img   <#img description#>
+ *  @param text1 <#text1 description#>
+ *
+ *  @return <#return value description#>
+ */
+//-(UIImage *)addText:(UIImage *)img text:(NSString *)text1
+//{
+//    //get image width and height
+//    int w = img.size.width;
+//    NSLog(@"width:%d",w);
+//    int h = img.size.height;
+//    NSLog(@"height:%d",h);
+//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+//    //create a graphic context with CGBitmapContextCreate
+//    CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
+//
+//    CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
+//    CGContextSetRGBFillColor(context, 0.0, 1.0, 1.0, 1);
+//    char* text = (char *)[text1 cStringUsingEncoding:NSASCIIStringEncoding];
+//    //字体大小
+//    CGContextSelectFont(context, "Georgia", 30, kCGEncodingMacRoman);
+//    CGContextSetTextDrawingMode(context, kCGTextFill);
+//    //颜色
+//    CGContextSetRGBFillColor(context, 255, 0, 0, 1);
+//    //旋转
+////    CGContextSetTextMatrix(context, CGAffineTransformMakeRotation( -M_PI/4 ));
+//    
+//    NSString *qwe = @"123123123";
+//    [qwe drawInRect:CGRectMake(0, 0, 320, 400) withAttributes:nil];
+//    
+//    
+//    
+//    
+//    CGContextShowTextAtPoint(context, 360, 200, text, strlen(text));
+//    //Create image ref from the context
+//    CGImageRef imageMasked = CGBitmapContextCreateImage(context);
+//    CGContextRelease(context);
+//    CGColorSpaceRelease(colorSpace);
+//    return [UIImage imageWithCGImage:imageMasked];
+//    
+//}
 @end

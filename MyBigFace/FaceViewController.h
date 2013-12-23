@@ -25,7 +25,7 @@
     IBOutlet UITableView *_tableview;
     NSMutableArray *_commentArray;
 //    CLLocationManager *_locationManager;
-    CLGeocoder *_geocoder;
+    CLGeocoder *_geocoder; //用于计算距离
 
 
 }

@@ -20,6 +20,11 @@
         [self.logoView setImage:[UIImage imageNamed:@"FaceView_comment.png"]];
         [self addSubview:self.logoView];
         
+        
+//        self.commentLable = [[UILabel alloc] initWithFrame:CGRectMake(0, [self bounds].size.height - 5, 320, 5)];
+//        self.commentLable.backgroundColor = [UIColor redColor];
+//        [self addSubview:self.commentLable];
+
 //        self.commentLable = [[UILabel alloc] initWithFrame:CGRectMake(70, 5, 250, 30)];
 //        [self addSubview:self.commentLable];
     }
