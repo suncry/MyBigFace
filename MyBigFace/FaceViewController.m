@@ -10,26 +10,26 @@
 #import "HomeViewController.h"
 #import "SettingViewController.h"
 #import "NewsViewController.h"
-#import "MMDrawerController.h"
+//#import "MMDrawerController.h"
 #import "UIImageView+WebCache.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "SBJson.h"
-#import "MJRefresh.h"
 #import "FaceViewCell.h"
 #import <AVFoundation/AVFoundation.h>
 #import "UMSocial.h"
 #import "CommentCell.h"
+
+#import "UIScrollView+SVInfiniteScrolling.h"
+
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_WIDTH 320.0f
 #define CELL_CONTENT_MARGIN 20.0f
 
 
-@interface FaceViewController ()<MJRefreshBaseViewDelegate>
+@interface FaceViewController ()
 {
-    MJRefreshFooterView *_footer;
-//    MJRefreshHeaderView *_header;
 }
 //@property (nonatomic, weak) IBOutlet UITextField *textField;
 @property (nonatomic, strong) AVSpeechSynthesizer *synthesizer;
@@ -74,15 +74,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    __weak FaceViewController *weakSelf = self;
+    // setup pull-to-refresh
+//    [self.tableView addPullToRefreshWithActionHandler:^{
+//        [weakSelf insertRowAtTop];
+//    }];
+//    
+    // setup infinite scrolling
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf loadMoreComment];
+    }];
+
     // Do any additional setup after loading the view from its nib.
-    self.tableView.showsHorizontalScrollIndicator = NO;
-    self.tableView.showsVerticalScrollIndicator = NO;
+//    self.tableView.showsHorizontalScrollIndicator = NO;
+//    self.tableView.showsVerticalScrollIndicator = NO;
     //初始化上拉下拉刷新控件
-    [self initRefreshBar];
+//    [self initRefreshBar];
     [self loadFace];
     [self loadText];
     [self loadPlus];
-    [self loadMoreComment];
+    [self.tableView triggerInfiniteScrolling];
+
+//    [weakSelf loadMoreComment];
     [self loadLocationInfo];
     [self setupMenuButton];
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(speechComment) userInfo:Nil repeats:NO];
@@ -140,12 +154,31 @@
     //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
     if (faceClicked >= 100000)
     {
-        [self.plusLable setText:[mydb myDate:@"plus" num:faceClicked - 100000]];
+        //最多显示9999+
+        if ([[mydb myDate:@"plus" num:faceClicked - 100000] intValue] > 9999)
+        {
+            [self.plusLable setText:@"9999+"];
+        }
+        else
+        {
+            [self.plusLable setText:[mydb myDate:@"plus" num:faceClicked - 100000]];
+        }
+
 //        NSLog(@"plus num == %@",[mydb myDate:@"plus" num:faceClicked - 100000]);
     }
     else
     {
         [self.plusLable setText:[mydb date:@"plus" num:faceClicked]];
+        //最多显示9999+
+        if ([[mydb date:@"plus" num:faceClicked] intValue] > 9999)
+        {
+            [self.plusLable setText:@"9999+"];
+        }
+        else
+        {
+            [self.plusLable setText:[mydb date:@"plus" num:faceClicked]];
+        }
+
 //        NSLog(@"plus num == %@",[mydb myDate:@"plus" num:faceClicked - 100000]);
     }
 }
@@ -216,7 +249,7 @@
 }
 - (IBAction)commentBtnClick:(id)sender
 {
-    self.commentView.frame = CGRectMake(0, 500, 320, 560);
+    self.commentView.frame = CGRectMake(0, [self.view bounds].size.height, 320, 400);
     [self.view addSubview:_commentView];
     [self.commentTextView becomeFirstResponder];
     
@@ -228,16 +261,18 @@
      }];
 
     //commentView上滑
-    if ([[UIScreen mainScreen] bounds].size.height < 568)
-    {
-        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:420.0];
+    [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:[self.view bounds].size.height - 65];
 
-    }
-    else
-    {
-        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:320.0];
-
-    }
+//    if ([[UIScreen mainScreen] bounds].size.height < 568)
+//    {
+//        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:[self.view bounds].size.height - 65];
+//
+//    }
+//    else
+//    {
+//        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:[self.view bounds].size.height - 65];
+//
+//    }
 }
 - (IBAction)commentCancelBtnClick:(id)sender
 {
@@ -298,46 +333,43 @@
     self.commentTextView.text = @"";
 }
 //初始化 下拉和上拉刷新控件
-- (void)initRefreshBar
-{
-//    // 下拉刷新
-//    _header = [[MJRefreshHeaderView alloc] init];
-//    _header.delegate = self;
-//    _header.scrollView = self.tableView;
-    
-    // 上拉加载更多
-    _footer = [[MJRefreshFooterView alloc] init];
-    _footer.delegate = self;
-    _footer.scrollView = self.tableView;
-    
-}
-#pragma mark 代理方法-进入刷新状态就会调用
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"HH : mm : ss.SSS";
-//    if (_header == refreshView) {
-//        [self refreshComment];
-//    } else {
-//        [self loadMoreComment];
-//    }
-    [self loadMoreComment];
+//- (void)initRefreshBar
+//{
+////    // 下拉刷新
+////    _header = [[MJRefreshHeaderView alloc] init];
+////    _header.delegate = self;
+////    _header.scrollView = self.tableView;
+//    
+//    // 上拉加载更多
+//    _footer = [[MJRefreshFooterView alloc] init];
+//    _footer.delegate = self;
+//    _footer.scrollView = self.tableView;
+//    
+//}
+//#pragma mark 代理方法-进入刷新状态就会调用
+//- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+//{
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    formatter.dateFormat = @"HH : mm : ss.SSS";
+////    if (_header == refreshView) {
+////        [self refreshComment];
+////    } else {
+////        [self loadMoreComment];
+////    }
+//    [self loadMoreComment];
+//
+//}
 
-}
-
-- (void)dealloc
-{
-    // 释放资源
-    [_footer free];
-//    [_header free];
-}
+//- (void)dealloc
+//{
+//    // 释放资源
+////    [_footer free];
+////    [_header free];
+//}
 
 #pragma mark tableView-代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // 让刷新控件恢复默认的状态
-//    [_header endRefreshing];
-    [_footer endRefreshing];
     int cellCount = self.commentArray.count + 1;
     return cellCount;
 }
@@ -442,7 +474,7 @@
             timeLabel = (UILabel*)[cell viewWithTag:5];
         
         [timeLabel setText:timeText];
-        [timeLabel setFrame:CGRectMake(190, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 16, 120.0f, 15.0f)];
+        [timeLabel setFrame:CGRectMake(200, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 16, 120.0f, 15.0f)];
 
         if (!backgroundViewLeft)
             backgroundViewLeft = (UIView*)[cell viewWithTag:2];
@@ -515,22 +547,42 @@
         NSString *commentString = [requestBlock responseString];
         SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
         NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
-        
-        
-        NSLog(@"commentString dict == %@",dict);
-        
-        
+//        NSLog(@"commentString dict == %@",dict);
         self.commentArray = [dict valueForKey:@"data"];
 //        NSLog(@"self.commentArray  dict == %@ ",dict);
-        [self.tableView reloadData];
+        __weak FaceViewController *weakSelf = self;
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView.infiniteScrollingView stopAnimating];
+        
 //        NSLog(@"self.commentArray == %@",self.commentArray);
 //        NSLog(@"self.commentArray.count == %d",self.commentArray.count);
         /**
          *  设置评论的数量显示
          */
-        [self.commentNumLable setText:[NSString stringWithFormat:@"%d",self.commentArray.count]];
+        if (self.commentArray.count != 0)
+        {
+            NSLog(@"self.commentArray[0] == %@",self.commentArray[0]);
+            
+            //最多显示9999+
+            if ([[NSString stringWithFormat:@"%@",[self.commentArray[0] valueForKey:@"all_comment"]] intValue] > 9999)
+            {
+                [self.commentNumLable setText:@"9999+"];
+            }
+            else
+            {
+                [self.commentNumLable setText:[NSString stringWithFormat:@"%@",[self.commentArray[0] valueForKey:@"all_comment"]]];
 
+            }
+        }
+        else
+        {
+            //        NSLog(@"self.tableView setContentOffset == %f",self.tableView.contentOffset.y);
+            
+            //评论为0 返回顶部
+            //tableView 返回顶部
+            [self.tableView setContentOffset:CGPointMake(0, -64) animated:YES];
 
+        }
     }];
     [request setFailedBlock :^{
         // 请求响应失败，返回错误信息

@@ -10,17 +10,17 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "SBJson.h"
-#import "MJRefresh.h"
 //#import "UIButton+WebCache.h"
 #import "MyFaceCell.h"
 #import "UIImageView+WebCache.h"
 #import "FaceViewController.h"
 
-@interface NewsViewController ()<MJRefreshBaseViewDelegate>
-{
-    MJRefreshFooterView *_footer;
-    MJRefreshHeaderView *_header;
+#import "UIScrollView+SVPullToRefresh.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
 
+
+@interface NewsViewController ()
+{
 }
 @end
 
@@ -39,7 +39,9 @@
 {
     //初始化 用于储存face信息的数组
     self.mydb = [[MyDB alloc]init];
-    
+}
+- (void)viewDidAppear:(BOOL)animated
+{
 }
 
 - (void)viewDidLoad
@@ -47,15 +49,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self setupMenuButton];
-    //初始化上拉下拉刷新控件
-    [self initRefreshBar];
     
-//进入 默认刷新一次
-//    [_header beginRefreshing];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(endRefreshing) userInfo:nil repeats:NO];
-//    // 让刷新控件恢复默认的状态
-//    [_header endRefreshing];
-//    [_footer endRefreshing];
+    
+    __weak NewsViewController *weakSelf = self;
+     //setup pull-to-refresh
+        [self.tableView addPullToRefreshWithActionHandler:^{
+            [weakSelf loadNews];
+        }];
+    
+    // setup infinite scrolling
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf loadMoreData];
+    }];
+
+    [self.tableView triggerPullToRefresh];
 
 }
 
@@ -81,24 +88,6 @@
         //清空储存的face信息
         [self.mydb eraseTable:@"myFace"];
         int i = 0;
-        /**
-         *  将获取到得face信息写入本地数据库
-         *
-         *  @param num                myFace 在数据库中得排序
-         *  @param face_id            face 在后台的ID
-         *  @param content            face 的内容
-         *  @param created_at         face 的创建时间
-         *  @param updated_at         face 的更新时间
-         *  @param lat                face 经度
-         *  @param lng                face 纬度
-         *  @param plus               face 赞的个数
-         *  @param latest_plus_num    face 新的赞的个数
-         *  @param url                face 图片的地址
-         *  @param user_id            发表face的用户的ID
-         *  @param all_comment_num    face 总的评论数量
-         *  @param latest_comment_num face 新的评论的数量
-         */
-
         for (NSDictionary *dataDic in [dict objectForKey:@"data"])
         {
             [self.mydb insertMyFace:i
@@ -116,15 +105,18 @@
                        latest_num:[[dataDic valueForKey:@"latest_num"]intValue]
                             address:[dataDic valueForKey:@"address"]];
             i++;
+//            NSLog(@"i == %d",i);
 //            NSLog(@"dataDic address == %@",[dataDic valueForKey:@"address"]);
-
-            NSLog(@"刷新时  i == %d",i);
         }
 
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"myFaceCount"];
-        NSLog(@"刷新时 myFaceCount 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue]);
-        [self.tableView reloadData];
+//        NSLog(@"刷新时 myFaceCount 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue]);
+        
+        __weak NewsViewController *weakSelf = self;
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView.pullToRefreshView stopAnimating];
+
 
     }];
     [request setFailedBlock :^{
@@ -136,41 +128,41 @@
 
 }
 //初始化 下拉和上拉刷新控件
-- (void)initRefreshBar
-{
-    // 下拉刷新
-    _header = [[MJRefreshHeaderView alloc] init];
-    _header.delegate = self;
-    _header.scrollView = self.tableView;
-    // 上拉加载更多
-    _footer = [[MJRefreshFooterView alloc] init];
-    _footer.delegate = self;
-    _footer.scrollView = self.tableView;
-    
-}
+//- (void)initRefreshBar
+//{
+//    // 下拉刷新
+//    _header = [[MJRefreshHeaderView alloc] init];
+//    _header.delegate = self;
+//    _header.scrollView = self.tableView;
+//    // 上拉加载更多
+//    _footer = [[MJRefreshFooterView alloc] init];
+//    _footer.delegate = self;
+//    _footer.scrollView = self.tableView;
+//    
+//}
 #pragma mark 代理方法-进入刷新状态就会调用
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"HH : mm : ss.SSS";
-    if (_header == refreshView) {
-        [self refreshData];
-    } else {
-        [self loadMoreData];
-    }
-}
+//- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+//{
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    formatter.dateFormat = @"HH : mm : ss.SSS";
+//    if (_header == refreshView) {
+//        [self refreshData];
+//    } else {
+//        [self loadMoreData];
+//    }
+//}
 - (void)dealloc
 {
     // 释放资源
-    [_footer free];
-    [_header free];
+//    [_footer free];
+//    [_header free];
 }
 #pragma mark tableView-代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // 让刷新控件恢复默认的状态
-    [_header endRefreshing];
-    [_footer endRefreshing];
+//    [_header endRefreshing];
+//    [_footer endRefreshing];
     int myFaceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue];
 
     int numberOfRows = myFaceCount;
@@ -294,6 +286,8 @@
 {
     int myFaceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@/face/my?skip=%d&take=48",MY_URL,myFaceCount];
+    NSLog(@"myFaceCount == skip == %d",myFaceCount);
+    
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
@@ -302,7 +296,7 @@
         NSString *faceString = [requestBlock responseString];
         SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
         NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
-        NSLog(@"加载更多时 face/my dict == %@",dict);
+//        NSLog(@"加载更多时 face/my dict == %@",dict);
         //清空储存的face信息
 //        [self.mydb eraseTable:@"myFace"];
         int i = myFaceCount;
@@ -348,8 +342,12 @@
         
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"myFaceCount"];
-        NSLog(@"加载更多时 myFaceCount 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue]);
-        [self.tableView reloadData];
+//        NSLog(@"加载更多后 总数 myFaceCount  == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue]);
+        
+        __weak NewsViewController *weakSelf = self;
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView.infiniteScrollingView stopAnimating];
+
         
     }];
     [request setFailedBlock :^{

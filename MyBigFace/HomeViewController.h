@@ -12,7 +12,7 @@
 #import "Animations.h"
 
 @interface HomeViewController : UIViewController<UITableViewDelegate,
-UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate>
+UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate,UIScrollViewDelegate>
 {
     IBOutlet UITableView *_tableview;
     IBOutlet UIView *_settingView;
@@ -35,13 +35,15 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate>
 @property (strong, nonatomic) UIView            *settingView;
 @property (nonatomic,retain)  UIImageView       *blackBackground;
 @property (strong, nonatomic) UIView            *feedBackView;
-@property (strong, nonatomic) UILabel            *feedBackCommentLable;
-@property (strong, nonatomic) UILabel            *feedBackEmailLable;
-@property (strong, nonatomic) UITextView            *feedBackCommentTextView;
-@property (strong, nonatomic) UITextView            *feedBackEmailTextView;
-@property (strong, nonatomic) UISwitch            *speechSwitch;
-
-
+@property (strong, nonatomic) UILabel           *feedBackCommentLable;
+@property (strong, nonatomic) UILabel           *feedBackEmailLable;
+@property (strong, nonatomic) UITextView        *feedBackCommentTextView;
+@property (strong, nonatomic) UITextView        *feedBackEmailTextView;
+@property (strong, nonatomic) UISwitch          *speechSwitch;
+@property (strong, nonatomic) UIView            *startView;
+@property (strong, nonatomic) UIImageView       *startDot1;
+@property (strong, nonatomic) UIImageView       *startDot2;
+@property (strong, nonatomic) UIImageView       *startDot3;
 
 - (IBAction)settingBtnClick:(id)sender;
 - (IBAction)rateMe:(id)sender;

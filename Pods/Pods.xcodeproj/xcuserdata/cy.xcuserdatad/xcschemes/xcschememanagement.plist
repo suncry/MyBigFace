@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-MMDrawerController.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Reachability.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,37 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>66E34EEDA6674C07AD08844D</key>
+		<key>60D872B0AA5F4BEE92BEE4A4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9BD6A2CF73124FB9AEC77BA7</key>
+		<key>646388A705F14DE88E81397D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2D1ECB5112F47D8834AB2B9</key>
+		<key>6D45772435084F8492B022DF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C5B83EB6AA794B89828E2C8A</key>
+		<key>7198E6FD209B423783F4AA9B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D53FACD2DDD9450F9CAE2890</key>
+		<key>76B061BB243143D9B58F8F15</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DF429A573FC34681A2496959</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E101D19BAE6D4C68B778A348</key>
+		<key>BF1FC56F728B48E58AA4A7D4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

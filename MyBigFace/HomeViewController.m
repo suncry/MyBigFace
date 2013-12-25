@@ -9,9 +9,8 @@
 #import "HomeViewController.h"
 #import "DrawFaceViewController.h"
 #import "FaceViewController.h"
-#import "UIViewController+MMDrawerController.h"
-#import "MMDrawerBarButtonItem.h"
-#import "MJRefresh.h"
+//#import "UIViewController+MMDrawerController.h"
+//#import "MMDrawerBarButtonItem.h"
 #import "MyBigFaceCell.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
@@ -20,10 +19,12 @@
 #import "PPiFlatSegmentedControl.h"
 #import "NSString+FontAwesome.h"
 #import "NewsViewController.h"
-@interface HomeViewController ()<MJRefreshBaseViewDelegate>
+
+#import "UIScrollView+SVPullToRefresh.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
+
+@interface HomeViewController ()
 {
-    MJRefreshFooterView *_footer;
-    MJRefreshHeaderView *_header;
 }
 @end
 
@@ -50,10 +51,10 @@
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+
+    
     //初始化 用于储存face信息的数组
     self.mydb = [[MyDB alloc]init];
-    selectedSegmentIndex = 0;
-    
     self.blackBackground = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SettingView_blackBackground.png"]];
     self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
     self.blackBackground.alpha = 0;
@@ -71,26 +72,54 @@
         //        NSLog(@"语音 开!");
         
     }
+    
+    
+    //是否是第一次启动 如果是 加载启动界面
+    if (![[[NSUserDefaults standardUserDefaults]valueForKey:@"isNotFirstStart"] isEqualToString:@"yes"])
+    {
+        [self startPage];
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"yes"] forKey:@"isNotFirstStart"];
+    }
 }
+- (void)viewDidAppear:(BOOL)animated
+{
+}
+
 - (void)viewDidLoad
 {
 
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    //默认 获取 最新的face
+    [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"0"] forKey:@"selectedSegmentIndex"];
+
+    __weak HomeViewController *weakSelf = self;
+    //setup pull-to-refresh
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [weakSelf refreshData];
+    }];
+    
+    // setup infinite scrolling
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf loadMoreData];
+    }];
+    //登陆
+    [self login];
+
+    [self.tableView triggerPullToRefresh];
+
+    
     //设置 navigation的左右item
     [self setupMenuButton];
     //初始化上拉下拉刷新控件
-    [self initRefreshBar];
+//    [self initRefreshBar];
     //获取地理信息
     [self findLocation];
     //获取广告识别符
     NSLog(@"identifierForVendor.UUIDString == %@",[UIDevice currentDevice].identifierForVendor.UUIDString);
-    //登陆
-    [self login];
     //进入程序 第一次 刷新数据
 //    [_header beginRefreshing];
 //    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
-    
     //构建segmentedControl
     [self segmentedControlInit];
 }
@@ -153,44 +182,42 @@
     [self.navigationController pushViewController:newsViewController animated:YES];
 }
 //初始化 下拉和上拉刷新控件
-- (void)initRefreshBar
-{
-    // 下拉刷新
-    _header = [[MJRefreshHeaderView alloc] init];
-    _header.delegate = self;
-    _header.scrollView = self.tableView;
-    
-    // 上拉加载更多
-    _footer = [[MJRefreshFooterView alloc] init];
-    _footer.delegate = self;
-    _footer.scrollView = self.tableView;
-
-}
+//- (void)initRefreshBar
+//{
+//    // 下拉刷新
+//    _header = [MJRefreshHeaderView header];
+//    _header.delegate = self;
+//    _header.scrollView = self.tableView;
+//    
+//    // 上拉加载更多
+//    _footer = [MJRefreshFooterView footer];
+//    _footer.delegate = self;
+//    _footer.scrollView = self.tableView;
+//
+//}
 #pragma mark 代理方法-进入刷新状态就会调用
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"HH : mm : ss.SSS";
-    if (_header == refreshView) {
-        [self refreshData];
-    } else {
-        [self loadMoreData];
-    }
-//    [NSTimer scheduledTimerWithTimeInterval:1 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:NO];
-//    [self.tableView reloadData];
-}
+//- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+//{
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    formatter.dateFormat = @"HH : mm : ss.SSS";
+//    if (_header == refreshView) {
+//        [self refreshData];
+//    } else {
+//        [self loadMoreData];
+//    }
+//}
 - (void)dealloc
 {
     // 释放资源
-    [_footer free];
-    [_header free];
+//    [_footer free];
+//    [_header free];
 }
 #pragma mark tableView-代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // 让刷新控件恢复默认的状态
-    [_header endRefreshing];
-    [_footer endRefreshing];
+    // 结束刷新状态
+//    [_header endRefreshing];
+//    [_footer endRefreshing];
     int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
     int numberOfRows = faceCount/3;
     if (faceCount%3 != 0 )
@@ -341,7 +368,7 @@
         NSMutableDictionary *dict = [jsonParser objectWithString:response];
         //获取 返回的 token 识别用户
         [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"token"] forKey:@"token"];
-//        NSLog(@"dict == %@",dict);
+        NSLog(@"login dict == %@",dict);
 //
         NSLog(@"登陆时 token == %@",[[dict objectForKey:@"data"] valueForKey:@"token"]);
     }
@@ -349,7 +376,8 @@
 //刷新table的填充数据
 - (void)refreshData
 {
-//    NSLog(@"refreshData  selectedSegmentIndex == %d",self.segmentControl.selectedSegmentIndex);
+    selectedSegmentIndex =[[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedSegmentIndex"]intValue];
+//    NSLog(@"selectedSegmentIndex == %d",selectedSegmentIndex);
     NSString *str = @"newest";
     switch (selectedSegmentIndex) {
         case 0:
@@ -361,18 +389,20 @@
         case 2:
             str = @"round";
             break;
-        case 3:
-            str = @"my";
-            break;
+//        case 3:
+//            str = @"my";
+//            break;
         default:
             break;
     }
+//    NSLog(@"str == %@",str);
+
     [self downloadData:str];
 }
 //加载更多table的填充数据
 - (void)loadMoreData
 {
-//    NSLog(@"loadMoreData  selectedSegmentIndex == %d",self.segmentControl.selectedSegmentIndex);
+    selectedSegmentIndex =[[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedSegmentIndex"]intValue];
     NSString *str = [[NSString alloc]init];
     switch (selectedSegmentIndex) {
         case 0:
@@ -384,9 +414,9 @@
         case 2:
             str = @"round";
             break;
-        case 3:
-            str = @"my";
-            break;
+//        case 3:
+//            str = @"my";
+//            break;
             
         default:
             break;
@@ -432,7 +462,14 @@
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
 //        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
-        [self.tableView reloadData];
+        __weak HomeViewController *weakSelf = self;
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView.pullToRefreshView stopAnimating];
+
+//        // 结束刷新状态
+//        [_header endRefreshing];
+//        [_footer endRefreshing];
+
     }];
     [request setFailedBlock :^{
         // 请求响应失败，返回错误信息
@@ -478,7 +515,13 @@
         //储存 face 个数
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
 //        NSLog(@"加载更多时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
-        [self.tableView reloadData];
+        __weak HomeViewController *weakSelf = self;
+        [weakSelf.tableView reloadData];
+        [weakSelf.tableView.infiniteScrollingView stopAnimating];
+//        // 结束刷新状态
+//        [_header endRefreshing];
+//        [_footer endRefreshing];
+
     }];
     [request setFailedBlock :^{
         // 请求响应失败，返回错误信息
@@ -491,8 +534,11 @@
 {
     PPiFlatSegmentedControl *segmented=[[PPiFlatSegmentedControl alloc] initWithFrame:CGRectMake(40, 73, 246, 29) items:@[               @{@"text":@"最新"},@{@"text":@"最热"},@{@"text":@"附近"}]
                                                                          iconPosition:IconPositionRight andSelectionBlock:^(NSUInteger segmentIndex) {
-                                                                             selectedSegmentIndex = segmentIndex;
-                                                                             [_header beginRefreshing];
+//                                                                             selectedSegmentIndex = segmentIndex;
+                                                                             [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",segmentIndex] forKey:@"selectedSegmentIndex"];
+
+                                                                             [self.tableView triggerPullToRefresh];
+//                                                                             [_header beginRefreshing];
                                                                          }];
     //    segmented.color=[UIColor colorWithRed:88.0f/255.0 green:88.0f/255.0 blue:88.0f/255.0 alpha:1];
     segmented.color=[UIColor whiteColor];
@@ -650,5 +696,123 @@
         }
     }
 }
+- (void)startPage
+{
+    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBar.alpha = 0;
+    
+    self.startView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
+    self.startView.backgroundColor = [UIColor clearColor];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
+    [self.startView addGestureRecognizer:tap];
 
+    [self.view addSubview:self.startView];
+    
+    UIImageView *helpImg= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
+    helpImg.image = [UIImage imageNamed:@"helpPage_01.png"];
+    [self.startView addSubview:helpImg];
+    
+    
+    UIScrollView *startScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
+    startScrollView.contentSize = CGSizeMake(320*3, [self.view bounds].size.height);
+    startScrollView.delegate = self;
+    startScrollView.pagingEnabled = YES;
+    [self.startView addSubview:startScrollView];
+    
+    UIImageView *startPageImg_1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
+    [startPageImg_1 setImage:[UIImage imageNamed:@"StartPage_01.png"]];
+    [startScrollView addSubview:startPageImg_1];
+    
+    UIImageView *startPageImg_2 = [[UIImageView alloc]initWithFrame:CGRectMake(320, 0, 320, [self.view bounds].size.height)];
+    [startPageImg_2 setImage:[UIImage imageNamed:@"StartPage_02.png"]];
+    [startScrollView addSubview:startPageImg_2];
+
+    UIImageView *startPageImg_3 = [[UIImageView alloc]initWithFrame:CGRectMake(320*2, 0, 320, [self.view bounds].size.height)];
+    [startPageImg_3 setImage:[UIImage imageNamed:@"StartPage_03.png"]];
+    [startScrollView addSubview:startPageImg_3];
+    
+    
+    self.startDot1 = [[UIImageView alloc]initWithFrame:CGRectMake(110, 40, 14, 14)];
+    self.startDot1.center = CGPointMake(140, 40);
+    self.startDot1.image = [UIImage imageNamed:@"StartPage_dot.png"];
+    [self.startView addSubview:self.startDot1];
+
+    self.startDot2 = [[UIImageView alloc]initWithFrame:CGRectMake(150, 40, 14, 14)];
+    self.startDot2.center = CGPointMake(160, 40);
+
+    self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
+    [self.startView addSubview:self.startDot2];
+
+    self.startDot3 = [[UIImageView alloc]initWithFrame:CGRectMake(180, 40, 14, 14)];
+    self.startDot3.center = CGPointMake(180, 40);
+
+    self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
+    [self.startView addSubview:self.startDot3];
+
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+//    NSLog(@"contentOffset.x   == %f",scrollView.contentOffset.x);
+    if (scrollView.contentOffset.x > 730)
+    {
+        self.startDot1.hidden = YES;
+        self.startDot2.hidden = YES;
+        self.startDot3.hidden = YES;
+
+        [UIView animateWithDuration:1 delay:0 options:0 animations:^(){
+            self.navigationController.navigationBar.alpha = 1;
+            scrollView.frame = CGRectMake(-320, 0, 320, [self.view bounds].size.height);
+        } completion:^(BOOL finished)
+         {
+         }];
+
+    }
+}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (scrollView.contentOffset.x > 320)
+    {
+        self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
+        self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
+        self.startDot3.image = [UIImage imageNamed:@"StartPage_dot.png"];
+
+    }
+    else
+    {
+        if (scrollView.contentOffset.x > 0)
+        {
+            self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
+            self.startDot2.image = [UIImage imageNamed:@"StartPage_dot.png"];
+            self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
+        }
+        else
+        {
+            self.startDot1.image = [UIImage imageNamed:@"StartPage_dot.png"];
+            self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
+            self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
+
+        }
+    
+    }
+
+
+}
+- (void)tapGesture:(id)sender
+{
+    NSLog(@"tap!!!!!!!");
+    
+//    UIView *view = (UIView *)sender;
+
+    [UIView animateWithDuration:1 delay:0 options:0 animations:^(){
+        self.startView.alpha = 0;
+    } completion:^(BOOL finished)
+     {
+         self.navigationController.navigationBar.alpha = 1;
+         self.navigationController.navigationBar.hidden = NO;
+
+         self.startView.hidden = YES;
+     }];
+
+}
 @end

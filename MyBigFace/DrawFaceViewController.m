@@ -109,7 +109,7 @@
     _sadFaceBtn.selected = YES;
     _angryFaceBtn.selected = NO;
 
-    self.drawView.backgroundColor = [UIColor colorWithRed:17/255.0f green:136/255.0f blue:254/255.0f alpha:1.0f];
+    self.drawView.backgroundColor = [UIColor colorWithRed:53/255.0f green:152/255.0f blue:219/255.0f alpha:1.0f];
 
 }
 - (IBAction)angryFace:(id)sender
@@ -118,7 +118,7 @@
     _sadFaceBtn.selected = NO;
     _angryFaceBtn.selected = YES;
 
-    self.drawView.backgroundColor = [UIColor colorWithRed:207/255.0f green:0/255.0f blue:5/255.0f alpha:1.0f];
+    self.drawView.backgroundColor = [UIColor colorWithRed:232/255.0f green:76/255.0f blue:61/255.0f alpha:1.0f];
 }
 -(void)setupMenuButton{
     //设置标题

@@ -30,7 +30,7 @@
     
     HomeViewController * homeViewController = [[HomeViewController alloc] init];
     UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:homeViewController];
-    navigationController.navigationBarHidden = YES;
+//    navigationController.navigationBarHidden = YES;
     self.window.rootViewController = navigationController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

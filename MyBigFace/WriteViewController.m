@@ -84,10 +84,10 @@
     
     __block ASIHTTPRequest *requestFormBlock = requestForm;
     [requestForm setCompletionBlock :^{
-        NSString *faceString = [requestFormBlock responseString];
-        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-        NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
-        NSLog(@"上传face 返回的dict == %@",dict);
+//        NSString *faceString = [requestFormBlock responseString];
+//        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+//        NSMutableDictionary *dict = [jsonParser objectWithString:faceString];
+//        NSLog(@"上传face 返回的dict == %@",dict);
     }];
     [requestForm setFailedBlock :^{
         // 请求响应失败，返回错误信息

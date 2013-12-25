@@ -48,36 +48,6 @@
 #define COCOAPODS_VERSION_MINOR_FMDB_standard 1
 #define COCOAPODS_VERSION_PATCH_FMDB_standard 0
 
-// MMDrawerController
-#define COCOAPODS_POD_AVAILABLE_MMDrawerController
-#define COCOAPODS_VERSION_MAJOR_MMDrawerController 0
-#define COCOAPODS_VERSION_MINOR_MMDrawerController 5
-#define COCOAPODS_VERSION_PATCH_MMDrawerController 1
-
-// MMDrawerController/Core
-#define COCOAPODS_POD_AVAILABLE_MMDrawerController_Core
-#define COCOAPODS_VERSION_MAJOR_MMDrawerController_Core 0
-#define COCOAPODS_VERSION_MINOR_MMDrawerController_Core 5
-#define COCOAPODS_VERSION_PATCH_MMDrawerController_Core 1
-
-// MMDrawerController/MMDrawerBarButtonItem
-#define COCOAPODS_POD_AVAILABLE_MMDrawerController_MMDrawerBarButtonItem
-#define COCOAPODS_VERSION_MAJOR_MMDrawerController_MMDrawerBarButtonItem 0
-#define COCOAPODS_VERSION_MINOR_MMDrawerController_MMDrawerBarButtonItem 5
-#define COCOAPODS_VERSION_PATCH_MMDrawerController_MMDrawerBarButtonItem 1
-
-// MMDrawerController/MMDrawerVisualStates
-#define COCOAPODS_POD_AVAILABLE_MMDrawerController_MMDrawerVisualStates
-#define COCOAPODS_VERSION_MAJOR_MMDrawerController_MMDrawerVisualStates 0
-#define COCOAPODS_VERSION_MINOR_MMDrawerController_MMDrawerVisualStates 5
-#define COCOAPODS_VERSION_PATCH_MMDrawerController_MMDrawerVisualStates 1
-
-// MMDrawerController/Subclass
-#define COCOAPODS_POD_AVAILABLE_MMDrawerController_Subclass
-#define COCOAPODS_VERSION_MAJOR_MMDrawerController_Subclass 0
-#define COCOAPODS_VERSION_MINOR_MMDrawerController_Subclass 5
-#define COCOAPODS_VERSION_PATCH_MMDrawerController_Subclass 1
-
 // Reachability
 #define COCOAPODS_POD_AVAILABLE_Reachability
 #define COCOAPODS_VERSION_MAJOR_Reachability 3
