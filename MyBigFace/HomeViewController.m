@@ -89,7 +89,7 @@
     [self login];
     //进入程序 第一次 刷新数据
 //    [_header beginRefreshing];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
+//    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
     
     //构建segmentedControl
     [self segmentedControlInit];
@@ -107,7 +107,7 @@
 -(void)setupMenuButton{
     //设置标题
     UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    t.font = [UIFont systemFontOfSize:24];
+    t.font = [UIFont systemFontOfSize:17];
     t.textColor = [UIColor whiteColor];
     t.backgroundColor = [UIColor clearColor];
     t.textAlignment = NSTextAlignmentCenter;

@@ -425,8 +425,8 @@
             [[cell contentView] addSubview:backgroundViewRight];
 
 //        }
-        NSString *text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
-        NSString *timeText = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"created_at"];
+        NSString *text = [self.commentArray[indexPath.row - 1] valueForKey:@"content"];
+        NSString *timeText = [self.commentArray[indexPath.row - 1] valueForKey:@"created_at"];
 
         CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
         
@@ -473,7 +473,7 @@
     {
         //显示评论内容时
 //        return 55;
-        NSString *text = [self.commentArray[self.commentArray.count - indexPath.row ] valueForKey:@"content"];
+        NSString *text = [self.commentArray[indexPath.row - 1] valueForKey:@"content"];
         
         CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
         
@@ -515,7 +515,11 @@
         NSString *commentString = [requestBlock responseString];
         SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
         NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
-//        NSLog(@"commentString dict == %@",dict);
+        
+        
+        NSLog(@"commentString dict == %@",dict);
+        
+        
         self.commentArray = [dict valueForKey:@"data"];
 //        NSLog(@"self.commentArray  dict == %@ ",dict);
         [self.tableView reloadData];
@@ -551,7 +555,7 @@
         NSString *address =[mydb myDate:@"address" num:faceClicked - 100000];
         //设置标题
         UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-        t.font = [UIFont systemFontOfSize:24];
+        t.font = [UIFont systemFontOfSize:17];
         t.textColor = [UIColor whiteColor];
         t.backgroundColor = [UIColor clearColor];
         t.textAlignment = NSTextAlignmentCenter;
@@ -567,7 +571,7 @@
         NSString *address =[mydb date:@"address" num:faceClicked];
         //设置标题
         UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-        t.font = [UIFont systemFontOfSize:24];
+        t.font = [UIFont systemFontOfSize:17];
         t.textColor = [UIColor whiteColor];
         t.backgroundColor = [UIColor clearColor];
         t.textAlignment = NSTextAlignmentCenter;
@@ -586,12 +590,14 @@
     if (locationDistance > 10000)
     {
         [self.distanceLable setText:[NSString stringWithFormat:@"%.0fkm",locationDistance/1000]];
-
     }
     else
     {
         [self.distanceLable setText:[NSString stringWithFormat:@"%.0fm",locationDistance]];
-
+        if (locationDistance < 100)
+        {
+            [self.distanceLable setText:[NSString stringWithFormat:@"<100m"]];
+        }
     }
 //    NSLog(@"locationDistance == %f m",locationDistance);
 }

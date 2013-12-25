@@ -228,16 +228,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="N4Y-9o-vmk">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="N4Y-9o-vmk">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.84376992979999998" green="0.84376992979999998" blue="0.84376992979999998" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="amy-lQ-ym5"/>
                         <outlet property="delegate" destination="-1" id="Szr-4t-ZfL"/>
                     </connections>
                 </tableView>
             </subviews>
+            <constraints>
+                <constraint firstItem="N4Y-9o-vmk" firstAttribute="top" secondItem="DbB-Mx-8Ts" secondAttribute="top" id="Hck-fz-GoG"/>
+                <constraint firstItem="N4Y-9o-vmk" firstAttribute="leading" secondItem="DbB-Mx-8Ts" secondAttribute="leading" id="O9V-Fb-DZg"/>
+                <constraint firstAttribute="trailing" secondItem="N4Y-9o-vmk" secondAttribute="trailing" id="dud-9V-2Cb"/>
+                <constraint firstAttribute="bottom" secondItem="N4Y-9o-vmk" secondAttribute="bottom" id="sZp-bO-G7c"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>

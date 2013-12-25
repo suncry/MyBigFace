@@ -123,7 +123,7 @@
 -(void)setupMenuButton{
     //设置标题
     UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    t.font = [UIFont systemFontOfSize:24];
+    t.font = [UIFont systemFontOfSize:17];
     t.textColor = [UIColor whiteColor];
     t.backgroundColor = [UIColor clearColor];
     t.textAlignment = NSTextAlignmentCenter;

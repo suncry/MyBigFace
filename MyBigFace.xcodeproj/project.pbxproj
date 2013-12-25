@@ -1125,6 +1125,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyBigFace/MyBigFace-Prefix.pch";
 				INFOPLIST_FILE = "MyBigFace/MyBigFace-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/work/MyBigFace/MyBigFace/UMSocial_Sdk_3.1/frameworks/Wechat,
@@ -1151,6 +1152,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyBigFace/MyBigFace-Prefix.pch";
 				INFOPLIST_FILE = "MyBigFace/MyBigFace-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Volumes/work/MyBigFace/MyBigFace/UMSocial_Sdk_3.1/frameworks/Wechat,

@@ -10,7 +10,7 @@
 
 // 如果定义了NeedAudio这个宏，说明需要音频
 // 依赖于AVFoundation.framework 和 AudioToolbox.framework
-#define NeedAudio
+//#define NeedAudio //控制声音
 
 // view的高度
 #define kViewHeight 65.0

@@ -15,16 +15,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n4O-Vx-lwv">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="n4O-Vx-lwv">
                     <rect key="frame" x="0.0" y="65" width="320" height="503"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.84376992979999998" green="0.84376992979999998" blue="0.84376992979999998" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="lfA-db-1va"/>
                         <outlet property="delegate" destination="-1" id="c55-kd-3Ec"/>
                     </connections>
                 </tableView>
             </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="n4O-Vx-lwv" secondAttribute="bottom" id="6Jn-oc-Snj"/>
+                <constraint firstItem="n4O-Vx-lwv" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="XoJ-Jo-pxQ"/>
+                <constraint firstItem="n4O-Vx-lwv" firstAttribute="top" secondItem="1" secondAttribute="top" constant="65" id="mwq-wu-zWu"/>
+                <constraint firstAttribute="trailing" secondItem="n4O-Vx-lwv" secondAttribute="trailing" id="svS-ih-Zn8"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>

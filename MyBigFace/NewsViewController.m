@@ -39,6 +39,7 @@
 {
     //初始化 用于储存face信息的数组
     self.mydb = [[MyDB alloc]init];
+    
 }
 
 - (void)viewDidLoad
@@ -50,8 +51,11 @@
     [self initRefreshBar];
     
 //进入 默认刷新一次
-    [_header beginRefreshing];
-//    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
+//    [_header beginRefreshing];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(endRefreshing) userInfo:nil repeats:NO];
+//    // 让刷新控件恢复默认的状态
+//    [_header endRefreshing];
+//    [_footer endRefreshing];
 
 }
 
@@ -114,11 +118,12 @@
             i++;
 //            NSLog(@"dataDic address == %@",[dataDic valueForKey:@"address"]);
 
+            NSLog(@"刷新时  i == %d",i);
         }
 
         //储存 face 个数
-        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
-        //        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"myFaceCount"];
+        NSLog(@"刷新时 myFaceCount 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue]);
         [self.tableView reloadData];
 
     }];
@@ -137,7 +142,6 @@
     _header = [[MJRefreshHeaderView alloc] init];
     _header.delegate = self;
     _header.scrollView = self.tableView;
-    
     // 上拉加载更多
     _footer = [[MJRefreshFooterView alloc] init];
     _footer.delegate = self;
@@ -154,8 +158,6 @@
     } else {
         [self loadMoreData];
     }
-    //    [NSTimer scheduledTimerWithTimeInterval:1 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:NO];
-    //    [self.tableView reloadData];
 }
 - (void)dealloc
 {
@@ -169,12 +171,9 @@
     // 让刷新控件恢复默认的状态
     [_header endRefreshing];
     [_footer endRefreshing];
-    int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
-    int numberOfRows = faceCount/3;
-    if (faceCount%3 != 0 )
-    {
-        numberOfRows ++;
-    }
+    int myFaceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue];
+
+    int numberOfRows = myFaceCount;
     return numberOfRows;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -293,8 +292,8 @@
 //加载更多table的填充数据
 - (void)loadMoreData
 {
-    int faceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue];
-    NSString *urlString = [NSString stringWithFormat:@"%@/face/my?skip=%d&take=48",MY_URL,faceCount];
+    int myFaceCount = [[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@/face/my?skip=%d&take=48",MY_URL,myFaceCount];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
@@ -306,7 +305,7 @@
         NSLog(@"加载更多时 face/my dict == %@",dict);
         //清空储存的face信息
 //        [self.mydb eraseTable:@"myFace"];
-        int i = faceCount;
+        int i = myFaceCount;
         /**
          *  将获取到得face信息写入本地数据库
          *
@@ -348,8 +347,8 @@
         }
         
         //储存 face 个数
-        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"faceCount"];
-        //        NSLog(@"刷新时 face 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"faceCount"]intValue]);
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",i] forKey:@"myFaceCount"];
+        NSLog(@"加载更多时 myFaceCount 个数 == %d",[[[NSUserDefaults standardUserDefaults] objectForKey:@"myFaceCount"]intValue]);
         [self.tableView reloadData];
         
     }];
@@ -364,7 +363,7 @@
 -(void)setupMenuButton{
     //设置标题
     UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    t.font = [UIFont systemFontOfSize:24];
+    t.font = [UIFont systemFontOfSize:17];
     t.textColor = [UIColor whiteColor];
     t.backgroundColor = [UIColor clearColor];
     t.textAlignment = NSTextAlignmentCenter;
