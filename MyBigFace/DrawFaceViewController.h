@@ -33,6 +33,10 @@
     IBOutlet UIButton *_pencolor_grenn;
     IBOutlet UIButton *_pencolor_blue;
 
+    //ios6 使用
+    IBOutlet UIButton *_backBtn;
+    IBOutlet UIButton *_nextBtn;
+
 
 }
 @property(nonatomic,retain)Palette *drawView;

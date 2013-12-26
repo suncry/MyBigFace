@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DrawFaceViewController">
             <connections>
                 <outlet property="_angryFaceBtn" destination="BZY-PZ-GnV" id="PZa-fK-Hv9"/>
+                <outlet property="_backBtn" destination="hJ2-hM-5lQ" id="2q4-r1-FZQ"/>
                 <outlet property="_happyFaceBtn" destination="T4X-3E-f5T" id="vAj-Rj-6Bn"/>
+                <outlet property="_nextBtn" destination="W5s-Ft-r0Y" id="8R2-N6-1hU"/>
                 <outlet property="_penLine_max" destination="XG4-vg-lWJ" id="RqA-RO-gXb"/>
                 <outlet property="_penLine_mid" destination="hlG-nt-Q4J" id="WcU-qd-aCj"/>
                 <outlet property="_penLine_min" destination="Yjk-lL-lMt" id="cdV-I4-Yng"/>
@@ -421,6 +424,34 @@
                         <constraint firstItem="0g8-Qh-8mU" firstAttribute="top" secondItem="JYo-DA-NdM" secondAttribute="bottom" constant="20" id="zfr-fe-gwf"/>
                     </constraints>
                 </scrollView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C18-vY-ISu">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.97647058819999999" green="0.78823529410000004" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="JXU-3X-OYO"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJ2-hM-5lQ">
+                    <rect key="frame" x="16" y="29" width="40" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="返回">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W5s-Ft-r0Y">
+                    <rect key="frame" x="244" y="29" width="60" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="下一步">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.84376992984693877" green="0.84376992984693877" blue="0.84376992984693877" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -430,6 +461,9 @@
                 <constraint firstAttribute="trailing" secondItem="LhH-Q6-LnH" secondAttribute="trailing" id="Vb3-UL-1Hf"/>
                 <constraint firstItem="LhH-Q6-LnH" firstAttribute="centerX" secondItem="4kw-OB-lOL" secondAttribute="centerX" id="Vc3-Ba-goz"/>
                 <constraint firstItem="EGj-xe-f4m" firstAttribute="top" secondItem="1" secondAttribute="top" constant="72" id="YNL-29-Xbv"/>
+                <constraint firstItem="C18-vY-ISu" firstAttribute="leading" secondItem="LhH-Q6-LnH" secondAttribute="leading" id="ZGC-2T-kpD"/>
+                <constraint firstItem="C18-vY-ISu" firstAttribute="trailing" secondItem="LhH-Q6-LnH" secondAttribute="trailing" id="c5U-Hf-I1i"/>
+                <constraint firstItem="C18-vY-ISu" firstAttribute="top" secondItem="1" secondAttribute="top" id="cKc-vT-rZ0"/>
                 <constraint firstItem="Qyx-Mb-04D" firstAttribute="trailing" secondItem="4kw-OB-lOL" secondAttribute="trailing" id="f0p-hN-VYR"/>
                 <constraint firstItem="LhH-Q6-LnH" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="nCe-JP-KJ4"/>
                 <constraint firstAttribute="bottom" secondItem="LhH-Q6-LnH" secondAttribute="bottom" id="sgz-Gs-XvD"/>

@@ -41,25 +41,50 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)nextPage
 {
     [self upLoadFace];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 -(void)setupMenuButton{
-    //设置标题
-    UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    t.font = [UIFont systemFontOfSize:17];
-    t.textColor = [UIColor whiteColor];
-    t.backgroundColor = [UIColor clearColor];
-    t.textAlignment = NSTextAlignmentCenter;
-    t.text = @"写心情";
-    self.navigationItem.titleView = t;
-    //左按钮
-    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
-    
-    self.navigationItem.rightBarButtonItem = rightButton;
-    //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+    if (IOS_VERSION_7_OR_ABOVE) {
+        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        //设置标题
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        t.font = [UIFont systemFontOfSize:17];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        t.text = @"写心情";
+        self.navigationItem.titleView = t;
+        //左按钮
+        UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
+        
+        self.navigationItem.rightBarButtonItem = rightButton;
+        //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        self.navigationController.navigationBarHidden = YES;
+        //设置标题
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(110, 29, 100, 30)];
+        t.font = [UIFont systemFontOfSize:17];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        t.text = @"写心情";
+        [self.view addSubview:t];
+        
+        [_backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [_nextBtn addTarget:self action:@selector(nextPage) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+
     
 }
 - (void)upLoadFace
@@ -121,4 +146,5 @@
     }
     
 }
+
 @end

@@ -367,8 +367,34 @@
     t.textAlignment = NSTextAlignmentCenter;
     t.text = @"我的表情";
     self.navigationItem.titleView = t;
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
     
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    if (IOS_VERSION_7_OR_ABOVE) {
+        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
+        
+        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(110, 29, 100, 30)];
+        t.font = [UIFont systemFontOfSize:17];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        t.text = @"我的表情";
+        [self.view addSubview:t];
+        [_backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+
+//        [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
+
+    }
+
+}
+/**
+ *  ios6 返回的方法
+ */
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

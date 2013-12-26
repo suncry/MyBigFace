@@ -10,6 +10,11 @@
 @interface WriteViewController : UIViewController<UITextViewDelegate>
 {
     IBOutlet UITextView *mytextView;
+    
+    //ios6 使用
+    IBOutlet UIButton *_backBtn;
+    IBOutlet UIButton *_nextBtn;
+
 }
 //- (IBAction)back;
 - (void)nextPage;

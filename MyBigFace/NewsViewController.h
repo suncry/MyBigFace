@@ -11,6 +11,8 @@
 @interface NewsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 {
     IBOutlet UITableView *_tableview;
+    //ios6 使用
+    IBOutlet UIButton *_backBtn;
 
 }
 @property (nonatomic,retain)  UITableView *tableView;

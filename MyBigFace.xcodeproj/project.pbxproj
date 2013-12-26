@@ -52,8 +52,8 @@
 		017E38A3182A13E600D5C3BB /* Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = 017E38A2182A13E600D5C3BB /* Animations.m */; };
 		018E5C381843310F004E15C7 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 018E5C36184330A4004E15C7 /* CoreTelephony.framework */; };
 		018E5C3A184331DC004E15C7 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 018E5C39184331DC004E15C7 /* libstdc++.dylib */; };
-		019770E2184D7A01002A3C41 /* MainView_ setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 019770DC184D7A01002A3C41 /* MainView_ setting.png */; };
-		019770E3184D7A01002A3C41 /* MainView_ self.png in Resources */ = {isa = PBXBuildFile; fileRef = 019770DD184D7A01002A3C41 /* MainView_ self.png */; };
+		019770E2184D7A01002A3C41 /* MainView_ setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 019770DC184D7A01002A3C41 /* MainView_ setting@2x.png */; };
+		019770E3184D7A01002A3C41 /* MainView_ self@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 019770DD184D7A01002A3C41 /* MainView_ self@2x.png */; };
 		019770E5184D7A01002A3C41 /* MainView_addFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 019770DF184D7A01002A3C41 /* MainView_addFace.png */; };
 		01B7A3EC18601172005AB2BA /* FaceView_textBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 01B7A3EB18601172005AB2BA /* FaceView_textBackground.png */; };
 		01B7A3F618601378005AB2BA /* MyFace_location.png in Resources */ = {isa = PBXBuildFile; fileRef = 01B7A3EE18601378005AB2BA /* MyFace_location.png */; };
@@ -204,8 +204,8 @@
 		018E5C3418432FC7004E15C7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		018E5C36184330A4004E15C7 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		018E5C39184331DC004E15C7 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
-		019770DC184D7A01002A3C41 /* MainView_ setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainView_ setting.png"; sourceTree = "<group>"; };
-		019770DD184D7A01002A3C41 /* MainView_ self.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainView_ self.png"; sourceTree = "<group>"; };
+		019770DC184D7A01002A3C41 /* MainView_ setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainView_ setting@2x.png"; sourceTree = "<group>"; };
+		019770DD184D7A01002A3C41 /* MainView_ self@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainView_ self@2x.png"; sourceTree = "<group>"; };
 		019770DF184D7A01002A3C41 /* MainView_addFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MainView_addFace.png; sourceTree = "<group>"; };
 		01B7A3EB18601172005AB2BA /* FaceView_textBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FaceView_textBackground.png; sourceTree = "<group>"; };
 		01B7A3EE18601378005AB2BA /* MyFace_location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MyFace_location.png; sourceTree = "<group>"; };
@@ -508,8 +508,8 @@
 			isa = PBXGroup;
 			children = (
 				0131C7B618680C5F00CD2BAD /* MainView_ defaultFace.png */,
-				019770DC184D7A01002A3C41 /* MainView_ setting.png */,
-				019770DD184D7A01002A3C41 /* MainView_ self.png */,
+				019770DC184D7A01002A3C41 /* MainView_ setting@2x.png */,
+				019770DD184D7A01002A3C41 /* MainView_ self@2x.png */,
 				019770DF184D7A01002A3C41 /* MainView_addFace.png */,
 			);
 			name = MainView;
@@ -882,7 +882,7 @@
 				01B7A3EC18601172005AB2BA /* FaceView_textBackground.png in Resources */,
 				01DA4EA21856DCDC007F2819 /* DrawFaceView_LineWide_max.png in Resources */,
 				01743F4818432C73008A93B5 /* UMSocialSDKResourcesNew.bundle in Resources */,
-				019770E3184D7A01002A3C41 /* MainView_ self.png in Resources */,
+				019770E3184D7A01002A3C41 /* MainView_ self@2x.png in Resources */,
 				01DA4EA01856DCDC007F2819 /* DrawFaceView_LineWide_mid.png in Resources */,
 				01DA4EBF1856DD13007F2819 /* DrawFaceView_FaceColor_red_selected.png in Resources */,
 				01DA4EC01856DD13007F2819 /* DrawFaceView_FaceColor_blue_selected.png in Resources */,
@@ -927,7 +927,7 @@
 				013A90C8185067F100D89831 /* FontAwesome.ttf in Resources */,
 				01DA4EB11856DCF7007F2819 /* DrawFaceView_yellow.png in Resources */,
 				01C4290F185ECC2D00BC1CB3 /* WriteFace_botton.png in Resources */,
-				019770E2184D7A01002A3C41 /* MainView_ setting.png in Resources */,
+				019770E2184D7A01002A3C41 /* MainView_ setting@2x.png in Resources */,
 				CCCF4470180E3C590067E4F9 /* FaceViewController.xib in Resources */,
 				0131C7B518680C3E00CD2BAD /* DrawFaceView_logo.png in Resources */,
 				CCCF444E180E25330067E4F9 /* HomeViewController.xib in Resources */,

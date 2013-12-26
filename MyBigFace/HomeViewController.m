@@ -78,8 +78,11 @@
     if (![[[NSUserDefaults standardUserDefaults]valueForKey:@"isNotFirstStart"] isEqualToString:@"yes"])
     {
         [self startPage];
-        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"yes"] forKey:@"isNotFirstStart"];
     }
+    
+    
+
+    
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -89,6 +92,8 @@
 {
 
     [super viewDidLoad];
+    
+
     // Do any additional setup after loading the view from its nib.
     //默认 获取 最新的face
     [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"0"] forKey:@"selectedSegmentIndex"];
@@ -142,30 +147,52 @@
     t.textAlignment = NSTextAlignmentCenter;
     t.text = @"微喷";
     self.navigationItem.titleView = t;
-    //左按钮
-    UIBarButtonItem *leftDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ setting"] style:UIBarButtonItemStylePlain target:self action:@selector(leftDrawerButtonPress:)];
-    [leftDrawerButton setTintColor:[UIColor whiteColor]];
-    leftDrawerButton.imageInsets = UIEdgeInsetsMake(10, 0, 10, 20);
-    self.navigationItem.leftBarButtonItem = leftDrawerButton;
-    //右按钮
-    UIBarButtonItem *rightDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
-    [rightDrawerButton setTintColor:[UIColor whiteColor]];
-    rightDrawerButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
-    self.navigationItem.rightBarButtonItem = rightDrawerButton;
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
+    
+    if (IOS_VERSION_7_OR_ABOVE) {
+        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        //左按钮
+        UIBarButtonItem *leftDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ setting"] style:UIBarButtonItemStylePlain target:self action:@selector(leftDrawerButtonPress:)];
+        [leftDrawerButton setTintColor:[UIColor whiteColor]];
+        self.navigationItem.leftBarButtonItem = leftDrawerButton;
+        //右按钮
+        UIBarButtonItem *rightDrawerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"MainView_ self"] style:UIBarButtonItemStylePlain target:self action:@selector(rightDrawerButtonPress:)];
+        [rightDrawerButton setTintColor:[UIColor whiteColor]];
+        self.navigationItem.rightBarButtonItem = rightDrawerButton;
 
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
+        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        self.navigationController.navigationBarHidden = YES;
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(110, 29, 100, 30)];
+        t.font = [UIFont systemFontOfSize:17];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        t.text = @"微喷";
+        [self.view addSubview:t];
+        
+        [_settingBtn addTarget:self action:@selector(leftDrawerButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+
+        [_selfBtn addTarget:self action:@selector(rightDrawerButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+
+
 }
 #pragma mark - Button Handlers
 -(void)leftDrawerButtonPress:(id)sender
 {
     //弹出settingView
-    self.settingView.frame = CGRectMake(-320, 0, 320, 568);
+    self.settingView.frame = CGRectMake(-320, 0, 320, [self.view bounds].size.height);
     [self.view addSubview:self.settingView];
     
     [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
         self.navigationController.navigationBar.alpha = 0;
         self.blackBackground.alpha = 1;
+        self.settingView.frame = CGRectMake(0, 0, 320, [self.view bounds].size.height);
+
 
     } completion:^(BOOL finished)
      {
@@ -173,11 +200,15 @@
 
      }];
 
-        //commentView左滑
-    [Animations moveRight:self.settingView andAnimationDuration:0.5 andWait:YES andLength:320.0];
 }
 -(void)rightDrawerButtonPress:(id)sender
 {
+    if (IOS_VERSION_7_OR_ABOVE) {
+//        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+    }
+
     NewsViewController *newsViewController = [[NewsViewController alloc]init];
     [self.navigationController pushViewController:newsViewController animated:YES];
 }
@@ -309,11 +340,6 @@
     UIButton *btn = (UIButton *)sender;
 //    NSLog(@"第几个 btn == %d",btn.tag - 1000);
     [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",btn.tag - 1000] forKey:@"faceClicked"];
-//    int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
-//    NSURL *url = [[NSURL alloc]initWithString:[NSString stringWithFormat:@"http://112.124.15.6:8001%@",[self.mydb date:@"url" num:faceClicked]]];
-//    NSLog(@"url == %@",url);
-//    NSLog(@"home页面 self.mydb date:@\"url\" num:faceClicked url == %@",[self.mydb date:@"url" num:faceClicked]);
-//    NSLog(@"home 页面 的数据条数 == %d",[self.mydb getTableItemCount:@"face"]);
     FaceViewController *faceViewController = [[FaceViewController alloc]init];
     [self.navigationController pushViewController:faceViewController animated:YES];
 }
@@ -654,13 +680,13 @@
 {
     if ([sender isOn])
     {
-        [[NSUserDefaults standardUserDefaults]setObject:@"yes" forKey:@"speech"];
-//        NSLog(@"语音 开!");
+        [[NSUserDefaults standardUserDefaults]setObject:@"no" forKey:@"closeSpeech"];
+//        NSLog(@"语音 关!");
     }
     else
     {
-        [[NSUserDefaults standardUserDefaults]setObject:@"no" forKey:@"speech"];
-//        NSLog(@"语音 关!");
+        [[NSUserDefaults standardUserDefaults]setObject:@"yes" forKey:@"closeSpeech"];
+//        NSLog(@"语音 开!");
 
     }
     
@@ -704,8 +730,6 @@
     self.startView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
     self.startView.backgroundColor = [UIColor clearColor];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
-    [self.startView addGestureRecognizer:tap];
 
     [self.view addSubview:self.startView];
     
@@ -765,6 +789,10 @@
             scrollView.frame = CGRectMake(-320, 0, 320, [self.view bounds].size.height);
         } completion:^(BOOL finished)
          {
+             //在引导画面都结束以后 再加入点击取消帮助画面的手势
+             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
+             [self.startView addGestureRecognizer:tap];
+
          }];
 
     }
@@ -813,6 +841,9 @@
 
          self.startView.hidden = YES;
      }];
+    [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"yes"] forKey:@"isNotFirstStart"];
+
 
 }
+
 @end

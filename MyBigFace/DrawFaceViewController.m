@@ -121,21 +121,42 @@
     self.drawView.backgroundColor = [UIColor colorWithRed:232/255.0f green:76/255.0f blue:61/255.0f alpha:1.0f];
 }
 -(void)setupMenuButton{
-    //设置标题
-    UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    t.font = [UIFont systemFontOfSize:17];
-    t.textColor = [UIColor whiteColor];
-    t.backgroundColor = [UIColor clearColor];
-    t.textAlignment = NSTextAlignmentCenter;
-    t.text = @"画心情";
-    self.navigationItem.titleView = t;
+    if (IOS_VERSION_7_OR_ABOVE) {
+        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        //设置标题
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        t.font = [UIFont systemFontOfSize:17];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        t.text = @"画心情";
+        self.navigationItem.titleView = t;
+        
+        //    self.navigationItem.title = @"画心情";
+        //左按钮
+        UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
+        
+        self.navigationItem.rightBarButtonItem = rightButton;
+        //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
 
-//    self.navigationItem.title = @"画心情";
-    //左按钮
-    UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        self.navigationController.navigationBarHidden = YES;
+        //设置标题
+        UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(110, 29, 100, 30)];
+        t.font = [UIFont systemFontOfSize:17];
+        t.textColor = [UIColor whiteColor];
+        t.backgroundColor = [UIColor clearColor];
+        t.textAlignment = NSTextAlignmentCenter;
+        t.text = @"画心情";
+        [self.view addSubview:t];
 
-    self.navigationItem.rightBarButtonItem = rightButton;
-    //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+        [_backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [_nextBtn addTarget:self action:@selector(nextPage) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+
+    
     
 }
 - (IBAction)color1:(id)sender
@@ -290,6 +311,10 @@
 //    // Return the new image.
 //    return newImage;
 //}
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 @end

@@ -22,7 +22,12 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate,UIScrollViewD
     IBOutlet UITextView *_feedBackCommentTextView;
     IBOutlet UITextView *_feedBackEmailTextView;
     IBOutlet UISwitch *_speechSwitch;
+//ios6 才会用到
+    IBOutlet UIButton *_settingBtn;
+    IBOutlet UIButton *_selfBtn;
 
+    
+    
     CLLocationManager *_locationManager;
     CLGeocoder *_geocoder;
     MyDB *_mydb;

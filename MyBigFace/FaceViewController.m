@@ -33,6 +33,7 @@
 }
 //@property (nonatomic, weak) IBOutlet UITextField *textField;
 @property (nonatomic, strong) AVSpeechSynthesizer *synthesizer;
+//@property (nonatomic, strong) AVSpeechUtterance *utterance;
 
 @end
 
@@ -74,7 +75,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     __weak FaceViewController *weakSelf = self;
     // setup pull-to-refresh
 //    [self.tableView addPullToRefreshWithActionHandler:^{
@@ -87,16 +88,10 @@
     }];
 
     // Do any additional setup after loading the view from its nib.
-//    self.tableView.showsHorizontalScrollIndicator = NO;
-//    self.tableView.showsVerticalScrollIndicator = NO;
-    //初始化上拉下拉刷新控件
-//    [self initRefreshBar];
     [self loadFace];
     [self loadText];
     [self loadPlus];
     [self.tableView triggerInfiniteScrolling];
-
-//    [weakSelf loadMoreComment];
     [self loadLocationInfo];
     [self setupMenuButton];
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(speechComment) userInfo:Nil repeats:NO];
@@ -144,6 +139,12 @@
     {
         [self.contentLable setText:[mydb date:@"content" num:faceClicked]];
 
+    }
+    //是否为iPhone5 不为5的话缩小字号 以显示完全
+    if ([[UIScreen mainScreen] bounds].size.height < 560)
+    {
+        //默认为20号
+        self.contentLable.font = [UIFont systemFontOfSize:16.0];
     }
 }
 - (void)loadPlus
@@ -389,9 +390,22 @@
         {
             cell = [[FaceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        self.faceView.frame = CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 65);
+        
+        if (IOS_VERSION_7_OR_ABOVE) {
+            NSLog(@"IOS_VERSION_7_OR_ABOVE");
+            self.faceView.frame = CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 65);
+
+        } else {
+            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+            self.faceView.frame = CGRectMake(0, 65, 320, [[UIScreen mainScreen] bounds].size.height - 65);
+
+        }
+
+        
+        
         [cell.faceInfoView addSubview:self.faceView];
-        cell.faceInfoView.backgroundColor = [UIColor redColor];
+        cell.faceInfoView.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -419,7 +433,7 @@
             [label setNumberOfLines:0];
             [label setFont:[UIFont systemFontOfSize:FONT_SIZE]];
             [label setTag:1];
-            
+            label.backgroundColor = [UIColor clearColor];
 //            [[label layer] setBorderWidth:2.0f];
             
             [[cell contentView] addSubview:label];
@@ -434,6 +448,7 @@
             [timeLabel setTag:5];
             timeLabel.textColor = [UIColor lightGrayColor];
             timeLabel.font = [UIFont systemFontOfSize:12.0f];
+            timeLabel.backgroundColor = [UIColor clearColor];
 
 //            [[timeLabel layer] setBorderWidth:2.0f];
             
@@ -490,6 +505,8 @@
 //        UILabel *redLine = [[UILabel alloc] initWithFrame:CGRectMake(0, [cell bounds].size.height - 5, 320, 5)];
 //        redLine.backgroundColor = [UIColor redColor];
 //        [[cell contentView] addSubview:redLine];
+//        cell.backgroundColor = [UIColor whiteColor];
+        cell.contentView.backgroundColor = [UIColor whiteColor];
         return cell;
 
     }
@@ -498,8 +515,19 @@
 {
     if (indexPath.row == 0)
     {
+        int h = [[UIScreen mainScreen] bounds].size.height - 65;
         //第一排 显示face信息时
-        return [[UIScreen mainScreen] bounds].size.height - 65;
+        NSLog(@"faceView 第一排的高度为 == %d",h);
+        if (IOS_VERSION_7_OR_ABOVE) {
+            NSLog(@"IOS_VERSION_7_OR_ABOVE");
+            return [[UIScreen mainScreen] bounds].size.height - 65;
+
+        } else {
+            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+            return [[UIScreen mainScreen] bounds].size.height;
+
+        }
+
     }
     else
     {
@@ -561,7 +589,7 @@
          */
         if (self.commentArray.count != 0)
         {
-            NSLog(@"self.commentArray[0] == %@",self.commentArray[0]);
+            NSLog(@" face view   self.commentArray[0] == %@",self.commentArray[0]);
             
             //最多显示9999+
             if ([[NSString stringWithFormat:@"%@",[self.commentArray[0] valueForKey:@"all_comment"]] intValue] > 9999)
@@ -580,7 +608,16 @@
             
             //评论为0 返回顶部
             //tableView 返回顶部
-            [self.tableView setContentOffset:CGPointMake(0, -64) animated:YES];
+            if (IOS_VERSION_7_OR_ABOVE) {
+                NSLog(@"IOS_VERSION_7_OR_ABOVE");
+                [self.tableView setContentOffset:CGPointMake(0, -64) animated:YES];
+
+            } else {
+                NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+//                [self.tableView setContentOffset:CGPointMake(0, -64) animated:YES];
+
+            }
+
 
         }
     }];
@@ -655,7 +692,7 @@
 }
 - (void)speechComment
 {
-    if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"speech"]isEqualToString:@"yes"])
+    if (![[[NSUserDefaults standardUserDefaults]objectForKey:@"closeSpeech"]isEqualToString:@"yes"])
     {
         //语音
         self.synthesizer = [[AVSpeechSynthesizer alloc] init];
@@ -697,10 +734,23 @@
     
 }
 -(void)setupMenuButton{
-    //右按钮
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClick)];
-//    rightButton.imageInsets = UIEdgeInsetsMake(10, 20, 10, 0);
-    self.navigationItem.rightBarButtonItem = rightButton;
+    if (IOS_VERSION_7_OR_ABOVE) {
+        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        //右按钮
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClick)];
+        self.navigationItem.rightBarButtonItem = rightButton;
+        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        self.navigationItem.leftBarButtonItem = backBtn;
+
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        self.navigationController.navigationBarHidden = YES;
+        [_backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_shareBtn addTarget:self action:@selector(shareBtnClick) forControlEvents:UIControlEventTouchUpInside];
+
+    }
+
 
 }
 - (void)moveUpAndDown
@@ -823,7 +873,16 @@ shouldChangeTextInRange:(NSRange)range
     [image1 drawInRect:rect1];
     [self.faceImageView.image drawInRect:CGRectMake(110, 250, 100, 100)];
     NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:22], NSStrokeColorAttributeName:[UIColor redColor]};
-    [qwe drawInRect:CGRectMake(50, 30, 220, 160) withAttributes:attributes];
+    
+    if (IOS_VERSION_7_OR_ABOVE) {
+        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        [qwe drawInRect:CGRectMake(50, 30, 220, 160) withAttributes:attributes];
+
+    } else {
+        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        [qwe drawInRect:CGRectMake(50, 30, 220, 160) withFont:[UIFont systemFontOfSize:22] lineBreakMode:NSLineBreakByWordWrapping];
+    }
+
     UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();
@@ -875,4 +934,11 @@ shouldChangeTextInRange:(NSRange)range
 //    return [UIImage imageWithCGImage:imageMasked];
 //    
 //}
+- (void)back
+{
+//    NSLog(@"back!!!");
+    [self.synthesizer stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

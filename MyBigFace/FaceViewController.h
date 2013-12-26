@@ -11,7 +11,7 @@
 #import "Animations.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
+@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextViewDelegate>
 {
     IBOutlet UIImageView *_faceImageView;
     IBOutlet UILabel *_contentLable;
@@ -26,6 +26,9 @@
     NSMutableArray *_commentArray;
 //    CLLocationManager *_locationManager;
     CLGeocoder *_geocoder; //用于计算距离
+//ios6 使用
+    IBOutlet UIButton *_backBtn;
+    IBOutlet UIButton *_shareBtn;
 
 
 }

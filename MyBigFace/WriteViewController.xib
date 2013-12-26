@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WriteViewController">
             <connections>
+                <outlet property="_backBtn" destination="4sk-b8-9F6" id="ttD-Ck-rfh"/>
+                <outlet property="_nextBtn" destination="VOV-gt-6rJ" id="JQB-eU-cH3"/>
                 <outlet property="mytextView" destination="ObU-2S-f7b" id="pmB-CY-ipB"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -38,6 +40,34 @@
                         <outlet property="delegate" destination="-1" id="aou-xp-LlO"/>
                     </connections>
                 </textView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zf-zM-0aI">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.97647058819999999" green="0.78823529410000004" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="WvZ-Xk-Tgt"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOV-gt-6rJ">
+                    <rect key="frame" x="244" y="29" width="60" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="下一步">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4sk-b8-9F6">
+                    <rect key="frame" x="16" y="29" width="40" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="返回">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.84376992979999998" green="0.84376992979999998" blue="0.84376992979999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -46,12 +76,15 @@
                 <constraint firstItem="xfe-mi-Bfp" firstAttribute="top" secondItem="ObU-2S-f7b" secondAttribute="bottom" id="Hb4-Sr-hAp"/>
                 <constraint firstItem="xfe-mi-Bfp" firstAttribute="top" secondItem="ObU-2S-f7b" secondAttribute="bottom" id="Jbb-aS-9BK"/>
                 <constraint firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="MDn-a5-Lfu"/>
+                <constraint firstItem="1zf-zM-0aI" firstAttribute="top" secondItem="1" secondAttribute="top" id="QYi-8G-IyG"/>
                 <constraint firstAttribute="trailing" secondItem="xfe-mi-Bfp" secondAttribute="trailing" id="U9E-r7-Se5"/>
                 <constraint firstItem="ObU-2S-f7b" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="UKJ-Rn-tRE"/>
+                <constraint firstItem="1zf-zM-0aI" firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="aGm-4H-pIF"/>
                 <constraint firstItem="xfe-mi-Bfp" firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="bgc-zL-Ody"/>
                 <constraint firstItem="xfe-mi-Bfp" firstAttribute="leading" secondItem="ObU-2S-f7b" secondAttribute="leading" id="rSt-TN-Bey"/>
                 <constraint firstAttribute="trailing" secondItem="ObU-2S-f7b" secondAttribute="trailing" id="s4W-of-Q0m"/>
                 <constraint firstItem="xfe-mi-Bfp" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="vCZ-TM-Uum"/>
+                <constraint firstItem="1zf-zM-0aI" firstAttribute="leading" secondItem="ObU-2S-f7b" secondAttribute="leading" id="vzK-x5-AEi"/>
                 <constraint firstAttribute="bottom" secondItem="ObU-2S-f7b" secondAttribute="bottom" constant="313" id="y2x-6J-1nD"/>
                 <constraint firstItem="ObU-2S-f7b" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="zog-fL-jeZ"/>
             </constraints>

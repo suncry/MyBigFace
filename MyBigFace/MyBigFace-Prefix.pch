@@ -17,3 +17,4 @@
 
 
 #define MY_URL @"http://112.124.15.6:8001/v1.0"
+#define IOS_VERSION_7_OR_ABOVE (([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)? (YES):(NO))

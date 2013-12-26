@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewsViewController">
             <connections>
+                <outlet property="_backBtn" destination="Zui-2e-e8b" id="8Ze-hv-x6p"/>
                 <outlet property="_tableview" destination="n4O-Vx-lwv" id="lDR-TB-dt0"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -25,6 +26,22 @@
                         <outlet property="delegate" destination="-1" id="c55-kd-3Ec"/>
                     </connections>
                 </tableView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wai-TB-Cbn">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.97647058819999999" green="0.78823529410000004" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="t9e-Ia-Jk0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zui-2e-e8b">
+                    <rect key="frame" x="16" y="29" width="40" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="返回"/>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="n4O-Vx-lwv" secondAttribute="bottom" id="5AQ-cA-Lx9"/>
@@ -32,9 +49,12 @@
                 <constraint firstItem="n4O-Vx-lwv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1" secondAttribute="top" constant="65" id="FJU-1B-7t1"/>
                 <constraint firstAttribute="trailing" secondItem="n4O-Vx-lwv" secondAttribute="trailing" id="Fmo-0M-7Kb"/>
                 <constraint firstAttribute="trailing" secondItem="n4O-Vx-lwv" secondAttribute="trailing" id="Hw0-tf-N8O"/>
+                <constraint firstItem="wai-TB-Cbn" firstAttribute="leading" secondItem="n4O-Vx-lwv" secondAttribute="leading" id="PK0-I0-pwv"/>
                 <constraint firstItem="n4O-Vx-lwv" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Z1h-ge-88q"/>
                 <constraint firstItem="n4O-Vx-lwv" firstAttribute="top" secondItem="1" secondAttribute="top" constant="65" id="fe1-Af-ejG"/>
                 <constraint firstAttribute="bottom" secondItem="n4O-Vx-lwv" secondAttribute="bottom" id="fy0-LF-iGz"/>
+                <constraint firstItem="wai-TB-Cbn" firstAttribute="trailing" secondItem="n4O-Vx-lwv" secondAttribute="trailing" id="lZw-Ft-C4e"/>
+                <constraint firstItem="wai-TB-Cbn" firstAttribute="top" secondItem="1" secondAttribute="top" id="tBp-gh-BP9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>

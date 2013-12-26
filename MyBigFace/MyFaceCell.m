@@ -39,18 +39,22 @@
         [self addSubview:self.commentImageView];
 
         self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(205, 10, 150, 15)];
+        self.locationLabel.backgroundColor = [UIColor clearColor];
         self.locationLabel.textColor = [UIColor lightGrayColor];
         [self addSubview:self.locationLabel];
         self.timeOfUploadLabel = [[UILabel alloc]initWithFrame:CGRectMake(205, 40, 150, 15)];
+        self.timeOfUploadLabel.backgroundColor = [UIColor clearColor];
         self.timeOfUploadLabel.textColor = [UIColor lightGrayColor];
         self.timeOfUploadLabel.font = [UIFont systemFontOfSize:14.0f];
         [self addSubview:self.timeOfUploadLabel];
         self.plusLabel = [[UILabel alloc]initWithFrame:CGRectMake(205, 70, 150, 15)];
+        self.plusLabel.backgroundColor = [UIColor clearColor];
         self.plusLabel.textColor = [UIColor lightGrayColor];
         self.plusLabel.font = [UIFont systemFontOfSize:13.0f];
 
         [self addSubview:self.plusLabel];
         self.commentLabel = [[UILabel alloc]initWithFrame:CGRectMake(205, 100, 150, 15)];
+        self.commentLabel.backgroundColor = [UIColor clearColor];
         self.commentLabel.textColor = [UIColor lightGrayColor];
         self.commentLabel.font = [UIFont systemFontOfSize:12.0f];
 
