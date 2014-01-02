@@ -9,13 +9,16 @@
 #import "MyBigFaceAppDelegate.h"
 #import "HomeViewController.h"
 #import "UMSocial.h"
-
+#import "MobClick.h"
 @implementation MyBigFaceAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    //设置默认的统计功能
+    [MobClick startWithAppkey:@"528c287f56240be0d93b99ad"];
+
     //设置分享key
     [UMSocialData setAppKey:@"528c287f56240be0d93b99ad"];
     //设置微信AppId，url地址传nil，将默认使用友盟的网址

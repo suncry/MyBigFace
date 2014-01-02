@@ -599,7 +599,9 @@
 //给我评分
 - (IBAction)rateMe:(id)sender
 {
-    NSString *str = [NSString stringWithFormat: @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", @"346703830"];
+    NSString *str = [NSString stringWithFormat: @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", @"791062284"];
+//    NSString *str = [NSString stringWithFormat: @"https://itunes.apple.com/cn/app/id791062284?ls=1&mt=8"];
+    NSLog(@"评分地址还没有确定哦!!!!!!!!!!!!!!!");
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 //意见反馈
@@ -627,52 +629,63 @@
 }
 - (IBAction)feedBackSend:(id)sender
 {
-    //发送 反馈信息
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.ipointek.com/feedback/api/feedback"]];
-    //@"http://www.ipointek.com/feedback/api/feedback
-    //    post 方式
-    //    appid = 1012
-    //    content = 内容
-    //    os_version = 系统版本
-    //    client_version = 客户端版本
-    //    email = 邮箱
-    NSString *osVersion =[[ UIDevice currentDevice]systemVersion];
-    NSString *osModel = [[ UIDevice currentDevice]model];
-    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString *clientVersion =  [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSString *bundleNum = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
-    
-    ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
-    [requestForm setPostValue:@"1012" forKey:@"appid"];
-    [requestForm setPostValue:self.feedBackEmailTextView.text forKey:@"email"];
-    [requestForm setPostValue:self.feedBackCommentTextView.text forKey:@"content"];
-    [requestForm setPostValue:[NSString stringWithFormat:@"iOS %@ Model:%@",osVersion,osModel] forKey:@"os_version"];
-    [requestForm setPostValue:[NSString stringWithFormat:@"Client v%@ Build:%@",clientVersion,bundleNum] forKey:@"client_version"];
-    __block ASIFormDataRequest *requestFormBlock = requestForm;
-    [requestForm setCompletionBlock :^{
-        NSString *commentString = [requestFormBlock responseString];
-        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-        NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
-        NSLog(@"commentSend dict == %@",dict);
-    }];
-    [requestForm setFailedBlock :^{
-        // 请求响应失败，返回错误信息
-        NSError *error = [requestFormBlock error ];
-        NSLog ( @"error:%@" ,[error userInfo ]);
-    }];
-    [requestForm startAsynchronous];
+    if (self.self.feedBackEmailTextView.text.length == 0 || self.feedBackCommentTextView.text.length == 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"反馈内容和邮箱地址请填写完整!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        // optional - add more buttons:
+        //        [alert addButtonWithTitle:@"Yes"];
+        [alert show];
+    }
+    else
+    {
+        //发送 反馈信息
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.ipointek.com/feedback/api/feedback"]];
+        //@"http://www.ipointek.com/feedback/api/feedback
+        //    post 方式
+        //    appid = 1012
+        //    content = 内容
+        //    os_version = 系统版本
+        //    client_version = 客户端版本
+        //    email = 邮箱
+        NSString *osVersion =[[ UIDevice currentDevice]systemVersion];
+        NSString *osModel = [[ UIDevice currentDevice]model];
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSString *clientVersion =  [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+        NSString *bundleNum = [infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
+        
+        ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
+        [requestForm setPostValue:@"1012" forKey:@"appid"];
+        [requestForm setPostValue:self.feedBackEmailTextView.text forKey:@"email"];
+        [requestForm setPostValue:self.feedBackCommentTextView.text forKey:@"content"];
+        [requestForm setPostValue:[NSString stringWithFormat:@"iOS %@ Model:%@",osVersion,osModel] forKey:@"os_version"];
+        [requestForm setPostValue:[NSString stringWithFormat:@"Client v%@ Build:%@",clientVersion,bundleNum] forKey:@"client_version"];
+        __block ASIFormDataRequest *requestFormBlock = requestForm;
+        [requestForm setCompletionBlock :^{
+            NSString *commentString = [requestFormBlock responseString];
+            SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+            NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
+            NSLog(@"commentSend dict == %@",dict);
+        }];
+        [requestForm setFailedBlock :^{
+            // 请求响应失败，返回错误信息
+            NSError *error = [requestFormBlock error ];
+            NSLog ( @"error:%@" ,[error userInfo ]);
+        }];
+        [requestForm startAsynchronous];
+        
+        //收起意见反馈
+        self.feedBackView.frame = CGRectMake(0, 0, 320, 568);
+        [self.view addSubview:self.feedBackView];
+        //feedBackView上滑
+        [Animations moveDown:self.feedBackView andAnimationDuration:0.5 andWait:YES andLength:568];
+        self.feedBackCommentTextView.text = @"";
+        self.feedBackEmailTextView.text = @"";
+        self.feedBackCommentLable.text = @"请填写你的意见,我们将因您而不断改进.";
+        self.feedBackEmailLable.text = @"请填写你的邮箱,以便我们给您回复.";
+        [self.feedBackCommentTextView resignFirstResponder];
+        [self.feedBackEmailTextView resignFirstResponder];
 
-    //收起意见反馈
-    self.feedBackView.frame = CGRectMake(0, 0, 320, 568);
-    [self.view addSubview:self.feedBackView];
-    //feedBackView上滑
-    [Animations moveDown:self.feedBackView andAnimationDuration:0.5 andWait:YES andLength:568];
-    self.feedBackCommentTextView.text = @"";
-    self.feedBackEmailTextView.text = @"";
-    self.feedBackCommentLable.text = @"请填写你的意见,我们将因您而不断改进.";
-    self.feedBackEmailLable.text = @"请填写你的邮箱,以便我们给您回复.";
-    [self.feedBackCommentTextView resignFirstResponder];
-    [self.feedBackEmailTextView resignFirstResponder];
+    }
 
 }
 

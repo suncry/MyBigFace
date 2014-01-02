@@ -288,50 +288,62 @@
 }
 - (IBAction)commentSendBtnClick:(id)sender
 {
-    int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
-    MyDB *mydb = [[MyDB alloc]init];
-    NSLog(@"faceView  faceClicked == %d",faceClicked);
-    //myFace 设置的faceClicked 应该大于100000
-    //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
-    NSString *face_id = [[NSString alloc]init];
-    if (faceClicked >= 100000)
+    if (self.commentTextView.text.length == 0)
     {
-        face_id = [mydb myDate:@"id" num:faceClicked - 100000];
-//        NSLog(@"comment face_id in myDate == %@",face_id);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"回复不能为空哦!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        // optional - add more buttons:
+        //        [alert addButtonWithTitle:@"Yes"];
+        [alert show];
+        
     }
     else
     {
-        face_id = [mydb date:@"id" num:faceClicked];
-//        NSLog(@"comment face_id in date == %@",face_id);
+        int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
+        MyDB *mydb = [[MyDB alloc]init];
+        NSLog(@"faceView  faceClicked == %d",faceClicked);
+        //myFace 设置的faceClicked 应该大于100000
+        //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
+        NSString *face_id = [[NSString alloc]init];
+        if (faceClicked >= 100000)
+        {
+            face_id = [mydb myDate:@"id" num:faceClicked - 100000];
+            //        NSLog(@"comment face_id in myDate == %@",face_id);
+        }
+        else
+        {
+            face_id = [mydb date:@"id" num:faceClicked];
+            //        NSLog(@"comment face_id in date == %@",face_id);
+        }
+        NSString *urlString = [NSString stringWithFormat:@"%@/comment",MY_URL];
+        NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
+        [requestForm addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
+        [requestForm setPostValue:face_id forKey:@"id"];
+        [requestForm setPostValue:self.commentTextView.text forKey:@"content"];
+        __block ASIFormDataRequest *requestFormBlock = requestForm;
+        [requestForm setCompletionBlock :^{
+            NSString *commentString = [requestFormBlock responseString];
+            SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+            NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
+            NSLog(@"commentSend dict == %@",dict);
+        }];
+        [requestForm setFailedBlock :^{
+            // 请求响应失败，返回错误信息
+            NSError *error = [requestFormBlock error ];
+            NSLog ( @"error:%@" ,[error userInfo ]);
+        }];
+        [requestForm startAsynchronous];
+        [self.commentTextView resignFirstResponder];
+        //commentView右滑
+        [Animations moveDown:self.commentView andAnimationDuration:0.3 andWait:YES andLength:500];
+        [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
+            self.blackBackground.alpha = 0;
+        } completion:^(BOOL finished)
+         {
+         }];
+        self.commentTextView.text = @"";
+
     }
-    NSString *urlString = [NSString stringWithFormat:@"%@/comment",MY_URL];
-    NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
-    [requestForm addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
-    [requestForm setPostValue:face_id forKey:@"id"];
-    [requestForm setPostValue:self.commentTextView.text forKey:@"content"];
-    __block ASIFormDataRequest *requestFormBlock = requestForm;
-    [requestForm setCompletionBlock :^{
-        NSString *commentString = [requestFormBlock responseString];
-        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-        NSMutableDictionary *dict = [jsonParser objectWithString:commentString];
-        NSLog(@"commentSend dict == %@",dict);
-    }];
-    [requestForm setFailedBlock :^{
-        // 请求响应失败，返回错误信息
-        NSError *error = [requestFormBlock error ];
-        NSLog ( @"error:%@" ,[error userInfo ]);
-    }];
-    [requestForm startAsynchronous];
-    [self.commentTextView resignFirstResponder];
-    //commentView右滑
-    [Animations moveDown:self.commentView andAnimationDuration:0.3 andWait:YES andLength:500];
-    [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
-        self.blackBackground.alpha = 0;
-    } completion:^(BOOL finished)
-     {
-     }];
-    self.commentTextView.text = @"";
 }
 //初始化 下拉和上拉刷新控件
 //- (void)initRefreshBar

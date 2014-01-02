@@ -48,8 +48,21 @@
 
 - (void)nextPage
 {
-    [self upLoadFace];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if (mytextView.text.length == 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"还是说点什么吧!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        // optional - add more buttons:
+//        [alert addButtonWithTitle:@"Yes"];
+        [alert show];
+
+    }
+    else
+    {
+        [self upLoadFace];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+
+    }
+    
 }
 -(void)setupMenuButton{
     if (IOS_VERSION_7_OR_ABOVE) {

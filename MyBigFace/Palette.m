@@ -44,10 +44,10 @@
 			segmentColor=[[UIColor yellowColor] CGColor];
 			break;
         case 5:
-			segmentColor=[[UIColor greenColor] CGColor];
+			segmentColor=[[UIColor colorWithRed:73/255.0f green:182/255.0f blue:12/255.0f alpha:1.0f] CGColor];
 			break;
         case 6:
-			segmentColor=[[UIColor blueColor] CGColor];
+			segmentColor=[[UIColor colorWithRed:17/255.0f green:136/255.0f blue:254/255.0f alpha:1.0f] CGColor];
 			break;
 		default:
 			break;
