@@ -662,6 +662,15 @@
         t.textAlignment = NSTextAlignmentCenter;
         //         t.text = [NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality];
         t.text = address;
+        if (IOS_VERSION_7_OR_ABOVE) {
+//            NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        }
+        else
+        {
+//            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+            [_localLable setText:address];
+        }
+
         NSLog(@"myDate  faceView address == %@",address);
         self.navigationItem.titleView = t;
     }
@@ -678,6 +687,15 @@
         t.textAlignment = NSTextAlignmentCenter;
         //         t.text = [NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality];
         t.text = address;
+        if (IOS_VERSION_7_OR_ABOVE) {
+            //            NSLog(@"IOS_VERSION_7_OR_ABOVE");
+        }
+        else
+        {
+            //            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+            [_localLable setText:address];
+        }
+
         NSLog(@"date  faceView address == %@",address);
         self.navigationItem.titleView = t;
     }
@@ -715,15 +733,15 @@
 - (void)shareBtnClick
 {
     //截图用来分享
-    UIGraphicsBeginImageContext(self.view.bounds.size);
-	[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    UIGraphicsBeginImageContext(self.view.bounds.size);
+//	[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
 	
-	UIImage* image=UIGraphicsGetImageFromCurrentImageContext();
+//	UIImage* image=UIGraphicsGetImageFromCurrentImageContext();
 	
-	UIGraphicsEndImageContext();
-    
-    CGRect rect = CGRectMake(20, 100, 280, 280);//创建要剪切的矩形框 这里你可以自己修改
-    UIImage *res = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
+//	UIGraphicsEndImageContext();
+//    
+//    CGRect rect = CGRectMake(20, 100, 280, 280);//创建要剪切的矩形框 这里你可以自己修改
+//    UIImage *res = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
 //    NSData *imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(res, 0.1)];
 //    [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:@"myFace"];
 
@@ -735,10 +753,9 @@
     UIImage *shareImg = [self addImage:myImage rect1:CGRectMake(0, 0, 320, 568)];
 
     
-    
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"528c287f56240be0d93b99ad"
-                                      shareText:@"这是来自大饼的分享"
+                                      shareText:@"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！"
                                      shareImage:shareImg
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:nil];
@@ -842,22 +859,22 @@ shouldChangeTextInRange:(NSRange)range
  *
  *  @return <#return value description#>
  */
-- (UIImage *)addImage:(UIImage *)image1 withImage:(UIImage *)image2 rect1:(CGRect)rect1 rect2:(CGRect)rect2 {
-    CGSize size = CGSizeMake(rect1.size.width+rect2.size.width, rect1.size.height);
-    
-    UIGraphicsBeginImageContext(size);
-    
-    [image1 drawInRect:rect1];
-    [image2 drawInRect:rect2];
-    NSString *qwe = @"123123123123123123123123123123123123123123123123123123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试";
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:22], NSStrokeColorAttributeName:[UIColor redColor]};
-    [qwe drawInRect:CGRectMake(50, 50, 220, 210) withAttributes:attributes];
-    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return resultingImage;
-}
+//- (UIImage *)addImage:(UIImage *)image1 withImage:(UIImage *)image2 rect1:(CGRect)rect1 rect2:(CGRect)rect2 {
+//    CGSize size = CGSizeMake(rect1.size.width+rect2.size.width, rect1.size.height);
+//    
+//    UIGraphicsBeginImageContext(size);
+//    
+//    [image1 drawInRect:rect1];
+//    [image2 drawInRect:rect2];
+//    NSString *qwe = @"123123123123123123123123123123123123123123123123123123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试";
+//    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:22], NSStrokeColorAttributeName:[UIColor redColor]};
+//    [qwe drawInRect:CGRectMake(50, 50, 220, 210) withAttributes:attributes];
+//    UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
+//    
+//    UIGraphicsEndImageContext();
+//    
+//    return resultingImage;
+//}
 - (UIImage *)addImage:(UIImage *)image1 rect1:(CGRect)rect1
 {
     CGSize size = CGSizeMake(rect1.size.width, rect1.size.height);
@@ -867,34 +884,42 @@ shouldChangeTextInRange:(NSRange)range
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
     MyDB *mydb = [[MyDB alloc]init];
     
-    NSString *qwe = @"123123123123123123123123123123123123123123123123123123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试123测试测试!!!爹要成功了!";
+    NSString *contentString = @"如果显示了这句话,说明分享的时候没有获取到你的内容哟!";
 
     //myFace 设置的faceClicked 应该大于100000
     //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
     if (faceClicked >= 100000)
     {
-        qwe = [mydb myDate:@"content" num:faceClicked - 100000];
+        contentString = [mydb myDate:@"content" num:faceClicked - 100000];
     }
     else
     {
-        qwe = [mydb date:@"content" num:faceClicked];
+        contentString = [mydb date:@"content" num:faceClicked];
         
     }
 
     
     [image1 drawInRect:rect1];
-    [self.faceImageView.image drawInRect:CGRectMake(110, 250, 100, 100)];
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:22], NSStrokeColorAttributeName:[UIColor redColor]};
-    
-    if (IOS_VERSION_7_OR_ABOVE) {
-        NSLog(@"IOS_VERSION_7_OR_ABOVE");
-        [qwe drawInRect:CGRectMake(50, 30, 220, 160) withAttributes:attributes];
+    [self.faceImageView.image drawInRect:CGRectMake(28, 235, 264, 264)];
+//    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:20], NSStrokeColorAttributeName:[UIColor redColor]};
 
-    } else {
-        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
-        [qwe drawInRect:CGRectMake(50, 30, 220, 160) withFont:[UIFont systemFontOfSize:22] lineBreakMode:NSLineBreakByWordWrapping];
-    }
+//    if (IOS_VERSION_7_OR_ABOVE) {
+//        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+////        [qwe drawInRect:CGRectMake(45, 30, 230, 160) withAttributes:attributes];
+//        [qwe drawInRect:CGRectMake(45, 30, 235, 160) withFont:[UIFont systemFontOfSize:17] lineBreakMode:NSLineBreakByTruncatingTail];
+//        
+//
+//    } else {
+//        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+//        [qwe drawInRect:CGRectMake(45, 30, 235, 160) withFont:[UIFont systemFontOfSize:17] lineBreakMode:NSLineBreakByWordWrapping];
+//    }
 
+    UILabel *textLable = [[UILabel alloc]initWithFrame:CGRectMake(40, 30, 235, 160)];
+    textLable.text = contentString;
+    textLable.textAlignment = NSTextAlignmentCenter;
+    textLable.lineBreakMode = NSLineBreakByCharWrapping;
+    textLable.numberOfLines = 7;
+    [textLable drawTextInRect:CGRectMake(40, 30, 235, 160)];
     UIImage *resultingImage = UIGraphicsGetImageFromCurrentImageContext();
     
     UIGraphicsEndImageContext();

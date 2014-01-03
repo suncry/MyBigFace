@@ -601,6 +601,9 @@
 {
     NSString *str = [NSString stringWithFormat: @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@", @"791062284"];
 //    NSString *str = [NSString stringWithFormat: @"https://itunes.apple.com/cn/app/id791062284?ls=1&mt=8"];
+//    NSString *str = [NSString stringWithFormat: @"https://itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=791062284];
+
+    
     NSLog(@"评分地址还没有确定哦!!!!!!!!!!!!!!!");
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
@@ -691,6 +694,20 @@
 
 - (IBAction)speechSwitch:(id)sender
 {
+    if (IOS_VERSION_7_OR_ABOVE)
+    {
+//        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+    }
+    else
+    {
+//        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"iOS7才支持语音哦!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        // optional - add more buttons:
+        //        [alert addButtonWithTitle:@"Yes"];
+        [alert show];
+
+    }
+
     if ([sender isOn])
     {
         [[NSUserDefaults standardUserDefaults]setObject:@"no" forKey:@"closeSpeech"];
@@ -747,7 +764,16 @@
     [self.view addSubview:self.startView];
     
     UIImageView *helpImg= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
-    helpImg.image = [UIImage imageNamed:@"helpPage_01.png"];
+    if ([self.view bounds].size.height > 480)
+    {
+        helpImg.image = [UIImage imageNamed:@"helpPage_01.png"];
+
+    }
+    else
+    {
+        helpImg.image = [UIImage imageNamed:@"helpPage_01_960.png"];
+    }
+
     [self.startView addSubview:helpImg];
     
     
@@ -757,17 +783,36 @@
     startScrollView.pagingEnabled = YES;
     [self.startView addSubview:startScrollView];
     
-    UIImageView *startPageImg_1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
-    [startPageImg_1 setImage:[UIImage imageNamed:@"StartPage_01.png"]];
-    [startScrollView addSubview:startPageImg_1];
-    
-    UIImageView *startPageImg_2 = [[UIImageView alloc]initWithFrame:CGRectMake(320, 0, 320, [self.view bounds].size.height)];
-    [startPageImg_2 setImage:[UIImage imageNamed:@"StartPage_02.png"]];
-    [startScrollView addSubview:startPageImg_2];
+    if ([self.view bounds].size.height > 480)
+    {
+        UIImageView *startPageImg_1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
+        [startPageImg_1 setImage:[UIImage imageNamed:@"StartPage_01.png"]];
+        [startScrollView addSubview:startPageImg_1];
+        
+        UIImageView *startPageImg_2 = [[UIImageView alloc]initWithFrame:CGRectMake(320, 0, 320, [self.view bounds].size.height)];
+        [startPageImg_2 setImage:[UIImage imageNamed:@"StartPage_02.png"]];
+        [startScrollView addSubview:startPageImg_2];
+        
+        UIImageView *startPageImg_3 = [[UIImageView alloc]initWithFrame:CGRectMake(320*2, 0, 320, [self.view bounds].size.height)];
+        [startPageImg_3 setImage:[UIImage imageNamed:@"StartPage_03.png"]];
+        [startScrollView addSubview:startPageImg_3];
+        
+    }
+    else
+    {
+        UIImageView *startPageImg_1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
+        [startPageImg_1 setImage:[UIImage imageNamed:@"StartPage_01_960.png"]];
+        [startScrollView addSubview:startPageImg_1];
+        
+        UIImageView *startPageImg_2 = [[UIImageView alloc]initWithFrame:CGRectMake(320, 0, 320, [self.view bounds].size.height)];
+        [startPageImg_2 setImage:[UIImage imageNamed:@"StartPage_02_960.png"]];
+        [startScrollView addSubview:startPageImg_2];
+        
+        UIImageView *startPageImg_3 = [[UIImageView alloc]initWithFrame:CGRectMake(320*2, 0, 320, [self.view bounds].size.height)];
+        [startPageImg_3 setImage:[UIImage imageNamed:@"StartPage_03_960.png"]];
+        [startScrollView addSubview:startPageImg_3];
+    }
 
-    UIImageView *startPageImg_3 = [[UIImageView alloc]initWithFrame:CGRectMake(320*2, 0, 320, [self.view bounds].size.height)];
-    [startPageImg_3 setImage:[UIImage imageNamed:@"StartPage_03.png"]];
-    [startScrollView addSubview:startPageImg_3];
     
     
     self.startDot1 = [[UIImageView alloc]initWithFrame:CGRectMake(110, 40, 14, 14)];
@@ -791,6 +836,35 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 //    NSLog(@"contentOffset.x   == %f",scrollView.contentOffset.x);
+    CGFloat pageWidth = scrollView.frame.size.width;
+    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    NSLog(@"page == %d",page);
+    if (page == 2 )
+    {
+        self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
+        self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
+        self.startDot3.image = [UIImage imageNamed:@"StartPage_dot.png"];
+        
+    }
+    else
+    {
+        if (page == 1)
+        {
+            self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
+            self.startDot2.image = [UIImage imageNamed:@"StartPage_dot.png"];
+            self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
+        }
+        else
+        {
+            self.startDot1.image = [UIImage imageNamed:@"StartPage_dot.png"];
+            self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
+            self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
+            
+        }
+        
+    }
+
+    
     if (scrollView.contentOffset.x > 730)
     {
         self.startDot1.hidden = YES;
@@ -810,38 +884,9 @@
 
     }
 }
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if (scrollView.contentOffset.x > 320)
-    {
-        self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
-        self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
-        self.startDot3.image = [UIImage imageNamed:@"StartPage_dot.png"];
-
-    }
-    else
-    {
-        if (scrollView.contentOffset.x > 0)
-        {
-            self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
-            self.startDot2.image = [UIImage imageNamed:@"StartPage_dot.png"];
-            self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
-        }
-        else
-        {
-            self.startDot1.image = [UIImage imageNamed:@"StartPage_dot.png"];
-            self.startDot2.image = [UIImage imageNamed:@"StartPage_ring.png"];
-            self.startDot3.image = [UIImage imageNamed:@"StartPage_ring.png"];
-
-        }
-    
-    }
-
-
-}
 - (void)tapGesture:(id)sender
 {
-    NSLog(@"tap!!!!!!!");
+    NSLog(@"引导页面消失!!!");
     
 //    UIView *view = (UIView *)sender;
 

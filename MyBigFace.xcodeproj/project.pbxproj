@@ -23,7 +23,6 @@
 		0123D3541875491F00094370 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0123D3521875491F00094370 /* libMobClickLibrary.a */; };
 		0131C7B518680C3E00CD2BAD /* DrawFaceView_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 0131C7B418680C3E00CD2BAD /* DrawFaceView_logo.png */; };
 		0131C7B718680C5F00CD2BAD /* MainView_ defaultFace.png in Resources */ = {isa = PBXBuildFile; fileRef = 0131C7B618680C5F00CD2BAD /* MainView_ defaultFace.png */; };
-		0131C7B91868161300CD2BAD /* ShareImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0131C7B81868161300CD2BAD /* ShareImg.png */; };
 		0138955F186A7AA300745E95 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 0138955C186A7AA300745E95 /* UIScrollView+SVInfiniteScrolling.m */; };
 		01389560186A7AA300745E95 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 0138955E186A7AA300745E95 /* UIScrollView+SVPullToRefresh.m */; };
 		013A90C4185067F100D89831 /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 013A90B2185067F100D89831 /* fontawesome-webfont.ttf */; };
@@ -48,6 +47,11 @@
 		013DD09A186ABA6200B8CDBB /* 效果图.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 013DD094186ABA6200B8CDBB /* 效果图.jpg */; };
 		014A08D5186ACCBE00BD47BE /* helpPage_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 014A08D4186ACCBE00BD47BE /* helpPage_01.png */; };
 		0151E50618277863003F9542 /* MyDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0151E50518277863003F9542 /* MyDB.m */; };
+		015BA7F718764E58005343C4 /* ShareImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 015BA7F618764E58005343C4 /* ShareImg.png */; };
+		015BA7FD187665F0005343C4 /* StartPage_01_960.png in Resources */ = {isa = PBXBuildFile; fileRef = 015BA7FA187665F0005343C4 /* StartPage_01_960.png */; };
+		015BA7FE187665F0005343C4 /* StartPage_02_960.png in Resources */ = {isa = PBXBuildFile; fileRef = 015BA7FB187665F0005343C4 /* StartPage_02_960.png */; };
+		015BA7FF187665F0005343C4 /* StartPage_03_960.png in Resources */ = {isa = PBXBuildFile; fileRef = 015BA7FC187665F0005343C4 /* StartPage_03_960.png */; };
+		015BA80118766694005343C4 /* helpPage_01_960.png in Resources */ = {isa = PBXBuildFile; fileRef = 015BA80018766694005343C4 /* helpPage_01_960.png */; };
 		01723525182B6292003392C4 /* FaceViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 01723524182B6292003392C4 /* FaceViewCell.m */; };
 		01743F3B18432C73008A93B5 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01743F1A18432C72008A93B5 /* UMSocialLocalizable.strings */; };
 		01743F3C18432C73008A93B5 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01743F1E18432C72008A93B5 /* TencentOpenAPI.framework */; };
@@ -160,7 +164,6 @@
 		0123D3531875491F00094370 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		0131C7B418680C3E00CD2BAD /* DrawFaceView_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrawFaceView_logo.png; sourceTree = "<group>"; };
 		0131C7B618680C5F00CD2BAD /* MainView_ defaultFace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainView_ defaultFace.png"; sourceTree = "<group>"; };
-		0131C7B81868161300CD2BAD /* ShareImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShareImg.png; sourceTree = "<group>"; };
 		0138955A186A7AA300745E95 /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
 		0138955B186A7AA300745E95 /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
 		0138955C186A7AA300745E95 /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
@@ -194,6 +197,11 @@
 		014A08D4186ACCBE00BD47BE /* helpPage_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = helpPage_01.png; sourceTree = "<group>"; };
 		0151E50418277862003F9542 /* MyDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDB.h; sourceTree = "<group>"; };
 		0151E50518277863003F9542 /* MyDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDB.m; sourceTree = "<group>"; };
+		015BA7F618764E58005343C4 /* ShareImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShareImg.png; sourceTree = "<group>"; };
+		015BA7FA187665F0005343C4 /* StartPage_01_960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_01_960.png; sourceTree = "<group>"; };
+		015BA7FB187665F0005343C4 /* StartPage_02_960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_02_960.png; sourceTree = "<group>"; };
+		015BA7FC187665F0005343C4 /* StartPage_03_960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_03_960.png; sourceTree = "<group>"; };
+		015BA80018766694005343C4 /* helpPage_01_960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = helpPage_01_960.png; sourceTree = "<group>"; };
 		01723523182B6292003392C4 /* FaceViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceViewCell.h; sourceTree = "<group>"; };
 		01723524182B6292003392C4 /* FaceViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FaceViewCell.m; sourceTree = "<group>"; };
 		01743F1B18432C72008A93B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
@@ -413,7 +421,11 @@
 		013DD08E186ABA4E00B8CDBB /* StartPage */ = {
 			isa = PBXGroup;
 			children = (
+				015BA80018766694005343C4 /* helpPage_01_960.png */,
 				014A08D4186ACCBE00BD47BE /* helpPage_01.png */,
+				015BA7FA187665F0005343C4 /* StartPage_01_960.png */,
+				015BA7FB187665F0005343C4 /* StartPage_02_960.png */,
+				015BA7FC187665F0005343C4 /* StartPage_03_960.png */,
 				013DD08F186ABA6200B8CDBB /* StartPage_01.png */,
 				013DD090186ABA6200B8CDBB /* StartPage_02.png */,
 				013DD091186ABA6200B8CDBB /* StartPage_03.png */,
@@ -802,8 +814,8 @@
 		CCD9BEF6180E6DA6004B8264 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				015BA7F618764E58005343C4 /* ShareImg.png */,
 				013DD08C186AB1BC00B8CDBB /* close.png */,
-				0131C7B81868161300CD2BAD /* ShareImg.png */,
 				013DD08E186ABA4E00B8CDBB /* StartPage */,
 				01B7A3FE18601437005AB2BA /* SettingView */,
 				01B7A3ED18601367005AB2BA /* MyFace */,
@@ -915,23 +927,26 @@
 				01DA4ECA1856DD53007F2819 /* DrawFaceView_barBackgrund.png in Resources */,
 				01DA4EAF1856DCF7007F2819 /* DrawFaceView_red@2x.png in Resources */,
 				013A90C7185067F100D89831 /* README.md in Resources */,
-				0131C7B91868161300CD2BAD /* ShareImg.png in Resources */,
 				01B7A40218601444005AB2BA /* SettingView_titleBackground.png in Resources */,
+				015BA7FF187665F0005343C4 /* StartPage_03_960.png in Resources */,
 				0123D34218753F6F00094370 /* DrawFaceView_LineWide_Min_Selected@2x.png in Resources */,
 				01B7A3F618601378005AB2BA /* MyFace_location.png in Resources */,
 				01B7A3EC18601172005AB2BA /* FaceView_textBackground.png in Resources */,
 				01DA4EA21856DCDC007F2819 /* DrawFaceView_LineWide_max@2x.png in Resources */,
+				015BA7FD187665F0005343C4 /* StartPage_01_960.png in Resources */,
 				01743F4818432C73008A93B5 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				019770E3184D7A01002A3C41 /* MainView_ self@2x.png in Resources */,
 				01DA4EA01856DCDC007F2819 /* DrawFaceView_LineWide_mid@2x.png in Resources */,
 				013DD09A186ABA6200B8CDBB /* 效果图.jpg in Resources */,
 				01E2FB0A186047C500F47C8B /* FeedBack_rect_background.png in Resources */,
+				015BA80118766694005343C4 /* helpPage_01_960.png in Resources */,
 				01743F4318432C73008A93B5 /* UMShareEditViewController.xib in Resources */,
 				019770E5184D7A01002A3C41 /* MainView_addFace.png in Resources */,
 				01E2FB061860437900F47C8B /* FeedBack_rect.png in Resources */,
 				CCCF4426180E25060067E4F9 /* InfoPlist.strings in Resources */,
 				01743F4118432C73008A93B5 /* UMSCommentInputController.xib in Resources */,
 				013DD095186ABA6200B8CDBB /* StartPage_01.png in Resources */,
+				015BA7FE187665F0005343C4 /* StartPage_02_960.png in Resources */,
 				01DA4EB21856DCF7007F2819 /* DrawFaceView_grenn@2x.png in Resources */,
 				CCCF442E180E25060067E4F9 /* Images.xcassets in Resources */,
 				013DD098186ABA6200B8CDBB /* StartPage_dot.png in Resources */,
@@ -939,6 +954,7 @@
 				01E2FB071860437900F47C8B /* FeedBack_email_reck.png in Resources */,
 				01B7A3F718601378005AB2BA /* MyFace_time.png in Resources */,
 				0123D33A18753DA500094370 /* DrawFaceView_FaceColor_blue_selected@2x.png in Resources */,
+				015BA7F718764E58005343C4 /* ShareImg.png in Resources */,
 				013DD08D186AB1BC00B8CDBB /* close.png in Resources */,
 				01DA4EB01856DCF7007F2819 /* DrawFaceView_orange@2x.png in Resources */,
 				01743F4518432C73008A93B5 /* UMSLoginViewController.xib in Resources */,
@@ -1146,8 +1162,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = com.thinew.murmur;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1180,7 +1197,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = com.thinew.murmur;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

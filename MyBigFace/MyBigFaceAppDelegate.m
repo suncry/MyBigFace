@@ -29,7 +29,15 @@
     [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
 
     //分享图文样式到微信朋友圈显示字数比较少，只显示分享标题
-    [UMSocialData defaultData].extConfig.title = @"朋友圈分享内容测试标题";
+    [UMSocialData defaultData].extConfig.title = @"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！";
+    //如果是ios6 隐藏状态栏
+    if (IOS_VERSION_7_OR_ABOVE) {
+//        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+    } else {
+//        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+        [application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    }
+
     
     HomeViewController * homeViewController = [[HomeViewController alloc] init];
     UINavigationController *navigationController =[[UINavigationController alloc]initWithRootViewController:homeViewController];

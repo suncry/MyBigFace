@@ -29,7 +29,7 @@
 //ios6 使用
     IBOutlet UIButton *_backBtn;
     IBOutlet UIButton *_shareBtn;
-
+    IBOutlet UILabel  *_localLable;
 
 }
 @property (nonatomic,retain)  UIImageView       *faceImageView;
