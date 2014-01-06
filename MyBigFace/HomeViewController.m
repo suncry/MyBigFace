@@ -865,7 +865,7 @@
     }
 
     
-    if (scrollView.contentOffset.x > 730)
+    if (scrollView.contentOffset.x > 650)
     {
         self.startDot1.hidden = YES;
         self.startDot2.hidden = YES;

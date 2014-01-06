@@ -17,7 +17,6 @@
 #import "SBJson.h"
 #import "FaceViewCell.h"
 #import <AVFoundation/AVFoundation.h>
-#import "UMSocial.h"
 #import "CommentCell.h"
 
 #import "UIScrollView+SVInfiniteScrolling.h"
@@ -758,8 +757,10 @@
                                       shareText:@"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！"
                                      shareImage:shareImg
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,nil]
-                                       delegate:nil];
+                                       delegate:self];
 
+//    [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
+//    [UMSocialData defaultData].extConfig.
     
 }
 -(void)setupMenuButton{
@@ -976,6 +977,16 @@ shouldChangeTextInRange:(NSRange)range
 //    NSLog(@"back!!!");
     [self.synthesizer stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+{
+    UIImage  *myImage = [UIImage imageNamed:@"ShareImg.png"];
+    UIImage *shareImg = [self addImage:myImage rect1:CGRectMake(0, 0, 320, 568)];
+
+    if ([platformName isEqualToString:UMShareToTencent]) {
+        socialData.shareText = @"分享了一条来自@Whisperweipen 的消息。——微喷，喷出你的秘密吧！";
+        socialData.shareImage = shareImg;
+    }
 }
 
 @end

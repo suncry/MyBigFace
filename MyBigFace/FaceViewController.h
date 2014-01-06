@@ -10,8 +10,9 @@
 #import "MyDB.h"
 #import "Animations.h"
 #import <CoreLocation/CoreLocation.h>
+#import "UMSocial.h"
 
-@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextViewDelegate>
+@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextViewDelegate,UMSocialUIDelegate>
 {
     IBOutlet UIImageView *_faceImageView;
     IBOutlet UILabel *_contentLable;

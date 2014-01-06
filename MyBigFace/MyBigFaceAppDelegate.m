@@ -21,6 +21,8 @@
 
     //设置分享key
     [UMSocialData setAppKey:@"528c287f56240be0d93b99ad"];
+    //打开新浪微博的SSO开关
+    [UMSocialConfig setSupportSinaSSO:YES];
     //设置微信AppId，url地址传nil，将默认使用友盟的网址
     [UMSocialConfig setWXAppId:@"wx8f001b50bdfd23d0" url:nil];
     //设置微信分享应用类型，用户点击消息将跳转到应用，或者到下载页面
@@ -30,6 +32,7 @@
 
     //分享图文样式到微信朋友圈显示字数比较少，只显示分享标题
     [UMSocialData defaultData].extConfig.title = @"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！";
+    
     //如果是ios6 隐藏状态栏
     if (IOS_VERSION_7_OR_ABOVE) {
 //        NSLog(@"IOS_VERSION_7_OR_ABOVE");
