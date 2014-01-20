@@ -10,9 +10,5 @@
 
 @interface CommentCell : UITableViewCell
 @property(nonatomic,retain)UIImageView *logoView;
-//@property(nonatomic,retain)UILabel *commentLable;
-//@property(nonatomic,retain)UILabel *timeLable;
-
-
-
+@property(nonatomic,retain)UILabel *nameLable;
 @end

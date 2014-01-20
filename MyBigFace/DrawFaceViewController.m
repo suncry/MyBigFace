@@ -133,11 +133,17 @@
         self.navigationItem.titleView = t;
         
         //    self.navigationItem.title = @"画心情";
-        //左按钮
-        UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
+        //next按钮
+        UIBarButtonItem * nextButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
+        //自定义 返回按钮
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        self.navigationItem.leftBarButtonItem = backButton;
+//        //自定义 下一步按钮
+//        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Next"] style:UIBarButtonItemStylePlain target:self action:@selector(nextPage)];
+        self.navigationItem.rightBarButtonItem = nextButton;
+
         
-        self.navigationItem.rightBarButtonItem = rightButton;
-        //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
+        [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 
     } else {
         NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");

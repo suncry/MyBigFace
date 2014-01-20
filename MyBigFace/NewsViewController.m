@@ -370,9 +370,12 @@
     
     if (IOS_VERSION_7_OR_ABOVE) {
         NSLog(@"IOS_VERSION_7_OR_ABOVE");
-        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
-        
+        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:251/255.0f green:209/255.0f blue:6/255.0f alpha:1.0f]];
+        //自定义 返回按钮
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        self.navigationItem.leftBarButtonItem = backButton;
         [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+        
 
     } else {
         NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
@@ -390,9 +393,6 @@
     }
 
 }
-/**
- *  ios6 返回的方法
- */
 - (void)back
 {
     [self.navigationController popViewControllerAnimated:YES];

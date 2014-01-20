@@ -18,9 +18,8 @@
 #import "FaceViewCell.h"
 #import <AVFoundation/AVFoundation.h>
 #import "CommentCell.h"
-
 #import "UIScrollView+SVInfiniteScrolling.h"
-
+#import "ReportViewController.h"
 
 #define FONT_SIZE 16.0f
 #define CELL_CONTENT_WIDTH 320.0f
@@ -67,21 +66,16 @@
     self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
     
     self.blackBackground = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SettingView_blackBackground.png"]];
-    self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
+    self.blackBackground.frame = CGRectMake(0, 0, 320, [self.view bounds].size.height );
     self.blackBackground.alpha = 0;
     [self.view addSubview:self.blackBackground];
+    
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     __weak FaceViewController *weakSelf = self;
-    // setup pull-to-refresh
-//    [self.tableView addPullToRefreshWithActionHandler:^{
-//        [weakSelf insertRowAtTop];
-//    }];
-//    
-    // setup infinite scrolling
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf loadMoreComment];
     }];
@@ -140,7 +134,7 @@
 
     }
     //是否为iPhone5 不为5的话缩小字号 以显示完全
-    if ([[UIScreen mainScreen] bounds].size.height < 560)
+    if ([[UIScreen mainScreen] bounds].size.height < 568)
     {
         //默认为20号
         self.contentLable.font = [UIFont systemFontOfSize:16.0];
@@ -203,6 +197,7 @@
 - (IBAction)plus:(id)sender
 {
     int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
+//    NSLog(@"plus 的时候faceClicked == %d",faceClicked);
     MyDB *mydb = [[MyDB alloc]init];
     NSString *face_id = [[NSString alloc]init];
     if (faceClicked >= 100000)
@@ -215,6 +210,8 @@
         face_id = [mydb date:@"id" num:faceClicked];
 //        NSLog(@"plus face_id in date == %@",face_id);
     }
+    NSLog(@"plus 的时候face_id == %@",face_id);
+
     NSString *urlString = [NSString stringWithFormat:@"%@/face/plus",MY_URL];
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     ASIFormDataRequest *requestForm = [ASIFormDataRequest requestWithURL:url];
@@ -237,9 +234,9 @@
     [requestForm startAsynchronous];
     
     [self.plusLable setText:[NSString stringWithFormat:@"%d",[self.plusLable.text intValue]+1]];
-    UIButton *plusBtn = (UIButton *)sender;
-    plusBtn.enabled = NO;
-    [plusBtn setTitle:@"已赞" forState:UIControlStateNormal];
+    _plusBtn.enabled = NO;
+    [_isPlusLable setText:@"已赞"];
+    
     //把赞的数目在本地db中同步
     //主页面 和 我的表情页面的db都要同步
     [mydb setPlus:[face_id intValue] plus:[[NSString stringWithFormat:@"%d",[self.plusLable.text intValue]]intValue]];
@@ -249,7 +246,7 @@
 }
 - (IBAction)commentBtnClick:(id)sender
 {
-    self.commentView.frame = CGRectMake(0, [self.view bounds].size.height, 320, 400);
+    self.commentView.frame = CGRectMake(0, [self.view bounds].size.height, 320, 190);
     [self.view addSubview:_commentView];
     [self.commentTextView becomeFirstResponder];
     
@@ -262,17 +259,6 @@
 
     //commentView上滑
     [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:[self.view bounds].size.height - 65];
-
-//    if ([[UIScreen mainScreen] bounds].size.height < 568)
-//    {
-//        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:[self.view bounds].size.height - 65];
-//
-//    }
-//    else
-//    {
-//        [Animations moveUp:self.commentView andAnimationDuration:0.3 andWait:YES andLength:[self.view bounds].size.height - 65];
-//
-//    }
 }
 - (IBAction)commentCancelBtnClick:(id)sender
 {
@@ -299,7 +285,7 @@
     {
         int faceClicked = [[[NSUserDefaults standardUserDefaults] objectForKey:@"faceClicked"]intValue];
         MyDB *mydb = [[MyDB alloc]init];
-        NSLog(@"faceView  faceClicked == %d",faceClicked);
+//        NSLog(@"faceView  faceClicked == %d",faceClicked);
         //myFace 设置的faceClicked 应该大于100000
         //大于 100000 说明是从 myFace页面跳转过来的 否侧是从主页面跳转的
         NSString *face_id = [[NSString alloc]init];
@@ -319,6 +305,11 @@
         [requestForm addRequestHeader:@"X-Token" value:[[NSUserDefaults standardUserDefaults]stringForKey:@"token"]];
         [requestForm setPostValue:face_id forKey:@"id"];
         [requestForm setPostValue:self.commentTextView.text forKey:@"content"];
+        
+        [requestForm setPostValue:[[NSUserDefaults standardUserDefaults]stringForKey:@"CommentAddress"] forKey:@"address"];
+        
+        
+        
         __block ASIFormDataRequest *requestFormBlock = requestForm;
         [requestForm setCompletionBlock :^{
             NSString *commentString = [requestFormBlock responseString];
@@ -344,41 +335,6 @@
 
     }
 }
-//初始化 下拉和上拉刷新控件
-//- (void)initRefreshBar
-//{
-////    // 下拉刷新
-////    _header = [[MJRefreshHeaderView alloc] init];
-////    _header.delegate = self;
-////    _header.scrollView = self.tableView;
-//    
-//    // 上拉加载更多
-//    _footer = [[MJRefreshFooterView alloc] init];
-//    _footer.delegate = self;
-//    _footer.scrollView = self.tableView;
-//    
-//}
-//#pragma mark 代理方法-进入刷新状态就会调用
-//- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-//{
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    formatter.dateFormat = @"HH : mm : ss.SSS";
-////    if (_header == refreshView) {
-////        [self refreshComment];
-////    } else {
-////        [self loadMoreComment];
-////    }
-//    [self loadMoreComment];
-//
-//}
-
-//- (void)dealloc
-//{
-//    // 释放资源
-////    [_footer free];
-////    [_header free];
-//}
-
 #pragma mark tableView-代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -401,21 +357,20 @@
         {
             cell = [[FaceViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
-        
         if (IOS_VERSION_7_OR_ABOVE) {
-            NSLog(@"IOS_VERSION_7_OR_ABOVE");
+//            NSLog(@"IOS_VERSION_7_OR_ABOVE");
             self.faceView.frame = CGRectMake(0, 0, 320, [[UIScreen mainScreen] bounds].size.height - 65);
 
         } else {
-            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+//            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
             self.faceView.frame = CGRectMake(0, 65, 320, [[UIScreen mainScreen] bounds].size.height - 65);
 
         }
 
-        
-        
+
         [cell.faceInfoView addSubview:self.faceView];
-        cell.faceInfoView.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
+//        [cell addSubview:self.faceView];
+//        cell.faceInfoView.backgroundColor = [UIColor colorWithRed:215/255.0f green:215/255.0f blue:215/255.0f alpha:1.0f];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -431,9 +386,6 @@
         UIView *backgroundViewLeft = nil;
         UIView *backgroundViewRight = nil;
         UILabel *bottonLable = nil;
-//        if (cell == nil)
-//        {
-//            cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CommentCellIdentifier];
             cell.frame = CGRectZero;
             
             label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -446,7 +398,7 @@
             [label setTag:1];
             label.backgroundColor = [UIColor clearColor];
 //            [[label layer] setBorderWidth:2.0f];
-            
+        
             [[cell contentView] addSubview:label];
             
             
@@ -495,29 +447,27 @@
             label = (UILabel*)[cell viewWithTag:1];
         
         [label setText:text];
-        [label setFrame:CGRectMake(CELL_CONTENT_MARGIN+60, CELL_CONTENT_MARGIN, CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2) - 60, MAX(size.height, 15.0f))];
+//        [label setFrame:CGRectMake(CELL_CONTENT_MARGIN+60, CELL_CONTENT_MARGIN+10, CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2) - 60, MAX(size.height, 15.0f))];
+        [label setFrame:CGRectMake(70, CELL_CONTENT_MARGIN+10, CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2) - 60 - 10, MAX(size.height, 15.0f)+40)];
+
         if (!timeLabel)
             timeLabel = (UILabel*)[cell viewWithTag:5];
         
         [timeLabel setText:timeText];
-        [timeLabel setFrame:CGRectMake(200, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 16, 120.0f, 15.0f)];
-
+        [timeLabel setFrame:CGRectMake(200, MAX((height + (CELL_CONTENT_MARGIN + 15))+10, 55.0f) - 16 + 30, 120.0f, 15.0f)];
         if (!backgroundViewLeft)
             backgroundViewLeft = (UIView*)[cell viewWithTag:2];
-        [backgroundViewLeft setFrame:CGRectMake(0, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f))];
+        [backgroundViewLeft setFrame:CGRectMake(0, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15) + 30), 55.0f) + 10)];
         if (!backgroundViewRight)
             backgroundViewRight = (UIView*)[cell viewWithTag:3];
-        [backgroundViewRight setFrame:CGRectMake(310, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f))];
+        [backgroundViewRight setFrame:CGRectMake(310, 0, 10, MAX((height + (CELL_CONTENT_MARGIN + 15) + 30), 55.0f) + 10)];
         if (!bottonLable)
             bottonLable = (UILabel*)[cell viewWithTag:4];
-        [bottonLable setFrame:CGRectMake(20, (MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 1), 280, 1)];
-//        NSLog(@"%d bottonLable height ==  %f",indexPath.row,MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f));
-        
-//        UILabel *redLine = [[UILabel alloc] initWithFrame:CGRectMake(0, [cell bounds].size.height - 5, 320, 5)];
-//        redLine.backgroundColor = [UIColor redColor];
-//        [[cell contentView] addSubview:redLine];
-//        cell.backgroundColor = [UIColor whiteColor];
+        [bottonLable setFrame:CGRectMake(20, (MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 1) + 10 + 30, 280, 1)];
         cell.contentView.backgroundColor = [UIColor whiteColor];
+        
+        cell.nameLable.text = [NSString stringWithFormat:@"%@喷友:",[self.commentArray[indexPath.row - 1] valueForKey:@"address"]];
+        ;
         return cell;
 
     }
@@ -530,15 +480,12 @@
         //第一排 显示face信息时
         NSLog(@"faceView 第一排的高度为 == %d",h);
         if (IOS_VERSION_7_OR_ABOVE) {
-            NSLog(@"IOS_VERSION_7_OR_ABOVE");
+//            NSLog(@"IOS_VERSION_7_OR_ABOVE");
             return [[UIScreen mainScreen] bounds].size.height - 65;
-
         } else {
-            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+//            NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
             return [[UIScreen mainScreen] bounds].size.height;
-
         }
-
     }
     else
     {
@@ -552,7 +499,7 @@
         
         CGFloat height = MAX(size.height, 35.0f);
 //        NSLog(@"height == %f",height);
-        return height + (CELL_CONTENT_MARGIN + 15);
+        return height + (CELL_CONTENT_MARGIN + 15) + 10 + 30;//加10 是因为 用户名的加入 使得 高度增加了10
 
     }
     //错误时
@@ -620,11 +567,11 @@
             //评论为0 返回顶部
             //tableView 返回顶部
             if (IOS_VERSION_7_OR_ABOVE) {
-                NSLog(@"IOS_VERSION_7_OR_ABOVE");
+//                NSLog(@"IOS_VERSION_7_OR_ABOVE");
                 [self.tableView setContentOffset:CGPointMake(0, -64) animated:YES];
 
             } else {
-                NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+//                NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
 //                [self.tableView setContentOffset:CGPointMake(0, -64) animated:YES];
 
             }
@@ -765,19 +712,22 @@
 }
 -(void)setupMenuButton{
     if (IOS_VERSION_7_OR_ABOVE) {
-        NSLog(@"IOS_VERSION_7_OR_ABOVE");
+//        NSLog(@"IOS_VERSION_7_OR_ABOVE");
         //右按钮
-        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithTitle:@"分享" style:UIBarButtonItemStylePlain target:self action:@selector(shareBtnClick)];
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"More"] style:UIBarButtonItemStylePlain target:self action:@selector(moreBtnClick)];
+
         self.navigationItem.rightBarButtonItem = rightButton;
-        UIBarButtonItem *backBtn = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-        self.navigationItem.leftBarButtonItem = backBtn;
+
+        //自定义 返回按钮
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        self.navigationItem.leftBarButtonItem = backButton;
 
     } else {
-        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
+//        NSLog(@"NOT IOS_VERSION_7_OR_ABOVE");
         self.navigationController.navigationBarHidden = YES;
         [_backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         
-        [_shareBtn addTarget:self action:@selector(shareBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [_shareBtn addTarget:self action:@selector(moreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 
     }
 
@@ -801,35 +751,32 @@
     self.faceImageView.layer.masksToBounds=YES; //设置为yes，就可以使用圆角
     self.faceImageView.layer.cornerRadius= 80; //设置它的圆角大小 半径
     
+//    [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
+//    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:20.0];
+//    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:20.0];
+//    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
+//    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
+    
     [Animations moveDown:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:50.0];
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:20.0];
-    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:20.0];
-    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.2 andWait:YES andLength:10.0];
+    [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:50.0];
+    [Animations moveUp:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:10.0];
     [Animations moveDown:self.faceImageView andAnimationDuration:0.1 andWait:YES andLength:12.0];
+
 
 }
 //如果输入超过规定的字数14，就不再让输入
-//- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-//{
-//    NSString *new = [textView.text stringByReplacingCharactersInRange:range withString:text];
-//    NSInteger res = 14 - [new length];
-//    if(res >= 0){
-//        return YES;
-//    }
-//    else{
-//        NSLog(@"[text length] == %d",[text length]);
-//        NSRange rg = {0,[text length]+res};
-//        if (rg.length>0) {
-//            NSString *s = [text substringWithRange:rg];
-//            [textView setText:[textView.text stringByReplacingCharactersInRange:range withString:s]];
-//        }
-//        return NO;
-//    }
-//}
 - (BOOL)textView:(UITextView *)textView
 shouldChangeTextInRange:(NSRange)range
  replacementText:(NSString *)text
 {
+    //禁止换行...实现 done 按钮
+    if ([text isEqualToString:@"\n"])
+    {
+        [textView resignFirstResponder];
+        return NO;
+    }
+
     //判断加上输入的字符，是否超过界限
     NSString *str = [NSString stringWithFormat:@"%@%@", textView.text, text];
     if (str.length > 110)
@@ -988,5 +935,36 @@ shouldChangeTextInRange:(NSRange)range
         socialData.shareImage = shareImg;
     }
 }
-
+- (void)moreBtnClick
+{
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"还是说点什么吧!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//    // optional - add more buttons:
+//    //        [alert addButtonWithTitle:@"Yes"];
+//    [alert show];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:nil
+                                  delegate:self
+                                  cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:@"分享",@"举报",nil];
+    [actionSheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        [self shareBtnClick];
+    }
+    if (buttonIndex == 1)
+    {
+        NSLog(@"举报");
+        ReportViewController *reportViewController = [[ReportViewController alloc]init];
+        [self.navigationController pushViewController:reportViewController animated:YES];
+    }
+}
+//- (void)reportBtnClick
+//{
+//    ReportViewController *reportViewController = [[ReportViewController alloc]init];
+//    [self.navigationController pushViewController:reportViewController animated:YES];
+//}
 @end

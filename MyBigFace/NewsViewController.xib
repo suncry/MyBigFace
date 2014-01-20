@@ -29,7 +29,7 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wai-TB-Cbn">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.97647058819999999" green="0.78823529410000004" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.98431372549999996" green="0.81960784310000001" blue="0.023529411760000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="65" id="t9e-Ia-Jk0"/>
                     </constraints>
@@ -37,10 +37,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zui-2e-e8b">
-                    <rect key="frame" x="16" y="29" width="40" height="30"/>
+                    <rect key="frame" x="16" y="29" width="30" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="返回"/>
+                    <state key="normal" image="Back.png"/>
                 </button>
             </subviews>
             <constraints>
@@ -59,4 +59,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
     </objects>
+    <resources>
+        <image name="Back.png" width="28" height="28"/>
+    </resources>
 </document>

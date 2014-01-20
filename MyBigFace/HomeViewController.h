@@ -57,5 +57,7 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate,UIScrollViewD
 - (IBAction)addFace;
 - (IBAction)feedBackCancle:(id)sender;
 - (IBAction)feedBackSend:(id)sender;
+- (IBAction)UserAgreement:(id)sender;
+
 
 @end

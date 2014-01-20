@@ -35,7 +35,7 @@
                         <constraint firstAttribute="height" constant="190" id="Fgf-Sc-Auh"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="aou-xp-LlO"/>
                     </connections>
@@ -43,7 +43,7 @@
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1zf-zM-0aI">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.97647058819999999" green="0.78823529410000004" blue="0.047058823530000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.98431372549999996" green="0.81960784310000001" blue="0.023529411760000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="65" id="WvZ-Xk-Tgt"/>
                     </constraints>
@@ -51,20 +51,20 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VOV-gt-6rJ">
-                    <rect key="frame" x="244" y="29" width="60" height="30"/>
+                    <rect key="frame" x="250" y="29" width="50" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="下一步">
+                    <state key="normal" title="完成">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4sk-b8-9F6">
-                    <rect key="frame" x="16" y="29" width="40" height="30"/>
+                    <rect key="frame" x="10" y="29" width="30" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="返回">
+                    <state key="normal" image="Back.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
@@ -93,6 +93,7 @@
         </view>
     </objects>
     <resources>
+        <image name="Back.png" width="28" height="24"/>
         <image name="WriteFace_botton.png" width="640" height="40"/>
     </resources>
 </document>

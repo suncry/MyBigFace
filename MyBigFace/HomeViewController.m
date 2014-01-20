@@ -22,7 +22,7 @@
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
-
+#import "UserAgreementViewController.h"
 @interface HomeViewController ()
 {
 }
@@ -55,10 +55,6 @@
     
     //初始化 用于储存face信息的数组
     self.mydb = [[MyDB alloc]init];
-    self.blackBackground = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SettingView_blackBackground.png"]];
-    self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
-    self.blackBackground.alpha = 0;
-    [self.view addSubview:self.blackBackground];
 
     //控制 switch 的开关
     if ([[[NSUserDefaults standardUserDefaults]objectForKey:@"speech"]isEqualToString:@"no"])
@@ -79,10 +75,6 @@
     {
         [self startPage];
     }
-    
-    
-
-    
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -95,6 +87,7 @@
     
 
     // Do any additional setup after loading the view from its nib.
+
     //默认 获取 最新的face
     [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"0"] forKey:@"selectedSegmentIndex"];
 
@@ -127,6 +120,13 @@
 //    [NSTimer scheduledTimerWithTimeInterval:1 target:_header selector:@selector(beginRefreshing) userInfo:nil repeats:NO];
     //构建segmentedControl
     [self segmentedControlInit];
+    
+    //初始化 黑色半透明遮盖背景
+    self.blackBackground = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"SettingView_blackBackground.png"]];
+    self.blackBackground.frame = CGRectMake(0, 0, 320, 568);
+    self.blackBackground.alpha = 0;
+    [self.view addSubview:self.blackBackground];
+
 }
 - (void)didReceiveMemoryWarning
 {
@@ -138,7 +138,11 @@
     DrawFaceViewController *drawFaceViewController = [[DrawFaceViewController alloc]init];
     [self.navigationController pushViewController:drawFaceViewController animated:YES];
 }
--(void)setupMenuButton{
+-(void)setupMenuButton
+{
+//    self.navigationController.navigationBar.translucent = NO;
+//
+//    self.navigationController.navigationBar.opaque = YES;
     //设置标题
     UILabel *t = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     t.font = [UIFont systemFontOfSize:17];
@@ -159,7 +163,7 @@
         [rightDrawerButton setTintColor:[UIColor whiteColor]];
         self.navigationItem.rightBarButtonItem = rightDrawerButton;
 
-        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:249/255.0f green:201/255.0f blue:12/255.0f alpha:1.0f]];
+        [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:251/255.0f green:209/255.0f blue:6/255.0f alpha:1.0f]];
         [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 
     } else {
@@ -188,6 +192,8 @@
     self.settingView.frame = CGRectMake(-320, 0, 320, [self.view bounds].size.height);
     [self.view addSubview:self.settingView];
     
+    self.blackBackground.hidden = NO;
+
     [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
         self.navigationController.navigationBar.alpha = 0;
         self.blackBackground.alpha = 1;
@@ -373,6 +379,8 @@
          *  存储用户位置
          */
         [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%@ %@",placemark.administrativeArea,placemark.subLocality] forKey:@"address"];
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%@",placemark.administrativeArea] forKey:@"CommentAddress"];
+
         NSLog(@"用户的位置 address ==  %@ ",[[NSUserDefaults standardUserDefaults]stringForKey:@"address"]);
         //locality.text = placemark.subLocality;
 //        NSLog(@"placemark.subLocality == %@",placemark.subLocality);
@@ -402,6 +410,7 @@
 //刷新table的填充数据
 - (void)refreshData
 {
+
     selectedSegmentIndex =[[[NSUserDefaults standardUserDefaults] objectForKey:@"selectedSegmentIndex"]intValue];
 //    NSLog(@"selectedSegmentIndex == %d",selectedSegmentIndex);
     NSString *str = @"newest";
@@ -415,9 +424,6 @@
         case 2:
             str = @"round";
             break;
-//        case 3:
-//            str = @"my";
-//            break;
         default:
             break;
     }
@@ -440,10 +446,6 @@
         case 2:
             str = @"round";
             break;
-//        case 3:
-//            str = @"my";
-//            break;
-            
         default:
             break;
     }
@@ -452,6 +454,7 @@
 }
 - (void)downloadData:(NSString *)info
 {
+
     NSString *urlString = [NSString stringWithFormat:@"%@/face/%@?skip=0&take=48",MY_URL,info];
     if ([info isEqualToString:@"round"])
     {
@@ -481,7 +484,6 @@
                               url:[dataDic valueForKey:@"url"]
                           user_id:[dataDic valueForKey:@"user_id"]
                           address:[dataDic valueForKey:@"address"]];
-//            NSLog(@"downloadData address == %@",[self.mydb date:@"address" num:i]);
             i++;
         }
 //        NSLog(@"home page dict == %@",dict);
@@ -491,10 +493,7 @@
         __weak HomeViewController *weakSelf = self;
         [weakSelf.tableView reloadData];
         [weakSelf.tableView.pullToRefreshView stopAnimating];
-
-//        // 结束刷新状态
-//        [_header endRefreshing];
-//        [_footer endRefreshing];
+//        weakSelf.tableView.contentOffset = CGPointMake(0, 0);
 
     }];
     [request setFailedBlock :^{
@@ -559,13 +558,18 @@
 - (void)segmentedControlInit
 {
     PPiFlatSegmentedControl *segmented=[[PPiFlatSegmentedControl alloc] initWithFrame:CGRectMake(40, 73, 246, 29) items:@[               @{@"text":@"最新"},@{@"text":@"最热"},@{@"text":@"附近"}]
-                                                                         iconPosition:IconPositionRight andSelectionBlock:^(NSUInteger segmentIndex) {
-//                                                                             selectedSegmentIndex = segmentIndex;
-                                                                             [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",segmentIndex] forKey:@"selectedSegmentIndex"];
+                                                                         iconPosition:IconPositionRight
+                                                                    andSelectionBlock:^(NSUInteger segmentIndex)
+    {
 
-                                                                             [self.tableView triggerPullToRefresh];
-//                                                                             [_header beginRefreshing];
-                                                                         }];
+        //刷新的时候返回 表的顶部
+        [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+
+        [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"%d",segmentIndex] forKey:@"selectedSegmentIndex"];
+        [self.tableView triggerPullToRefresh];
+
+        
+     }];
     //    segmented.color=[UIColor colorWithRed:88.0f/255.0 green:88.0f/255.0 blue:88.0f/255.0 alpha:1];
     segmented.color=[UIColor whiteColor];
     segmented.borderWidth=0;
@@ -583,17 +587,19 @@
 - (IBAction)settingBtnClick:(id)sender;
 {
     //收起settingView
-    self.settingView.frame = CGRectMake(0, 0, 320, 568);
-    [self.view addSubview:self.settingView];
+    self.settingView.frame = CGRectMake(0, 0, 320, [self.view bounds].size.height);
+//    [self.view addSubview:self.settingView];
     
     //commentView左滑
     [Animations moveLeft:self.settingView andAnimationDuration:0.5 andWait:YES andLength:320.0];
     [UIView animateWithDuration:0.5 delay:0 options:0 animations:^(){
         self.navigationController.navigationBar.hidden = NO;
         self.navigationController.navigationBar.alpha = 1;
+        self.blackBackground.alpha = 1;
         self.blackBackground.alpha = 0;
     } completion:^(BOOL finished)
      {
+         self.blackBackground.hidden = YES;
      }];
 }
 //给我评分
@@ -632,9 +638,9 @@
 }
 - (IBAction)feedBackSend:(id)sender
 {
-    if (self.self.feedBackEmailTextView.text.length == 0 || self.feedBackCommentTextView.text.length == 0)
+    if (self.feedBackCommentTextView.text.length == 0)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"反馈内容和邮箱地址请填写完整!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@">_<!" message:@"反馈内容不能为空哦!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         // optional - add more buttons:
         //        [alert addButtonWithTitle:@"Yes"];
         [alert show];
@@ -726,6 +732,20 @@
  *
  *  @param textView
  */
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    //禁止换行...实现 done 按钮
+    if ([text isEqualToString:@"\n"]) {
+        
+        [textView resignFirstResponder];
+        
+        return NO;
+        
+    }
+    
+    return YES;
+
+}
 
 -(void)textViewDidChange:(UITextView *)textView
 {
@@ -902,6 +922,22 @@
     [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"yes"] forKey:@"isNotFirstStart"];
 
 
+}
+- (IBAction)UserAgreement:(id)sender
+{
+    UserAgreementViewController *userAgreementViewController = [[UserAgreementViewController alloc]init];
+    [self.navigationController pushViewController:userAgreementViewController animated:YES];
+}
+CGFloat BNRTimeBlock (void (^block)(void)) {
+    return 12.0f;
+    
+} // BNRTimeBlock
+- (void)CyBlock:(void (^)(void))animations
+                  completion:(void (^)(BOOL finished))completion
+
+{
+    
+    
 }
 
 @end

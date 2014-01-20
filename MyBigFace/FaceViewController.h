@@ -12,12 +12,13 @@
 #import <CoreLocation/CoreLocation.h>
 #import "UMSocial.h"
 
-@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextViewDelegate,UMSocialUIDelegate>
+@interface FaceViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextViewDelegate,UMSocialUIDelegate,UIActionSheetDelegate>
 {
     IBOutlet UIImageView *_faceImageView;
     IBOutlet UILabel *_contentLable;
-//    IBOutlet UIButton *_plusBtn;
+    IBOutlet UIButton *_plusBtn;
     IBOutlet UILabel *_plusLable;
+    IBOutlet UILabel *_isPlusLable;
     IBOutlet UILabel *_commentNumLable;
     IBOutlet UILabel *_distanceLable;
     IBOutlet UIView *_commentView;

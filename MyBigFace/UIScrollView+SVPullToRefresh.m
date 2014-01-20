@@ -99,6 +99,8 @@ static char UIScrollViewPullToRefreshView;
 
 - (void)triggerPullToRefresh {
     self.pullToRefreshView.state = SVPullToRefreshStateTriggered;
+
+
     [self.pullToRefreshView startAnimating];
 }
 

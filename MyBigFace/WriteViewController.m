@@ -75,10 +75,15 @@
         t.textAlignment = NSTextAlignmentCenter;
         t.text = @"写心情";
         self.navigationItem.titleView = t;
-        //左按钮
-        UIBarButtonItem * rightButton = [[UIBarButtonItem alloc]initWithTitle:@"下一步" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
-        
-        self.navigationItem.rightBarButtonItem = rightButton;
+        //自定义 返回按钮
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+        self.navigationItem.leftBarButtonItem = backButton;
+        //自定义 下一步按钮
+//        UIBarButtonItem *nextButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Next"] style:UIBarButtonItemStylePlain target:self action:@selector(nextPage)];
+        //next按钮
+        UIBarButtonItem * nextButton = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleBordered target:self action:@selector(nextPage)];
+
+        self.navigationItem.rightBarButtonItem = nextButton;
         //    self.navigationController.navigationBar.barTintColor = [UIColor redColor];
 
     } else {
@@ -138,6 +143,12 @@
 //如果输入超过规定的字数140，就不再让输入
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    //禁止换行...实现 done 按钮
+    if ([text isEqualToString:@"\n"])
+    {
+        [textView resignFirstResponder];
+        return NO;
+    }
     //判断加上输入的字符，是否超过界限
     NSString *str = [NSString stringWithFormat:@"%@%@", textView.text, text];
     if (str.length > 110)

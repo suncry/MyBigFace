@@ -15,8 +15,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-//        self.faceInfoView = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, [self bounds].size.height)];
-        self.faceInfoView = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, [[UIScreen mainScreen] bounds].size.height - 65)];
+
+
+        self.faceInfoView = [[UIView alloc]initWithFrame:CGRectMake(0,0, 320, [[UIScreen mainScreen] bounds].size.height)];
 
         [self addSubview:self.faceInfoView];
 

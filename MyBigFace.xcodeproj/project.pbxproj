@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010AF9101888F60000429012 /* reportBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AF90E1888F60000429012 /* reportBtn@2x.png */; };
+		010AF9131888F6CB00429012 /* FaceView_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AF9121888F6CB00429012 /* FaceView_comment.png */; };
+		010AF91B1888FE4C00429012 /* Next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AF91A1888FE4C00429012 /* Next@2x.png */; };
+		010AF92118890CB700429012 /* ReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 010AF91F18890CB700429012 /* ReportViewController.m */; };
+		010AF92218890CB700429012 /* ReportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 010AF92018890CB700429012 /* ReportViewController.xib */; };
+		010AF92418890E3200429012 /* reportBtn_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 010AF92318890E3200429012 /* reportBtn_selected@2x.png */; };
 		0123D33A18753DA500094370 /* DrawFaceView_FaceColor_blue_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0123D33718753DA500094370 /* DrawFaceView_FaceColor_blue_selected@2x.png */; };
 		0123D33B18753DA500094370 /* DrawFaceView_FaceColor_red_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0123D33818753DA500094370 /* DrawFaceView_FaceColor_red_selected@2x.png */; };
 		0123D33C18753DA500094370 /* DrawFaceView_FaceColor_yellow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0123D33918753DA500094370 /* DrawFaceView_FaceColor_yellow_selected@2x.png */; };
@@ -37,14 +43,17 @@
 		013A90CD185067F100D89831 /* PPiFlatSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 013A90C3185067F100D89831 /* PPiFlatSegmentedControl.m */; };
 		013DD087186AB04800B8CDBB /* DrawFaceView_removeFinllyLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD086186AB04800B8CDBB /* DrawFaceView_removeFinllyLine.png */; };
 		013DD089186AB05000B8CDBB /* DrawFaceView_removeAllLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD088186AB05000B8CDBB /* DrawFaceView_removeAllLine.png */; };
-		013DD08B186AB09100B8CDBB /* FaceView_comment.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD08A186AB09100B8CDBB /* FaceView_comment.png */; };
 		013DD08D186AB1BC00B8CDBB /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD08C186AB1BC00B8CDBB /* close.png */; };
 		013DD095186ABA6200B8CDBB /* StartPage_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD08F186ABA6200B8CDBB /* StartPage_01.png */; };
 		013DD096186ABA6200B8CDBB /* StartPage_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD090186ABA6200B8CDBB /* StartPage_02.png */; };
 		013DD097186ABA6200B8CDBB /* StartPage_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD091186ABA6200B8CDBB /* StartPage_03.png */; };
 		013DD098186ABA6200B8CDBB /* StartPage_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD092186ABA6200B8CDBB /* StartPage_dot.png */; };
 		013DD099186ABA6200B8CDBB /* StartPage_ring.png in Resources */ = {isa = PBXBuildFile; fileRef = 013DD093186ABA6200B8CDBB /* StartPage_ring.png */; };
-		013DD09A186ABA6200B8CDBB /* 效果图.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 013DD094186ABA6200B8CDBB /* 效果图.jpg */; };
+		01429A4A188CC747002131D9 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01429A48188CC747002131D9 /* More@2x.png */; };
+		01429A4B188CC747002131D9 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01429A49188CC747002131D9 /* Back@2x.png */; };
+		01429A53188CD401002131D9 /* HomePage_Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 01429A52188CD401002131D9 /* HomePage_Back@2x.png */; };
+		01429A5C188CF857002131D9 /* UserAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01429A5A188CF857002131D9 /* UserAgreementViewController.m */; };
+		01429A5D188CF857002131D9 /* UserAgreementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 01429A5B188CF857002131D9 /* UserAgreementViewController.xib */; };
 		014A08D5186ACCBE00BD47BE /* helpPage_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 014A08D4186ACCBE00BD47BE /* helpPage_01.png */; };
 		0151E50618277863003F9542 /* MyDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0151E50518277863003F9542 /* MyDB.m */; };
 		015BA7F718764E58005343C4 /* ShareImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 015BA7F618764E58005343C4 /* ShareImg.png */; };
@@ -147,6 +156,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		010AF90E1888F60000429012 /* reportBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reportBtn@2x.png"; sourceTree = "<group>"; };
+		010AF9121888F6CB00429012 /* FaceView_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FaceView_comment.png; sourceTree = "<group>"; };
+		010AF91A1888FE4C00429012 /* Next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Next@2x.png"; sourceTree = "<group>"; };
+		010AF91E18890CB700429012 /* ReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportViewController.h; sourceTree = "<group>"; };
+		010AF91F18890CB700429012 /* ReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportViewController.m; sourceTree = "<group>"; };
+		010AF92018890CB700429012 /* ReportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportViewController.xib; sourceTree = "<group>"; };
+		010AF92318890E3200429012 /* reportBtn_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reportBtn_selected@2x.png"; sourceTree = "<group>"; };
 		0123D33718753DA500094370 /* DrawFaceView_FaceColor_blue_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrawFaceView_FaceColor_blue_selected@2x.png"; sourceTree = "<group>"; };
 		0123D33818753DA500094370 /* DrawFaceView_FaceColor_red_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrawFaceView_FaceColor_red_selected@2x.png"; sourceTree = "<group>"; };
 		0123D33918753DA500094370 /* DrawFaceView_FaceColor_yellow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DrawFaceView_FaceColor_yellow_selected@2x.png"; sourceTree = "<group>"; };
@@ -186,14 +202,18 @@
 		013A90C3185067F100D89831 /* PPiFlatSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPiFlatSegmentedControl.m; sourceTree = "<group>"; };
 		013DD086186AB04800B8CDBB /* DrawFaceView_removeFinllyLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrawFaceView_removeFinllyLine.png; sourceTree = "<group>"; };
 		013DD088186AB05000B8CDBB /* DrawFaceView_removeAllLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DrawFaceView_removeAllLine.png; sourceTree = "<group>"; };
-		013DD08A186AB09100B8CDBB /* FaceView_comment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FaceView_comment.png; sourceTree = "<group>"; };
 		013DD08C186AB1BC00B8CDBB /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
 		013DD08F186ABA6200B8CDBB /* StartPage_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_01.png; sourceTree = "<group>"; };
 		013DD090186ABA6200B8CDBB /* StartPage_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_02.png; sourceTree = "<group>"; };
 		013DD091186ABA6200B8CDBB /* StartPage_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_03.png; sourceTree = "<group>"; };
 		013DD092186ABA6200B8CDBB /* StartPage_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_dot.png; sourceTree = "<group>"; };
 		013DD093186ABA6200B8CDBB /* StartPage_ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartPage_ring.png; sourceTree = "<group>"; };
-		013DD094186ABA6200B8CDBB /* 效果图.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "效果图.jpg"; sourceTree = "<group>"; };
+		01429A48188CC747002131D9 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
+		01429A49188CC747002131D9 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
+		01429A52188CD401002131D9 /* HomePage_Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HomePage_Back@2x.png"; sourceTree = "<group>"; };
+		01429A59188CF857002131D9 /* UserAgreementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAgreementViewController.h; sourceTree = "<group>"; };
+		01429A5A188CF857002131D9 /* UserAgreementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAgreementViewController.m; sourceTree = "<group>"; };
+		01429A5B188CF857002131D9 /* UserAgreementViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserAgreementViewController.xib; sourceTree = "<group>"; };
 		014A08D4186ACCBE00BD47BE /* helpPage_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = helpPage_01.png; sourceTree = "<group>"; };
 		0151E50418277862003F9542 /* MyDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDB.h; sourceTree = "<group>"; };
 		0151E50518277863003F9542 /* MyDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDB.m; sourceTree = "<group>"; };
@@ -431,7 +451,6 @@
 				013DD091186ABA6200B8CDBB /* StartPage_03.png */,
 				013DD092186ABA6200B8CDBB /* StartPage_dot.png */,
 				013DD093186ABA6200B8CDBB /* StartPage_ring.png */,
-				013DD094186ABA6200B8CDBB /* 效果图.jpg */,
 			);
 			name = StartPage;
 			sourceTree = "<group>";
@@ -548,6 +567,7 @@
 		019770DB184D79C6002A3C41 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
+				01429A52188CD401002131D9 /* HomePage_Back@2x.png */,
 				0131C7B618680C5F00CD2BAD /* MainView_ defaultFace.png */,
 				019770DC184D7A01002A3C41 /* MainView_ setting@2x.png */,
 				019770DD184D7A01002A3C41 /* MainView_ self@2x.png */,
@@ -618,7 +638,7 @@
 		01D7235D185EE8EB001D53BE /* FaceView */ = {
 			isa = PBXGroup;
 			children = (
-				013DD08A186AB09100B8CDBB /* FaceView_comment.png */,
+				010AF9121888F6CB00429012 /* FaceView_comment.png */,
 				01B7A3EB18601172005AB2BA /* FaceView_textBackground.png */,
 			);
 			name = FaceView;
@@ -764,6 +784,8 @@
 		CCCF444F180E25420067E4F9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				01429A5B188CF857002131D9 /* UserAgreementViewController.xib */,
+				010AF92018890CB700429012 /* ReportViewController.xib */,
 				CCCF444C180E25330067E4F9 /* HomeViewController.xib */,
 				CCCF446E180E3C590067E4F9 /* FaceViewController.xib */,
 				CCCF4469180E340D0067E4F9 /* WriteViewController.xib */,
@@ -787,8 +809,12 @@
 				CCCF4463180E33FA0067E4F9 /* DrawFaceViewController.m */,
 				CCCF4467180E340D0067E4F9 /* WriteViewController.h */,
 				CCCF4468180E340D0067E4F9 /* WriteViewController.m */,
+				01429A59188CF857002131D9 /* UserAgreementViewController.h */,
+				01429A5A188CF857002131D9 /* UserAgreementViewController.m */,
 				CCCF446C180E3C590067E4F9 /* FaceViewController.h */,
 				CCCF446D180E3C590067E4F9 /* FaceViewController.m */,
+				010AF91E18890CB700429012 /* ReportViewController.h */,
+				010AF91F18890CB700429012 /* ReportViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -814,6 +840,11 @@
 		CCD9BEF6180E6DA6004B8264 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				01429A48188CC747002131D9 /* More@2x.png */,
+				01429A49188CC747002131D9 /* Back@2x.png */,
+				010AF92318890E3200429012 /* reportBtn_selected@2x.png */,
+				010AF90E1888F60000429012 /* reportBtn@2x.png */,
+				010AF91A1888FE4C00429012 /* Next@2x.png */,
 				015BA7F618764E58005343C4 /* ShareImg.png */,
 				013DD08C186AB1BC00B8CDBB /* close.png */,
 				013DD08E186ABA4E00B8CDBB /* StartPage */,
@@ -918,6 +949,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				010AF92218890CB700429012 /* ReportViewController.xib in Resources */,
 				01B7A3FC18601378005AB2BA /* MyFace_faceBackground.png in Resources */,
 				0123D34018753F6F00094370 /* DrawFaceView_LineWide_Max_Selected@2x.png in Resources */,
 				01DA4EBE1856DD13007F2819 /* DrawFaceView_FaceColor_red@2x.png in Resources */,
@@ -937,13 +969,13 @@
 				01743F4818432C73008A93B5 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				019770E3184D7A01002A3C41 /* MainView_ self@2x.png in Resources */,
 				01DA4EA01856DCDC007F2819 /* DrawFaceView_LineWide_mid@2x.png in Resources */,
-				013DD09A186ABA6200B8CDBB /* 效果图.jpg in Resources */,
 				01E2FB0A186047C500F47C8B /* FeedBack_rect_background.png in Resources */,
 				015BA80118766694005343C4 /* helpPage_01_960.png in Resources */,
 				01743F4318432C73008A93B5 /* UMShareEditViewController.xib in Resources */,
 				019770E5184D7A01002A3C41 /* MainView_addFace.png in Resources */,
 				01E2FB061860437900F47C8B /* FeedBack_rect.png in Resources */,
 				CCCF4426180E25060067E4F9 /* InfoPlist.strings in Resources */,
+				01429A5D188CF857002131D9 /* UserAgreementViewController.xib in Resources */,
 				01743F4118432C73008A93B5 /* UMSCommentInputController.xib in Resources */,
 				013DD095186ABA6200B8CDBB /* StartPage_01.png in Resources */,
 				015BA7FE187665F0005343C4 /* StartPage_02_960.png in Resources */,
@@ -953,6 +985,8 @@
 				01B7A3FA18601378005AB2BA /* MyFace_new_comment.png in Resources */,
 				01E2FB071860437900F47C8B /* FeedBack_email_reck.png in Resources */,
 				01B7A3F718601378005AB2BA /* MyFace_time.png in Resources */,
+				01429A53188CD401002131D9 /* HomePage_Back@2x.png in Resources */,
+				010AF9131888F6CB00429012 /* FaceView_comment.png in Resources */,
 				0123D33A18753DA500094370 /* DrawFaceView_FaceColor_blue_selected@2x.png in Resources */,
 				015BA7F718764E58005343C4 /* ShareImg.png in Resources */,
 				013DD08D186AB1BC00B8CDBB /* close.png in Resources */,
@@ -965,6 +999,7 @@
 				013DD087186AB04800B8CDBB /* DrawFaceView_removeFinllyLine.png in Resources */,
 				CCCF446B180E340D0067E4F9 /* WriteViewController.xib in Resources */,
 				01DA4EA11856DCDC007F2819 /* DrawFaceView_LineWide_min@2x.png in Resources */,
+				01429A4A188CC747002131D9 /* More@2x.png in Resources */,
 				01DA4EBD1856DD13007F2819 /* DrawFaceView_FaceColor_blue@2x.png in Resources */,
 				013DD097186ABA6200B8CDBB /* StartPage_03.png in Resources */,
 				01DA4EBB1856DD13007F2819 /* DrawFaceView_FaceColor_yellow@2x.png in Resources */,
@@ -975,16 +1010,20 @@
 				013DD099186ABA6200B8CDBB /* StartPage_ring.png in Resources */,
 				01B7A3FB18601378005AB2BA /* MyFace_comment.png in Resources */,
 				01DA4EAD1856DCF7007F2819 /* DrawFaceView_white@2x.png in Resources */,
+				010AF91B1888FE4C00429012 /* Next@2x.png in Resources */,
 				CCCF445B180E25AF0067E4F9 /* NewsViewController.xib in Resources */,
 				0123D3441875415200094370 /* DrawFaceView_grenn_slected@2x.png in Resources */,
 				01E2FB021860374A00F47C8B /* SettingView_arrow.png in Resources */,
 				0123D34A187544DB00094370 /* DrawFaceView_black_selected@2x.png in Resources */,
+				01429A4B188CC747002131D9 /* Back@2x.png in Resources */,
 				013A90CA185067F100D89831 /* FontAwesome+iOS.podspec in Resources */,
 				013A90C8185067F100D89831 /* FontAwesome.ttf in Resources */,
+				010AF9101888F60000429012 /* reportBtn@2x.png in Resources */,
 				01DA4EB11856DCF7007F2819 /* DrawFaceView_yellow@2x.png in Resources */,
 				01C4290F185ECC2D00BC1CB3 /* WriteFace_botton.png in Resources */,
 				0123D33C18753DA500094370 /* DrawFaceView_FaceColor_yellow_selected@2x.png in Resources */,
 				019770E2184D7A01002A3C41 /* MainView_ setting@2x.png in Resources */,
+				010AF92418890E3200429012 /* reportBtn_selected@2x.png in Resources */,
 				CCCF4470180E3C590067E4F9 /* FaceViewController.xib in Resources */,
 				0131C7B518680C3E00CD2BAD /* DrawFaceView_logo.png in Resources */,
 				0123D34118753F6F00094370 /* DrawFaceView_LineWide_Mid_Selected@2x.png in Resources */,
@@ -997,7 +1036,6 @@
 				0131C7B718680C5F00CD2BAD /* MainView_ defaultFace.png in Resources */,
 				0123D34E187544DB00094370 /* DrawFaceView_yellow_selected@2x.png in Resources */,
 				0123D350187544E200094370 /* DrawFaceView_orange_selected@2x.png in Resources */,
-				013DD08B186AB09100B8CDBB /* FaceView_comment.png in Resources */,
 				013DD089186AB05000B8CDBB /* DrawFaceView_removeAllLine.png in Resources */,
 				01B7A40318601444005AB2BA /* SettingView_blackBackground.png in Resources */,
 				01743F4218432C73008A93B5 /* UMSCommentInputControlleriPad.xib in Resources */,
@@ -1072,11 +1110,13 @@
 				CCCF444D180E25330067E4F9 /* HomeViewController.m in Sources */,
 				CCCF446F180E3C590067E4F9 /* FaceViewController.m in Sources */,
 				0151E50618277863003F9542 /* MyDB.m in Sources */,
+				010AF92118890CB700429012 /* ReportViewController.m in Sources */,
 				CC6EBE8118164E2E00E5E6A1 /* MyBigFaceCell.m in Sources */,
 				0138955F186A7AA300745E95 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				017E38A3182A13E600D5C3BB /* Animations.m in Sources */,
 				CCCF446A180E340D0067E4F9 /* WriteViewController.m in Sources */,
 				CCCF4455180E258B0067E4F9 /* SettingViewController.m in Sources */,
+				01429A5C188CF857002131D9 /* UserAgreementViewController.m in Sources */,
 				01389560186A7AA300745E95 /* UIScrollView+SVPullToRefresh.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1166,6 +1206,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = com.thinew.murmur;
 				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
@@ -1186,8 +1227,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Thinew JE (ZZ6C3ZS9B3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Thinew JE (ZZ6C3ZS9B3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chongqing Thinew Technology Co.,Ltd (MQQ8WAF9RH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chongqing Thinew Technology Co.,Ltd (MQQ8WAF9RH)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1210,7 +1251,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 杨 蔡 (9KY4ZK8V89)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1227,7 +1268,7 @@
 					/Users/cy/Desktop/MyBigFace/MyBigFace,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8DA25422-E967-487D-B06B-A562B070FFF2";
+				PROVISIONING_PROFILE = "9F5D7194-AB35-4209-A054-219C8B1913A9";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1239,7 +1280,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 杨 蔡 (9KY4ZK8V89)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1256,7 +1297,7 @@
 					/Users/cy/Desktop/MyBigFace/MyBigFace,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8DA25422-E967-487D-B06B-A562B070FFF2";
+				PROVISIONING_PROFILE = "9F5D7194-AB35-4209-A054-219C8B1913A9";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
