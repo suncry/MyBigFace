@@ -25,7 +25,8 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate,UIScrollViewD
 //ios6 才会用到
     IBOutlet UIButton *_settingBtn;
     IBOutlet UIButton *_selfBtn;
-
+    IBOutlet UIView *_userDelegate;
+    IBOutlet UIButton *agreeBtn;
     
     
     CLLocationManager *_locationManager;
@@ -49,6 +50,7 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate,UIScrollViewD
 @property (strong, nonatomic) UIImageView       *startDot1;
 @property (strong, nonatomic) UIImageView       *startDot2;
 @property (strong, nonatomic) UIImageView       *startDot3;
+@property (strong, nonatomic) UIView            *userDelegate;
 
 - (IBAction)settingBtnClick:(id)sender;
 - (IBAction)rateMe:(id)sender;
@@ -57,7 +59,9 @@ UITableViewDataSource,CLLocationManagerDelegate,UITextViewDelegate,UIScrollViewD
 - (IBAction)addFace;
 - (IBAction)feedBackCancle:(id)sender;
 - (IBAction)feedBackSend:(id)sender;
-- (IBAction)UserAgreement:(id)sender;
+- (IBAction)changeNickName:(id)sender;
+- (IBAction)agreeDelegate:(id)sender;
+
 
 
 @end

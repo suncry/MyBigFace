@@ -466,8 +466,11 @@
         [bottonLable setFrame:CGRectMake(20, (MAX((height + (CELL_CONTENT_MARGIN + 15)), 55.0f) - 1) + 10 + 30, 280, 1)];
         cell.contentView.backgroundColor = [UIColor whiteColor];
         
-        cell.nameLable.text = [NSString stringWithFormat:@"%@喷友:",[self.commentArray[indexPath.row - 1] valueForKey:@"address"]];
+//        cell.nameLable.text = [NSString stringWithFormat:@"%@喷友:",[self.commentArray[indexPath.row - 1] valueForKey:@"address"]];
+        NSString *nickName_addressString = [NSString stringWithFormat:@"%@ %@",[NSString stringWithFormat:@"%@",[self.commentArray[indexPath.row - 1] valueForKey:@"nickname"]],[NSString stringWithFormat:@"(%@):",[self.commentArray[indexPath.row - 1] valueForKey:@"address"]]]
         ;
+        cell.nameLable.text = nickName_addressString;
+
         return cell;
 
     }

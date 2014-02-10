@@ -60,6 +60,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Back.png" width="28" height="28"/>
+        <image name="Back.png" width="28" height="24"/>
     </resources>
 </document>

@@ -22,7 +22,8 @@
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
-#import "UserAgreementViewController.h"
+//#import "UserAgreementViewController.h"
+#import "NickNameViewController.h"
 @interface HomeViewController ()
 {
 }
@@ -40,6 +41,8 @@
 @synthesize feedBackCommentTextView = _feedBackCommentTextView;
 @synthesize feedBackEmailTextView = _feedBackEmailTextView;
 @synthesize speechSwitch = _speechSwitch;
+@synthesize userDelegate = _userDelegate;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -405,6 +408,12 @@
         NSLog(@"login dict == %@",dict);
 //
         NSLog(@"登陆时 token == %@",[[dict objectForKey:@"data"] valueForKey:@"token"]);
+        [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"nickname"] forKey:@"nickname"];
+        [[NSUserDefaults standardUserDefaults]setValue:[[dict objectForKey:@"data"] valueForKey:@"id"] forKey:@"id"];
+
+        NSLog(@"登陆时 nickname == %@",[[dict objectForKey:@"data"] valueForKey:@"nickname"]);
+        NSLog(@"登陆时 id == %@",[[dict objectForKey:@"data"] valueForKey:@"id"]);
+
     }
 }
 //刷新table的填充数据
@@ -774,6 +783,9 @@
 }
 - (void)startPage
 {
+    agreeBtn.layer.masksToBounds = YES;
+    agreeBtn.layer.cornerRadius = 5.0;
+    
     self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBar.alpha = 0;
     
@@ -793,9 +805,14 @@
     {
         helpImg.image = [UIImage imageNamed:@"helpPage_01_960.png"];
     }
-
     [self.startView addSubview:helpImg];
     
+    
+    
+    //加入用户协议!!!!!!
+    self.userDelegate.frame = CGRectMake(0, 0, 320, [self.view bounds].size.height);
+    [self.startView addSubview:self.userDelegate];
+
     
     UIScrollView *startScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, [self.view bounds].size.height)];
     startScrollView.contentSize = CGSizeMake(320*3, [self.view bounds].size.height);
@@ -858,7 +875,7 @@
 //    NSLog(@"contentOffset.x   == %f",scrollView.contentOffset.x);
     CGFloat pageWidth = scrollView.frame.size.width;
     int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    NSLog(@"page == %d",page);
+//    NSLog(@"page == %d",page);
     if (page == 2 )
     {
         self.startDot1.image = [UIImage imageNamed:@"StartPage_ring.png"];
@@ -896,48 +913,64 @@
             scrollView.frame = CGRectMake(-320, 0, 320, [self.view bounds].size.height);
         } completion:^(BOOL finished)
          {
-             //在引导画面都结束以后 再加入点击取消帮助画面的手势
-             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
-             [self.startView addGestureRecognizer:tap];
+//             //在引导画面都结束以后 再加入点击取消帮助画面的手势
+//             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
+//             [self.startView addGestureRecognizer:tap];
 
          }];
 
     }
 }
-- (void)tapGesture:(id)sender
+//- (void)tapGesture:(id)sender
+//{
+//    [UIView animateWithDuration:1 delay:0 options:0 animations:^(){
+//        self.userDelegate.alpha = 0;
+//    } completion:^(BOOL finished)
+//     {
+//         self.userDelegate.hidden = YES;
+//         //协议消失后 再加入点击取消帮助画面的手势
+//         UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture2:)];
+//         [self.startView addGestureRecognizer:tap2];
+//     }];
+//}
+- (void)tapGesture2:(id)sender
 {
-    NSLog(@"引导页面消失!!!");
-    
-//    UIView *view = (UIView *)sender;
-
     [UIView animateWithDuration:1 delay:0 options:0 animations:^(){
         self.startView.alpha = 0;
     } completion:^(BOOL finished)
      {
+         self.startView.hidden = YES;
          self.navigationController.navigationBar.alpha = 1;
          self.navigationController.navigationBar.hidden = NO;
+         
+         
+         
 
-         self.startView.hidden = YES;
      }];
+    
     [[NSUserDefaults standardUserDefaults]setObject:[NSString stringWithFormat:@"yes"] forKey:@"isNotFirstStart"];
-
-
+    
+    
 }
-- (IBAction)UserAgreement:(id)sender
-{
-    UserAgreementViewController *userAgreementViewController = [[UserAgreementViewController alloc]init];
-    [self.navigationController pushViewController:userAgreementViewController animated:YES];
-}
-CGFloat BNRTimeBlock (void (^block)(void)) {
-    return 12.0f;
-    
-} // BNRTimeBlock
-- (void)CyBlock:(void (^)(void))animations
-                  completion:(void (^)(BOOL finished))completion
 
+- (IBAction)changeNickName:(id)sender
 {
-    
-    
+
+    NickNameViewController *nickNameViewController = [[NickNameViewController alloc]init];
+    [self.navigationController pushViewController:nickNameViewController animated:YES];
+}
+- (IBAction)agreeDelegate:(id)sender
+{
+    [UIView animateWithDuration:1 delay:0 options:0 animations:^(){
+        self.userDelegate.alpha = 0;
+    } completion:^(BOOL finished)
+     {
+         self.userDelegate.hidden = YES;
+         //协议消失后 再加入点击取消帮助画面的手势
+         UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture2:)];
+         [self.startView addGestureRecognizer:tap2];
+     }];
+
 }
 
 @end
