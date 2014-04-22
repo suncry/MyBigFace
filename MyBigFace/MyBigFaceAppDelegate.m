@@ -9,29 +9,45 @@
 #import "MyBigFaceAppDelegate.h"
 #import "HomeViewController.h"
 #import "UMSocial.h"
+
 #import "MobClick.h"
+
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
+
 @implementation MyBigFaceAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     //设置默认的统计功能
-    [MobClick startWithAppkey:@"528c287f56240be0d93b99ad"];
-
+    [MobClick startWithAppkey:UmengAppkey];
     //设置分享key
-    [UMSocialData setAppKey:@"528c287f56240be0d93b99ad"];
+    [UMSocialData setAppKey:UmengAppkey];
     //打开新浪微博的SSO开关
     [UMSocialConfig setSupportSinaSSO:YES];
-    //设置微信AppId，url地址传nil，将默认使用友盟的网址
-    [UMSocialConfig setWXAppId:@"wx8f001b50bdfd23d0" url:nil];
+    
+    
+    //新方法
+    //设置微信AppId，设置分享url，默认使用友盟的网址
+    [UMSocialWechatHandler setWXAppId:@"wx8f001b50bdfd23d0" url:nil];
+    //设置分享到QQ空间的应用Id，和分享url 链接
+    [UMSocialQQHandler setQQWithAppId:@"100564861" appKey:@"640f3e6194ef6b502e3637263e94ed27" url:nil];
+    [UMSocialQQHandler setSupportQzoneSSO:YES];
+
+//    QQ05fe7f7d
+//    //设置微信AppId，url地址传nil，将默认使用友盟的网址
+//    [UMSocialConfig setWXAppId:@"wx8f001b50bdfd23d0" url:nil];
     //设置微信分享应用类型，用户点击消息将跳转到应用，或者到下载页面
     //UMSocialWXMessageTypeImage 为纯图片类型
 //    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeApp;
     [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-
     //分享图文样式到微信朋友圈显示字数比较少，只显示分享标题
     [UMSocialData defaultData].extConfig.title = @"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！";
+    
+    
+
+    
     
     //如果是ios6 隐藏状态栏
     if (IOS_VERSION_7_OR_ABOVE) {

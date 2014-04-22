@@ -681,37 +681,22 @@
 }
 - (void)shareBtnClick
 {
-    //截图用来分享
-//    UIGraphicsBeginImageContext(self.view.bounds.size);
-//	[self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
-	
-//	UIImage* image=UIGraphicsGetImageFromCurrentImageContext();
-	
-//	UIGraphicsEndImageContext();
-//    
-//    CGRect rect = CGRectMake(20, 100, 280, 280);//创建要剪切的矩形框 这里你可以自己修改
-//    UIImage *res = [UIImage imageWithCGImage:CGImageCreateWithImageInRect([image CGImage], rect)];
-//    NSData *imageData = [[NSData alloc] initWithData:UIImageJPEGRepresentation(res, 0.1)];
-//    [[NSUserDefaults standardUserDefaults]setObject:imageData forKey:@"myFace"];
-
-    
-    /**
-     *  测试一下 分享图片
-     */
     UIImage  *myImage = [UIImage imageNamed:@"ShareImg.png"];
     UIImage *shareImg = [self addImage:myImage rect1:CGRectMake(0, 0, 320, 568)];
-
-    
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:@"528c287f56240be0d93b99ad"
                                       shareText:@"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！"
                                      shareImage:shareImg
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,nil]
                                        delegate:self];
 
-//    [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
-//    [UMSocialData defaultData].extConfig.
-    
+//    //去掉了 分享到QQ
+//    [UMSocialSnsService presentSnsIconSheetView:self
+//                                         appKey:@"528c287f56240be0d93b99ad"
+//                                      shareText:@"分享了一条来自@Whisper微喷 的消息。——微喷，喷出你的秘密吧！"
+//                                     shareImage:shareImg
+//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,nil]
+//                                       delegate:self];
 }
 -(void)setupMenuButton{
     if (IOS_VERSION_7_OR_ABOVE) {
