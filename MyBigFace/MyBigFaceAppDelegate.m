@@ -32,7 +32,7 @@
     //设置微信AppId，设置分享url，默认使用友盟的网址
     [UMSocialWechatHandler setWXAppId:@"wx8f001b50bdfd23d0" url:nil];
     //设置分享到QQ空间的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:@"100564861" appKey:@"640f3e6194ef6b502e3637263e94ed27" url:nil];
+    [UMSocialQQHandler setQQWithAppId:@"100564861" appKey:@"640f3e6194ef6b502e3637263e94ed27" url:@"http://www.thinew.com"];
     [UMSocialQQHandler setSupportQzoneSSO:YES];
 
 //    QQ05fe7f7d
